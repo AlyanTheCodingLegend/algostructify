@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react"
+import React, { useState } from "react";
 
 import CircularLinkedList, { ListNode } from "../_datastructures/CircularLinkedList";
-import './CircularLinkedList.css';
 import LoopArrow from "./LoopArrow";
 
 export default function Page() {
@@ -20,7 +19,7 @@ export default function Page() {
   const removeNode = (value: number) => {
     cll.remove(value);
     triggerRender();
-  }
+  };
 
   const renderNodes = () => {
     if (!cll.head) return <div>No nodes in the Circular Linked List.</div>;
@@ -36,26 +35,44 @@ export default function Page() {
     } while (current !== cll.head);
 
     return nodes.map((node, index) => (
-        <div key={index} className="flex flex-row h-full" id={`node-${index}`}>
-            <div className="node">
-                <span className="value">{node.data}</span>
-            </div>
-            {(node.next!=cll.head) ? (
-              <div className="arrow">→</div>
-            ) : (
-              <LoopArrow startId={`node-${index}`} endId="node-0" />
-          )}
+      <div
+        key={index}
+        className="flex items-center justify-center relative"
+        id={`node-${index}`}
+      >
+        <div className="flex justify-center items-center p-4 border-4 border-green-500 rounded-lg bg-green-100 min-w-[80px] min-h-[80px] text-center text-xl font-semibold shadow-lg relative">
+          <span className="value">{node.data}</span>
         </div>
+        {node.next !== cll.head ? (
+          <div className="flex justify-center items-center text-3xl text-green-500">
+            →
+          </div>
+        ) : (
+          <LoopArrow startId={`node-${index}`} endId="node-0" />
+        )}
+      </div>
     ));
   };
-  
+
   return (
-    <div className="flex flex-col h-full w-full">
-      <div className="cll-visualizer">
-        <div className="nodes-container">{renderNodes()}</div>
+    <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100">
+      <div className="flex flex-col items-center justify-center w-full h-full relative space-y-8">
+        <div className="flex items-center justify-center">{renderNodes()}</div>
+        <div className="flex justify-center items-center mt-10 space-x-6">
+          <button
+            className="bg-red-600 text-white w-28 h-12 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all"
+            onClick={() => addNode(10)}
+          >
+            Add Node
+          </button>
+          <button
+            className="bg-red-600 text-white w-28 h-12 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all"
+            onClick={() => removeNode(10)}
+          >
+            Remove Node
+          </button>
+        </div>
       </div>
-      <button className="justify-center items-center mt-5 bg-red-600 w-24 h-full rounded-full" onClick={()=>addNode(10)}>Add</button>
-      <button className="justify-center items-center mt-5 bg-red-600 w-24 h-full rounded-full" onClick={()=>removeNode(10)}>Remove</button>
     </div>
   );
 }
