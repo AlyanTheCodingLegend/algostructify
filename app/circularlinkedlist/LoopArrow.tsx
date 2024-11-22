@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-interface LoopArrowProps {
+type LoopArrowProps = {
   startId: string;
   endId: string;
-}
+};
 
 const LoopArrow: React.FC<LoopArrowProps> = ({ startId, endId }) => {
   const [path, setPath] = useState<string>("");
@@ -27,10 +27,13 @@ const LoopArrow: React.FC<LoopArrowProps> = ({ startId, endId }) => {
       const endY = endRect.top + endRect.height / 2;
 
       // Adjust control points for a smoother curve
-      const controlX = (startX + endX) / 2;
-      const controlY = Math.min(startY, endY) - 100;
+      const control1X = startX + 50;  // Adjust 50px to the right of the last node
+      const control1Y = startY - 100; // Above the nodes
 
-      const newPath = `M ${startX},${startY} Q ${controlX},${controlY} ${endX},${endY}`;
+      const control2X = endX - 50;  // Adjust 50px to the left of the first node
+      const control2Y = endY - 100; // Above the nodes
+
+      const newPath = `M ${startX} ${startY} C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${endX} ${endY}`;
       setPath(newPath);
     };
 
@@ -41,12 +44,16 @@ const LoopArrow: React.FC<LoopArrowProps> = ({ startId, endId }) => {
   if (!path) return null; // Wait for the path calculation
 
   return (
-    <svg className="loop-arrow" xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none" }}>
+    <svg
+      className="absolute top-0 left-0 w-full h-full pointer-events-none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}
+    >
       <path
         d={path}
         stroke="black"
         fill="transparent"
-        strokeWidth="2"
+        strokeWidth="6"
         markerEnd="url(#arrowhead)"
       />
       <defs>
