@@ -1,17 +1,17 @@
 // This is queeue using circular increment in array:
 // Methods present in it:-
-// Enque
-// deque
+// enqueue
+// dequeue
 // isFull
 // isEmpty
 // peek
 // display
 
 class Queue<T> {
-    private queue: (T | null)[]; // Array to hold the queue elements
-    private front: number;      // Index of the front element
-    private rear: number;       // Index of the rear element
-    private capacity: number;   // Maximum size of the queue
+    public queue: (T | null)[]; // Array to hold the queue elements
+    public front: number;      // Index of the front element
+    public rear: number;       // Index of the rear element
+    public capacity: number;   // Maximum size of the queue
     private size: number;       // Current size of the queue
 
     constructor(capacity: number) {
