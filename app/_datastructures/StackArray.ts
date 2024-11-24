@@ -10,8 +10,9 @@ clear(): clears the stack.
 print()
  */
 class StackArr<T> {
-    private items: T[] = [];
-    private maxSize: number;
+    public items: T[] = [];
+    public top: number = -1;
+    public maxSize: number;
   
     constructor(maxSize: number) {
       if (maxSize <= 0) {
@@ -31,13 +32,16 @@ class StackArr<T> {
         console.log("Stack is full. Cannot push more items.");
       } else {
         this.items.push(item);
+        this.top++;
       }
     }
   
     // Pop element from the stack
     pop(): T | undefined {
-      // after checking it, i found that even if stack is empty it does not give error
-      return this.items.pop();
+      if (!this.isEmpty()) {
+        this.top--;
+        return this.items.pop();
+      }
     }
   
     // Peek the top element of the stack

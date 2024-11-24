@@ -7,7 +7,7 @@
 // peek
 // display
 
-class ListNode<T> {
+export class ListNode<T> {
     value: T;
     next: ListNode<T> | null = null;
 
@@ -17,8 +17,8 @@ class ListNode<T> {
 }
 
 class CircularQueue<T> {
-    private front: ListNode<T> | null = null;
-    private rear: ListNode<T> | null = null;
+    public front: ListNode<T> | null = null;
+    public rear: ListNode<T> | null = null;
     private size: number = 0;
     private readonly MAX_QUEUE: number;
 
