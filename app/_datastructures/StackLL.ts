@@ -10,18 +10,18 @@ clear(): clears the stack.
 print()
  */
 
-class ListNode {
-    value: any;
-    next: ListNode | null;
+export class ListNode<T> {
+    value: T;
+    next: ListNode<T> | null;
 
-    constructor(value: any) {
+    constructor(value: T) {
         this.value = value;
         this.next = null;
     }
 }
 
 class StackLL<T> {
-    top: ListNode | null;
+    top: ListNode<T> | null;
     
     constructor() {
         this.top = null;
@@ -35,10 +35,10 @@ class StackLL<T> {
     }
 
     // Pop method to remove and return the top element from the stack
-    pop(): any {
+    pop(): T | undefined {
         if (this.isEmpty()) {
             console.log("Stack is empty");
-            return -1;
+            return;
         }
         const poppedNode = this.top!;
         if(this.top){
@@ -48,9 +48,10 @@ class StackLL<T> {
     }
 
     // Peek method to view the top element of the stack
-    peek(): any {
+    peek(): T | undefined {
         if (this.isEmpty()) {
             console.log("Stack is empty");
+            return;
         }
         return this.top!.value;
     }

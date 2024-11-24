@@ -5,8 +5,7 @@
 // remove(to remove a node with value x)
 // search(returns index of number if present, if not then return -1)
 
-
-class ListNode<T> {
+export class ListNode<T> {
     data: T;
     next: ListNode<T> | null;
 
@@ -17,8 +16,8 @@ class ListNode<T> {
 }
 
 class CircularLinkedList<T> {
-    private head: ListNode<T> | null;
-    private tail: ListNode<T> | null; // Keep track of the tail
+    public head: ListNode<T> | null;
+    public tail: ListNode<T> | null; // Keep track of the tail
 
     constructor() {
         this.head = null;
@@ -40,26 +39,25 @@ class CircularLinkedList<T> {
     }
 
     // Print the list
-    print(): void {
-        if (!this.head) {
-            console.log("List is empty.");
-            return;
-        }
+    // print(): void {
+    //     if (!this.head) {
+    //         console.log("List is empty.");
+    //         return;
+    //     }
 
-        let temp = this.head;
-        const result: T[] = [];
-        do {
-            result.push(temp.data);
-            temp = temp.next!;
-        } while (temp !== this.head);
+    //     let temp = this.head;
+    //     const result: T[] = [];
+    //     do {
+    //         result.push(temp.data);
+    //         temp = temp.next!;
+    //     } while (temp !== this.head);
 
-        console.log("Circular Linked List:", result.join(" -> "));
-    }
+    //     console.log("Circular Linked List:", result.join(" -> "));
+    // }
 
     // Remove a node by value
     remove(data: T): void {
         if (!this.head) {
-            console.log("List is empty. Nothing to remove.");
             return;
         }
 
@@ -76,7 +74,6 @@ class CircularLinkedList<T> {
                 this.tail!.next = this.head.next; // Update tail's next pointer
                 this.head = this.head.next; // Update the head
             }
-            console.log(`Node with value ${data} removed.`);
             return;
         }
 
@@ -89,12 +86,9 @@ class CircularLinkedList<T> {
                 if (current === this.tail) {
                     this.tail = previous; // Update tail if we removed the tail node
                 }
-                console.log(`Node with value ${data} removed.`);
                 return;
             }
         } while (current !== this.head);
-
-        console.log(`Node with value ${data} not found.`);
     }
 
    
@@ -113,16 +107,9 @@ class CircularLinkedList<T> {
 
         return -1; // Return -1 if the value is not found
     }
+}
 
-    }
-
-
-
-// Exporting
 export default CircularLinkedList;
-
-
-
 // ---------------------- Rough work: Not for you-------------------------------------
 
 
