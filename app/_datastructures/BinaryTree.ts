@@ -12,7 +12,7 @@ postOrderTraversal
 */
 
 
-class TreeNode<T> {
+export class TreeNode<T> {
     data: T;
     left: TreeNode<T> | null;
     right: TreeNode<T> | null; 
@@ -26,59 +26,59 @@ class TreeNode<T> {
   
 
 class BinaryTree<T> {
-    root: TreeNode<T> | null; 
+    public root: TreeNode<T> | null; 
   
     constructor() {
       this.root = null; 
     }
     // method to delete any node with a given value if you want to replace with left side of subtree
 
-deleteNodeLeft(data: T): void {
-  this.root = this.deleteNodeHelperLeft(this.root, data); 
-}
-
-// helper method to delete a node from the tree
-private deleteNodeHelperLeft(node: TreeNode<T> | null, data: T): TreeNode<T> | null {
-  if (node === null) {
-    return null; 
-  }
-
-  if (data < node.data) {
-    node.left = this.deleteNodeHelperLeft(node.left, data); // search left subtree
-  } else if (data > node.data) {
-    node.right = this.deleteNodeHelperLeft(node.right, data); // search right subtree
-  } else {
-    // node with matching value found
-    if (node.left === null && node.right === null) {
-      return null;
+    deleteNodeLeft(data: T): void {
+      this.root = this.deleteNodeHelperLeft(this.root, data); 
     }
 
-    if (node.left === null) {
-      return node.right; // if the node has only right child, promote the right child
+    // helper method to delete a node from the tree
+    private deleteNodeHelperLeft(node: TreeNode<T> | null, data: T): TreeNode<T> | null {
+      if (node === null) {
+        return null; 
+      }
+
+      if (data < node.data) {
+        node.left = this.deleteNodeHelperLeft(node.left, data); // search left subtree
+      } else if (data > node.data) {
+        node.right = this.deleteNodeHelperLeft(node.right, data); // search right subtree
+      } else {
+        // node with matching value found
+        if (node.left === null && node.right === null) {
+          return null;
+        }
+
+        if (node.left === null) {
+          return node.right; // if the node has only right child, promote the right child
+        }
+
+        if (node.right === null) {
+          return node.left; // if the node has only left child, promote the left child
+        }
+
+        // node has two children, find the in-order predecessor (largest node in left subtree)
+        const predecessor = this.findMax(node.left);
+        if (predecessor) {
+          node.data = predecessor.data; // replace node's value with predecessor's value
+          node.left = this.deleteNodeHelperLeft(node.left, predecessor.data); // delete the predecessor node
+        }
+      }
+
+      return node;
     }
 
-    if (node.right === null) {
-      return node.left; // if the node has only left child, promote the left child
+    // helper method to find the largest node in a subtree
+    public findMax(node: TreeNode<T>): TreeNode<T> | null {
+      while (node.right !== null) {
+        node = node.right; // keep going to the rightmost node
+      }
+      return node;
     }
-
-    // node has two children, find the in-order predecessor (largest node in left subtree)
-    const predecessor = this.findMax(node.left);
-    if (predecessor) {
-      node.data = predecessor.data; // replace node's value with predecessor's value
-      node.left = this.deleteNodeHelperLeft(node.left, predecessor.data); // delete the predecessor node
-    }
-  }
-
-  return node;
-}
-
-// helper method to find the largest node in a subtree
-private findMax(node: TreeNode<T>): TreeNode<T> | null {
-  while (node.right !== null) {
-    node = node.right; // keep going to the rightmost node
-  }
-  return node;
-}
 
     // method to delete any node with a given value if you want to replace with right side of subtree
     deleteNodeRight(data: T): void {
@@ -121,7 +121,7 @@ private findMax(node: TreeNode<T>): TreeNode<T> | null {
     }
   
     // helper method to find the smallest node in a subtree
-    private findMin(node: TreeNode<T>): TreeNode<T> | null {
+    public findMin(node: TreeNode<T>): TreeNode<T> | null {
       while (node.left !== null) {
         node = node.left; // keep going to the leftmost node
       }
