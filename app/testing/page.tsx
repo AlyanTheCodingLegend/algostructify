@@ -2,11 +2,11 @@ export default function Page() {
     return (
     <svg xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
       <path
-        d="M 716.2222290039062 331.3263854980469 C 766.2222290039062 231.32638549804688, 86.22222900390625 231.32638549804688, 136.22222900390625 331.3263854980469"
+        d="M 576.4444580078125 224 C 576.4444580078125 232, 576.4444580078125 232, 576.4444580078125 240"
         stroke="black"
         fill="transparent"
         strokeWidth="2"
-        markerEnd="url(#arrowhead)"
+        // markerEnd="url(#arrowhead)"
       />
       <defs>
         <marker

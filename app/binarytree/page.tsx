@@ -38,14 +38,14 @@ export default function Page() {
         if (!tree.root) return <div>No nodes in the Binary Tree.</div>;
 
         return (
-            <div className="flex justify-center">
-                <TreeNode index={0} node={tree.root} />
+            <div className="flex justify-center h-full w-full">
+                <TreeNode index={0} node={tree.root} type="root"/>
             </div>
         )
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-full space-y-8">
+        <div className="flex flex-col items-center justify-center h-screen w-screen space-y-8">
             <h1 className="text-4xl font-semibold text-center">
                 Binary Tree
             </h1>
@@ -69,7 +69,7 @@ export default function Page() {
                     Delete Right Node
                 </button>
             </div>
-            <div className="flex items-center justify-center space-x-4">
+            <div className="flex items-center justify-center space-x-4 w-screen h-screen">
                 {renderTree()}
             </div>
         </div>
