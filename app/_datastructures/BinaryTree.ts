@@ -16,11 +16,13 @@ export class TreeNode<T> {
     data: T;
     left: TreeNode<T> | null;
     right: TreeNode<T> | null; 
+    index: number;
   
     constructor(data: T) {
       this.data = data;
       this.left = null; 
       this.right = null; 
+      this.index = -1;
     }
   }
   
@@ -33,21 +35,22 @@ class BinaryTree<T> {
     }
     // method to delete any node with a given value if you want to replace with left side of subtree
 
-    deleteNodeLeft(data: T): void {
-      this.root = this.deleteNodeHelperLeft(this.root, data); 
+    deleteNodeLeft(data: T, callback: (node: TreeNode<T>) => void): void {
+      this.root = this.deleteNodeHelperLeft(this.root, data, callback); 
     }
 
     // helper method to delete a node from the tree
-    private deleteNodeHelperLeft(node: TreeNode<T> | null, data: T): TreeNode<T> | null {
+    private deleteNodeHelperLeft(node: TreeNode<T> | null, data: T, callback: (node: TreeNode<T>) => void): TreeNode<T> | null {
       if (node === null) {
         return null; 
       }
 
       if (data < node.data) {
-        node.left = this.deleteNodeHelperLeft(node.left, data); // search left subtree
+        node.left = this.deleteNodeHelperLeft(node.left, data, callback); // search left subtree
       } else if (data > node.data) {
-        node.right = this.deleteNodeHelperLeft(node.right, data); // search right subtree
+        node.right = this.deleteNodeHelperLeft(node.right, data, callback); // search right subtree
       } else {
+        callback(node);
         // node with matching value found
         if (node.left === null && node.right === null) {
           return null;
@@ -65,7 +68,7 @@ class BinaryTree<T> {
         const predecessor = this.findMax(node.left);
         if (predecessor) {
           node.data = predecessor.data; // replace node's value with predecessor's value
-          node.left = this.deleteNodeHelperLeft(node.left, predecessor.data); // delete the predecessor node
+          node.left = this.deleteNodeHelperLeft(node.left, predecessor.data, callback); // delete the predecessor node
         }
       }
 
@@ -81,21 +84,22 @@ class BinaryTree<T> {
     }
 
     // method to delete any node with a given value if you want to replace with right side of subtree
-    deleteNodeRight(data: T): void {
-      this.root = this.deleteNodeHelperRight(this.root, data); 
+    deleteNodeRight(data: T, callback: (node: TreeNode<T>) => void): void {
+      this.root = this.deleteNodeHelperRight(this.root, data, callback); 
     }
   
     // helper method to delete a node from the tree
-    private deleteNodeHelperRight(node: TreeNode<T> | null, data: T): TreeNode<T> | null {
+    private deleteNodeHelperRight(node: TreeNode<T> | null, data: T, callback: (node: TreeNode<T>) => void): TreeNode<T> | null {
       if (node === null) {
         return null; 
       }
   
       if (data < node.data) {
-        node.left = this.deleteNodeHelperRight(node.left, data); // search left subtree
+        node.left = this.deleteNodeHelperRight(node.left, data, callback); // search left subtree
       } else if (data > node.data) {
-        node.right = this.deleteNodeHelperRight(node.right, data); // search right subtree
+        node.right = this.deleteNodeHelperRight(node.right, data, callback); // search right subtree
       } else {
+        callback(node);
         // node with matching value found
         if (node.left === null && node.right === null) {
           return null;
@@ -113,7 +117,7 @@ class BinaryTree<T> {
         const successor = this.findMin(node.right);
         if (successor) {
           node.data = successor.data; // replace node's value with successor's value
-          node.right = this.deleteNodeHelperRight(node.right, successor.data); // delete the successor node
+          node.right = this.deleteNodeHelperRight(node.right, successor.data, callback); // delete the successor node
         }
       }
   

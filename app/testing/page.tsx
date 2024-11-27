@@ -1,5 +1,6 @@
 export default function Page() {
     return (
+      <div className="flex flex-col items-center justify-center h-screen w-screen">
     <svg xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
       <path
         d="M 576.4444580078125 224 C 576.4444580078125 232, 576.4444580078125 232, 576.4444580078125 240"
@@ -21,5 +22,6 @@ export default function Page() {
         </marker>
       </defs>
     </svg>
+    </div>
     )
 }
