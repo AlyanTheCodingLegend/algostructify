@@ -1,16 +1,21 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { TreeNode as TreeNodeClass } from "../_datastructures/BinaryTree";
 
 type TreeNodeProps = {
     node: TreeNodeClass<number> | null;
     index: number;
     type: "left" | "right" | "root";
+    svgRef: React.RefObject<SVGSVGElement>;
+    renderTrigger: number;
 };
 
-export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type }) => {
-    const [path, setPath] = useState<string | undefined>();
+export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, renderTrigger }) => {
+
+    useEffect(() => {
+        if (node) {
+            node.index=index
+        }
+    }, [index])
 
     useEffect(() => {
         if (type === "root") return; // Root node has no parent
@@ -37,8 +42,22 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type }) => {
             currentRect.top // Y top of current node
         );
 
-        setPath(path);
-    }, [index, type]);
+        if (svgRef.current && path) {
+            const oldPathElement = svgRef.current.getElementById(`${index}`); // Get the old path element);
+            if (oldPathElement) {
+                svgRef.current.removeChild(oldPathElement); // Removes the path from the SVG
+            }
+            const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            pathElement.setAttribute("d", path);
+            pathElement.setAttribute("stroke", "black");
+            pathElement.setAttribute("fill", "transparent");
+            pathElement.setAttribute("strokeWidth", "4");
+            pathElement.setAttribute("id", `${index}`);
+            // pathElement.setAttribute("markerEnd", "url(#arrowhead)");
+
+            svgRef.current.appendChild(pathElement);
+        }
+    }, [index, type, renderTrigger]);
 
     const createPath = (x1: number, y1: number, x2: number, y2: number) => {
         return `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`;
@@ -48,38 +67,6 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type }) => {
 
     return (
         <div className="relative flex flex-col items-center w-full h-full">
-            {/* SVG for Path */}
-            <svg
-                className="absolute w-full h-full pointer-events-none overflow-visible"
-                viewBox="0 0 600 600"
-                xmlns="http://www.w3.org/2000/svg" 
-                preserveAspectRatio="xMidYMid meet"
-                style={{ zIndex: 0, width: "100%", height: "100%", top: 0, left: 0 }}
-            >
-                {path && (
-                    <path
-                        d={path}
-                        stroke="black"
-                        fill="transparent"
-                        strokeWidth="2"
-                        // markerEnd="url(#arrowhead)"
-                    />
-                    
-                )}
-                <defs>
-                    <marker
-                    id="arrowhead"
-                    markerWidth="10"
-                    markerHeight="7"
-                    refX="10"
-                    refY="3.5"
-                    orient="auto"
-                    >
-                        <polygon points="0 0, 10 3.5, 0 7" fill="black" />
-                    </marker>
-                </defs>
-            </svg>
-
             {/* Current Node */}
             <div
                 id={`${index}`}
@@ -94,8 +81,8 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type }) => {
 
             {/* Left and Right Children */}
             <div className="flex gap-4 mt-4">
-                {node.left && <TreeNode index={2 * index + 1} node={node.left} type="left" />}
-                {node.right && <TreeNode index={2 * index + 2} node={node.right} type="right" />}
+                {node.left && <TreeNode index={2 * index + 1} node={node.left} type="left" svgRef={svgRef} renderTrigger={renderTrigger}/>}
+                {node.right && <TreeNode index={2 * index + 2} node={node.right} type="right" svgRef={svgRef} renderTrigger={renderTrigger}/>}
             </div>
         </div>
     );
