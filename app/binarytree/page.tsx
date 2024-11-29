@@ -9,6 +9,9 @@ export default function Page() {
     const [tree] = useState(new BinaryTree<number>());
     const [renderTrigger, setRenderTrigger] = useState(0);
     const [deleteLeftVal, setDeleteLeftVal] = useState(1);
+    const [deleteRightVal, setDeleteRightVal] = useState(1);
+    const [insertVal, setInsertVal] = useState(1);
+    const [currentIndex, setCurrentIndex] = useState(-1);
 
     const svgRef = useRef<SVGSVGElement>(null);
 
@@ -47,12 +50,63 @@ export default function Page() {
         forceRender();
     }
 
+    const preOrderTraversal = () => {
+        if (!tree.root) {
+            toast.error("No nodes in the Binary Tree.");
+            return;
+        }   
+        
+        let delay = 0;
+
+        tree.preOrderTraversal(tree.root, (index) => {
+            setTimeout(() => {
+                setCurrentIndex(index);
+            }, delay += 1000);
+        });
+
+        setCurrentIndex(-1);
+    }
+
+    const inOrderTraversal = () => {
+        if (!tree.root) {
+            toast.error("No nodes in the Binary Tree.");
+            return;
+        }   
+        
+        let delay = 0;
+
+        tree.inOrderTraversal(tree.root, (index) => {
+            setTimeout(() => {
+                setCurrentIndex(index);
+            }, delay += 1000);
+        });
+
+        setCurrentIndex(-1);
+    }
+
+    const postOrderTraversal = () => {
+        if (!tree.root) {
+            toast.error("No nodes in the Binary Tree.");
+            return;
+        }   
+        
+        let delay = 0;
+
+        tree.postOrderTraversal(tree.root, (index) => {
+            setTimeout(() => {
+                setCurrentIndex(index);
+            }, delay += 1000);
+        });
+
+        setCurrentIndex(-1);
+    }
+
     const renderTree = () => {
         if (!tree.root) return <div>No nodes in the Binary Tree.</div>;
 
         return (
             <div className="flex justify-center h-full w-full">
-                <TreeNode index={0} node={tree.root} type="root" svgRef={svgRef} renderTrigger={renderTrigger}/>
+                <TreeNode index={0} node={tree.root} type="root" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex}/>
             </div>
         )
     }
@@ -64,23 +118,42 @@ export default function Page() {
             </h1>
             <div className="flex items-center justify-center space-x-4">
                 <button
-                    className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md"
-                    onClick={() => insertNode(Math.floor(Math.random() * 100))}
+                    className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
-                    Insert Value
+                    <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(Number(event.target.value))} />
+                    <button onClick={() => insertNode(insertVal)}>Insert Node</button>
                 </button>
                 <div
-                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
+                    className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
                     <input className="text-black" value={deleteLeftVal} onChange={(event)=>setDeleteLeftVal(Number(event.target.value))} />
                     <button onClick={() => deleteNodeLeft(deleteLeftVal)}>Delete Left Node</button>
                 </div>
                 <button
-                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
-                    onClick={() => deleteNodeRight(tree.root?.data || 0)}
+                    className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
-                    Delete Right Node
+                    <input className="text-black" value={deleteRightVal} onChange={(event)=>setDeleteRightVal(Number(event.target.value))} />
+                    <button onClick={() => deleteNodeRight(deleteRightVal)}>Delete Right Node</button>
                 </button>
+                <button
+                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
+                    onClick={() => preOrderTraversal()}
+                >
+                    Pre-order Traversal
+                </button>
+                <button
+                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
+                    onClick={() => inOrderTraversal()}
+                >
+                    In-order Traversal
+                </button>
+                <button
+                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
+                    onClick={() => postOrderTraversal()}
+                >
+                    Post-order Traversal
+                </button>
+                
             </div>
             <div className="flex items-center justify-center w-screen h-screen overflow-scroll">
                 {renderTree()}
