@@ -7,9 +7,10 @@ type TreeNodeProps = {
     type: "left" | "right" | "root";
     svgRef: React.RefObject<SVGSVGElement>;
     renderTrigger: number;
+    currentIndex: number;
 };
 
-export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, renderTrigger }) => {
+export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, renderTrigger, currentIndex }) => {
 
     useEffect(() => {
         if (node) {
@@ -70,19 +71,19 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, r
             {/* Current Node */}
             <div
                 id={`${index}`}
-                className={`flex justify-center items-center p-4 border-4 min-w-[80px] min-h-[80px] text-center text-xl font-semibold shadow-lg ${
+                className={`flex justify-center items-center p-4 border-4 min-w-[80px] min-h-[80px] text-center text-xl font-semibold shadow-lg ${index===currentIndex && "border-yellow-500 bg-yellow-100"} ${
                     index === 0
                         ? "border-red-500 bg-red-100"
                         : "border-green-500 bg-green-100"
                 }`}
             >
-                <span>{node.data}</span>
+                <span>{node.count>1 ? `${node.data} (${node.count})` : node.data}</span>
             </div>
 
             {/* Left and Right Children */}
             <div className="flex gap-4 mt-4">
-                {node.left && <TreeNode index={2 * index + 1} node={node.left} type="left" svgRef={svgRef} renderTrigger={renderTrigger}/>}
-                {node.right && <TreeNode index={2 * index + 2} node={node.right} type="right" svgRef={svgRef} renderTrigger={renderTrigger}/>}
+                {node.left && <TreeNode index={2 * index + 1} node={node.left} type="left" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex}/>}
+                {node.right && <TreeNode index={2 * index + 2} node={node.right} type="right" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex}/>}
             </div>
         </div>
     );
