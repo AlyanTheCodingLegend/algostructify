@@ -14,24 +14,24 @@ deleteValue
 print
 */ 
 class MinHeap {
-    private heap: number[];
+    public heap: number[];
   
     constructor() {
       this.heap = [];
     }
   
     // Helper method to get the index of the parent
-    private parent(index: number): number {
+    public parent(index: number): number {
       return Math.floor((index - 1) / 2);
     }
   
     // Helper method to get the index of the left child
-    private leftChild(index: number): number {
+    public leftChild(index: number): number {
       return 2 * index + 1;
     }
   
     // Helper method to get the index of the right child
-    private rightChild(index: number): number {
+    public rightChild(index: number): number {
       return 2 * index + 2;
     }
   
