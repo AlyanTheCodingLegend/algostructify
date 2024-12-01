@@ -197,6 +197,46 @@ class BinaryTree<T> {
         callback(node.index); // visit the root
       }
     }
+
+    getHeight(node: TreeNode<T> | null = this.root): number {
+      if (node === null) {
+        return 0;
+      }
+  
+      const leftHeight = this.getHeight(node.left);
+      const rightHeight = this.getHeight(node.right);
+  
+      return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    // method to see if data would increase the height of the tree
+    wouldIncreaseHeight(data: T): boolean {
+      const newNode = new TreeNode(data);
+      if (this.root === null) {
+        return true;
+      }
+  
+      return this.wouldIncreaseHeightHelper(this.root, newNode);
+    }
+
+    // helper method to see if data would increase the height of the tree
+    private wouldIncreaseHeightHelper(node: TreeNode<T>, newNode: TreeNode<T>): boolean {
+      if (newNode.data < node.data) {
+        if (node.left === null) {
+          return true;
+        } else {
+          return this.wouldIncreaseHeightHelper(node.left, newNode);
+        }
+      } else if (newNode.data > node.data) {
+        if (node.right === null) {
+          return true;
+        } else {
+          return this.wouldIncreaseHeightHelper(node.right, newNode);
+        }
+      } else {
+        return false;
+      }
+    }
   }
   
 // Exporting

@@ -18,10 +18,12 @@ export class ListNode<T> {
 class CircularLinkedList<T> {
     public head: ListNode<T> | null;
     public tail: ListNode<T> | null; // Keep track of the tail
+    public size: number;
 
     constructor() {
         this.head = null;
         this.tail = null;
+        this.size = 0;
     }
 
     // Add a node to the end of the list
@@ -36,6 +38,7 @@ class CircularLinkedList<T> {
             newNode.next = this.head; // Maintain circularity
             this.tail = newNode; // Update the tail reference
         }
+        this.size++;
     }
 
     // Print the list
@@ -74,6 +77,7 @@ class CircularLinkedList<T> {
                 this.tail!.next = this.head.next; // Update tail's next pointer
                 this.head = this.head.next; // Update the head
             }
+            this.size--;
             return;
         }
 
@@ -86,6 +90,7 @@ class CircularLinkedList<T> {
                 if (current === this.tail) {
                     this.tail = previous; // Update tail if we removed the tail node
                 }
+                this.size--;
                 return;
             }
         } while (current !== this.head);
