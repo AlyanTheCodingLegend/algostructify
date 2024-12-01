@@ -1,4 +1,23 @@
+"use client";
+
+import { useEffect } from "react"
+
 export default function Page() {
+
+  useEffect(()=>{
+    async function fetchData() {
+      const response = await fetch("/api/getData", { 
+        body: {email: "alyahskjhdkj", password: "jkshdjfkhsdkjhf"},
+        headers: {
+        }
+      })
+      const serverData = await response.json()
+      console.log(serverData)
+    }
+
+    fetchData()
+  }, [])
+
     return (
       <div className="flex flex-col items-center justify-center h-screen w-screen">
     <svg xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>

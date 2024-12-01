@@ -11,7 +11,6 @@ preOrderTraversal
 postOrderTraversal 
 */
 
-
 export class TreeNode<T> {
     data: T;
     left: TreeNode<T> | null;
