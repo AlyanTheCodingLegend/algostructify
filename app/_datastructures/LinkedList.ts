@@ -6,10 +6,10 @@
 // deleteAt(to delete from any location)
 // delete(to delete any value)
 // print(to print the list)
-// getSize(to know the size of the lost)
+// getSize(to know the size of the list)
 // search(searches for index o f element)
 
-class ListNode<T> {
+export class ListNode<T> {
     value: T;
     next: ListNode<T> | null;
 
@@ -20,7 +20,7 @@ class ListNode<T> {
 }
 
 class LinkedList<T> {
-    private head: ListNode<T> | null;
+    public head: ListNode<T> | null;
     private size: number;
 
     constructor() {
