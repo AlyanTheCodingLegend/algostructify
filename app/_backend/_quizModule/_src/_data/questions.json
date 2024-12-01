@@ -1,21 +1,21 @@
 [
-    {
-      "id": 1,
-      "topic": "Arrays",
-      "difficulty": "Easy",
-      "questionText": "What is the time complexity to access an element in an array?",
-      "options": ["O(n)", "O(1)", "O(log n)", "O(n^2)"],
-      "correctAnswer": 1,
-      "explanation": "Accessing an element in an array is O(1) due to direct indexing."
-    },
-    {
-      "id": 2,
-      "topic": "Trees",
-      "difficulty": "Medium",
-      "questionText": "What is the height of a binary tree with n nodes in the worst case?",
-      "options": ["O(log n)", "O(n)", "O(1)", "O(n^2)"],
-      "correctAnswer": 1,
-      "explanation": "In the worst case, a binary tree can degenerate into a linked list."
-    }
-  ]
+  {
+    "id": 1,
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "questionText": "What is the time complexity to access an element in an array?",
+    "options": ["O(n)", "O(1)", "O(log n)", "O(n^2)"],
+    "correctAnswer": 1,
+    "explanation": "Accessing an element in an array is O(1) due to direct indexing."
+  },
+  {
+    "id": 2,
+    "topic": "Trees",
+    "difficulty": "Medium",
+    "questionText": "What is the height of a binary tree with n nodes in the worst case?",
+    "options": ["O(log n)", "O(n)", "O(1)", "O(n^2)"],
+    "correctAnswer": 1,
+    "explanation": "In the worst case, a binary tree can degenerate into a linked list."
+  }
+]
   
