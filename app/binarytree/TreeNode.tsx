@@ -71,7 +71,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, r
             {/* Current Node */}
             <div
                 id={`${index}`}
-                className={`flex justify-center items-center p-4 border-4 min-w-[80px] min-h-[80px] text-center text-xl font-semibold shadow-lg ${index===currentIndex && "border-yellow-500 bg-yellow-100"} ${
+                className={`flex justify-center items-center p-4 border-4 min-w-[80px] min-h-[80px] text-center text-xl font-semibold shadow-lg ${type==="left" && "left-4"} ${type==="right" && "right-4"} ${index===currentIndex && "border-yellow-500 bg-yellow-100"} ${
                     index === 0
                         ? "border-red-500 bg-red-100"
                         : "border-green-500 bg-green-100"

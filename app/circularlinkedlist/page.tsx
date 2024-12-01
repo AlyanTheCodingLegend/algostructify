@@ -1,15 +1,54 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import CircularLinkedList, { ListNode } from "../_datastructures/CircularLinkedList";
-import LoopArrow from "./LoopArrow";
 
 export default function Page() {
   const [cll] = useState(new CircularLinkedList<number>());
-  const [, setRenderTrigger] = useState(0);
+  const [renderTrigger, setRenderTrigger] = useState(0);
+
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (!svgRef.current) return;
+
+    if (svgRef.current.getElementById("path")) {
+      svgRef.current.removeChild(svgRef.current.getElementById("path"));
+    }
+
+    const firstNode = document.getElementById("0");
+    if (!firstNode) return;
+
+    const lastNode = document.getElementById(`${cll.size - 1}`);
+    if (!lastNode) return;
+
+    const firstNodeRect = firstNode.getBoundingClientRect();
+    const lastNodeRect = lastNode.getBoundingClientRect();
+
+    const path = createPath(
+      lastNodeRect.right,
+      lastNodeRect.top + lastNodeRect.height / 2,
+      firstNodeRect.left,
+      firstNodeRect.top + firstNodeRect.height / 2
+    );
+
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathElement.setAttribute("d", path);
+    pathElement.setAttribute("stroke", "black");
+    pathElement.setAttribute("fill", "transparent");
+    pathElement.setAttribute("strokeWidth", "4");
+    pathElement.setAttribute("id", "path");
+    // pathElement.setAttribute("marker-end", "url(#arrowhead)");
+
+    svgRef.current.appendChild(pathElement);
+  }, [renderTrigger])
 
   const triggerRender = () => setRenderTrigger((prev) => prev + 1);
+
+  const createPath = (x1: number, y1: number, x2: number, y2: number) => {
+    return `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`;
+};
 
   const addNode = (value: number) => {
     cll.add(value);
@@ -38,17 +77,15 @@ export default function Page() {
       <div
         key={index}
         className="flex items-center justify-center relative"
-        id={`node-${index}`}
+        id={`${index}`}
       >
-        <div className="flex justify-center items-center p-4 border-4 border-green-500 rounded-lg bg-green-100 min-w-[80px] min-h-[80px] text-center text-xl font-semibold shadow-lg relative">
+        <div className="flex justify-center items-center border-4 border-green-500 rounded-lg bg-green-100 min-w-[80px] min-h-[80px] text-center text-xl font-semibold shadow-lg relative">
           <span className="value">{node.data}</span>
         </div>
-        {node.next !== cll.head ? (
+        {node.next !== cll.head && (
           <div className="flex justify-center items-center text-3xl text-green-500">
             →
           </div>
-        ) : (
-          <LoopArrow startId={`node-${index}`} endId="node-0" />
         )}
       </div>
     ));
@@ -58,6 +95,20 @@ export default function Page() {
     <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100">
       <div className="flex flex-col items-center justify-center w-full h-full relative space-y-8">
         <div className="flex items-center justify-center">{renderNodes()}</div>
+        <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
+          <defs>
+            <marker
+              id="arrowhead"
+              markerWidth="10"
+              markerHeight="7"
+              refX="10"
+              refY="3.5"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+            </marker>
+          </defs>
+        </svg>
         <div className="flex justify-center items-center mt-10 space-x-6">
           <button
             className="bg-red-600 text-white w-28 h-12 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all"
@@ -66,7 +117,7 @@ export default function Page() {
             Add Node
           </button>
           <button
-            className="bg-red-600 text-white w-28 h-12 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all"
+            className="bg-red-600 text-white w-28 h-16 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all"
             onClick={() => removeNode(10)}
           >
             Remove Node

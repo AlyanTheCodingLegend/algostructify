@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BinaryTree from "../_datastructures/BinaryTree";
 import { TreeNode } from "./TreeNode";
 import { toast } from "react-toastify";
@@ -12,14 +12,36 @@ export default function Page() {
     const [deleteRightVal, setDeleteRightVal] = useState(1);
     const [insertVal, setInsertVal] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(-1);
+    const [traversalInProcess, setTraversalInProcess] = useState(false);
 
     const svgRef = useRef<SVGSVGElement>(null);
+
+    useEffect(() => {
+        const handleResizeOrScroll = () => {
+            forceRender();
+        };
+
+        window.addEventListener('resize', handleResizeOrScroll);
+        window.addEventListener('scroll', handleResizeOrScroll);
+
+        return () => {
+            window.removeEventListener('resize', handleResizeOrScroll);
+            window.removeEventListener('scroll', handleResizeOrScroll);
+        };
+    }, []);
 
     const forceRender = () => setRenderTrigger((prev) => prev + 1);
 
     const insertNode = (data: number) => {
+        if (tree.getHeight(tree.root) > 6) {
+            if (tree.wouldIncreaseHeight(data)) {
+                toast.error("Binary Tree is too large.");
+                return;
+            }
+        }
         tree.insert(data);
         forceRender();
+        toast.success(`Node with data: ${data} inserted successfully.`);
     };
 
     const deleteNodeLeft = (data: number) => {
@@ -56,6 +78,7 @@ export default function Page() {
             return;
         }   
         
+        setTraversalInProcess(true);
         let delay = 0;
 
         tree.preOrderTraversal(tree.root, (index) => {
@@ -64,7 +87,10 @@ export default function Page() {
             }, delay += 1000);
         });
 
-        setCurrentIndex(-1);
+        setTimeout(() => {
+            setCurrentIndex(-1);
+            setTraversalInProcess(false);
+        }, delay + 1000);
     }
 
     const inOrderTraversal = () => {
@@ -73,6 +99,7 @@ export default function Page() {
             return;
         }   
         
+        setTraversalInProcess(true);
         let delay = 0;
 
         tree.inOrderTraversal(tree.root, (index) => {
@@ -81,7 +108,10 @@ export default function Page() {
             }, delay += 1000);
         });
 
-        setCurrentIndex(-1);
+        setTimeout(() => {
+            setCurrentIndex(-1);
+            setTraversalInProcess(false);
+        }, delay + 1000);
     }
 
     const postOrderTraversal = () => {
@@ -90,6 +120,7 @@ export default function Page() {
             return;
         }   
         
+        setTraversalInProcess(true);
         let delay = 0;
 
         tree.postOrderTraversal(tree.root, (index) => {
@@ -98,7 +129,10 @@ export default function Page() {
             }, delay += 1000);
         });
 
-        setCurrentIndex(-1);
+        setTimeout(() => {
+            setCurrentIndex(-1);
+            setTraversalInProcess(false);
+        }, delay + 1000);
     }
 
     const renderTree = () => {
@@ -117,39 +151,42 @@ export default function Page() {
                 Binary Tree
             </h1>
             <div className="flex items-center justify-center space-x-4">
-                <button
+                <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
-                    <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(Number(event.target.value))} />
-                    <button onClick={() => insertNode(insertVal)}>Insert Node</button>
-                </button>
+                    {/* <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(Number(event.target.value))} /> */}
+                    <button onClick={() => insertNode(Math.floor((Math.random()+1)*200))}>Insert Node</button>
+                </div>
                 <div
                     className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
                     <input className="text-black" value={deleteLeftVal} onChange={(event)=>setDeleteLeftVal(Number(event.target.value))} />
                     <button onClick={() => deleteNodeLeft(deleteLeftVal)}>Delete Left Node</button>
                 </div>
-                <button
+                <div
                     className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
                     <input className="text-black" value={deleteRightVal} onChange={(event)=>setDeleteRightVal(Number(event.target.value))} />
                     <button onClick={() => deleteNodeRight(deleteRightVal)}>Delete Right Node</button>
-                </button>
+                </div>
                 <button
                     className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
                     onClick={() => preOrderTraversal()}
+                    disabled={traversalInProcess}
                 >
                     Pre-order Traversal
                 </button>
                 <button
                     className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
                     onClick={() => inOrderTraversal()}
+                    disabled={traversalInProcess}
                 >
                     In-order Traversal
                 </button>
                 <button
                     className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
                     onClick={() => postOrderTraversal()}
+                    disabled={traversalInProcess}
                 >
                     Post-order Traversal
                 </button>
