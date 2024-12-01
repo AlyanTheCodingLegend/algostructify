@@ -6,13 +6,8 @@ export function GET() {
     return NextResponse.json({name: "alyan"})
 }
 
-export function POST(context: ContextType, request: NextRequest){
-    const dataFromFrontend = request.body
-
-    // fetch user record using email from db, compare db password to user inputted password
-    if (wrongpassword) {
-        return NextResponse.json({user: null, error: "wrong credentials"})
-    }
+export async function POST(request: NextRequest){
+    const userAgent = await request.json()
 
     return NextResponse.json({user: userAgent, error: null})
 }
