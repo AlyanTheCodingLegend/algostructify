@@ -39,7 +39,7 @@ export default function Page() {
     pathElement.setAttribute("fill", "transparent");
     pathElement.setAttribute("strokeWidth", "4");
     pathElement.setAttribute("id", "path");
-    // pathElement.setAttribute("marker-end", "url(#arrowhead)");
+    pathElement.setAttribute("marker-end", "url(#arrowhead)");
 
     svgRef.current.appendChild(pathElement);
   }, [renderTrigger])
@@ -47,8 +47,23 @@ export default function Page() {
   const triggerRender = () => setRenderTrigger((prev) => prev + 1);
 
   const createPath = (x1: number, y1: number, x2: number, y2: number) => {
-    return `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`;
-};
+    const controlOffset = 200; // Height of the curve above the nodes
+    const horizontalOffset = 250; // Horizontal distance for control points
+
+    // Control point near the last node (higher and to the right)
+    const controlPointX1 = x1 + horizontalOffset;
+    const controlPointY1 = Math.min(y1, y2) - controlOffset;
+
+    // Control point near the first node (higher and to the left)
+    const controlPointX2 = x2 - horizontalOffset;
+    const controlPointY2 = Math.min(y1, y2) - controlOffset;
+
+    return `M ${x1} ${y1} 
+            C ${controlPointX1} ${controlPointY1}, 
+              ${controlPointX2} ${controlPointY2}, 
+              ${x2} ${y2}`;
+  };
+
 
   const addNode = (value: number) => {
     cll.add(value);
@@ -92,23 +107,25 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100">
+    <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100 overflow-none">
       <div className="flex flex-col items-center justify-center w-full h-full relative space-y-8">
-        <div className="flex items-center justify-center">{renderNodes()}</div>
-        <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
-          <defs>
-            <marker
-              id="arrowhead"
-              markerWidth="10"
-              markerHeight="7"
-              refX="10"
-              refY="3.5"
-              orient="auto"
-            >
-              <polygon points="0 0, 10 3.5, 0 7" fill="black" />
-            </marker>
-          </defs>
-        </svg>
+        <div className="flex items-center justify-center">
+          {renderNodes()}
+          <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
+            <defs>
+              <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="7"
+                refX="10"
+                refY="3.5"
+                orient="auto"
+              >
+                <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
         <div className="flex justify-center items-center mt-10 space-x-6">
           <button
             className="bg-red-600 text-white w-28 h-12 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all"

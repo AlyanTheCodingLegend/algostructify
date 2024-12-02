@@ -8,9 +8,10 @@ type TreeNodeProps = {
     svgRef: React.RefObject<SVGSVGElement>;
     renderTrigger: number;
     currentIndex: number;
+    scrollY: number;
 };
 
-export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, renderTrigger, currentIndex }) => {
+export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, renderTrigger, currentIndex, scrollY }) => {
 
     useEffect(() => {
         if (node) {
@@ -38,9 +39,9 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, r
         // Create path from current node to parent node
         const path = createPath(
             parentRect.left + parentRect.width / 2, // X center of parent node
-            parentRect.bottom, // Y bottom of parent node
+            parentRect.bottom + scrollY, // Y bottom of parent node
             currentRect.left + currentRect.width / 2, // X center of current node
-            currentRect.top // Y top of current node
+            currentRect.top + scrollY // Y top of current node
         );
 
         if (svgRef.current && path) {
@@ -82,8 +83,8 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, r
 
             {/* Left and Right Children */}
             <div className="flex gap-4 mt-4">
-                {node.left && <TreeNode index={2 * index + 1} node={node.left} type="left" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex}/>}
-                {node.right && <TreeNode index={2 * index + 2} node={node.right} type="right" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex}/>}
+                {node.left && <TreeNode index={2 * index + 1} node={node.left} type="left" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex} scrollY={scrollY}/>}
+                {node.right && <TreeNode index={2 * index + 2} node={node.right} type="right" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex} scrollY={scrollY}/>}
             </div>
         </div>
     );

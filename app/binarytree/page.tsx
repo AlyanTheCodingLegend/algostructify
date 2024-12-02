@@ -13,35 +13,43 @@ export default function Page() {
     const [insertVal, setInsertVal] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [traversalInProcess, setTraversalInProcess] = useState(false);
+    const [scrollY, setScrollY] = useState(0);
 
     const svgRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
-        const handleResizeOrScroll = () => {
+        const handleResize = () => {
             forceRender();
         };
 
-        window.addEventListener('resize', handleResizeOrScroll);
-        window.addEventListener('scroll', handleResizeOrScroll);
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+            forceRender();
+        };
+
+        const scrollableTree = document.getElementById("scrollable-tree");
+
+        window.addEventListener('resize', handleResize);
+        scrollableTree?.addEventListener('scroll', handleScroll);
 
         return () => {
-            window.removeEventListener('resize', handleResizeOrScroll);
-            window.removeEventListener('scroll', handleResizeOrScroll);
+            window.removeEventListener('resize', handleResize);
+            scrollableTree?.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
     const forceRender = () => setRenderTrigger((prev) => prev + 1);
 
     const insertNode = (data: number) => {
-        if (tree.getHeight(tree.root) > 6) {
-            if (tree.wouldIncreaseHeight(data)) {
-                toast.error("Binary Tree is too large.");
-                return;
-            }
-        }
+        // if (tree.getHeight(tree.root) > 6) {
+        //     if (tree.wouldIncreaseHeight(data)) {
+        //         toast.error("Binary Tree is too large.");
+        //         return;
+        //     }
+        // }
         tree.insert(data);
         forceRender();
-        toast.success(`Node with data: ${data} inserted successfully.`);
+        // toast.success(`Node with data: ${data} inserted successfully.`);
     };
 
     const deleteNodeLeft = (data: number) => {
@@ -140,7 +148,7 @@ export default function Page() {
 
         return (
             <div className="flex justify-center h-full w-full">
-                <TreeNode index={0} node={tree.root} type="root" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex}/>
+                <TreeNode index={0} node={tree.root} type="root" svgRef={svgRef} renderTrigger={renderTrigger} currentIndex={currentIndex} scrollY={scrollY}/>
             </div>
         )
     }
@@ -150,11 +158,11 @@ export default function Page() {
             <h1 className="text-4xl font-semibold text-center">
                 Binary Tree
             </h1>
-            <div className="flex items-center justify-center space-x-4">
+            <div className="flex items-center z-10 justify-center space-x-4">
                 <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
-                    {/* <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(Number(event.target.value))} /> */}
+                    <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(Number(event.target.value))} />
                     <button onClick={() => insertNode(Math.floor((Math.random()+1)*200))}>Insert Node</button>
                 </div>
                 <div
@@ -192,23 +200,10 @@ export default function Page() {
                 </button>
                 
             </div>
-            <div className="flex items-center justify-center w-screen h-screen overflow-scroll">
+            <div className="flex items-center justify-center w-screen h-screen overflow-scroll" id="scrollable-tree">
                 {renderTree()}
+                <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: -1, top: 0, left: 0 }}></svg>
             </div>
-            <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
-                <defs>
-                    <marker
-                    id="arrowhead"
-                    markerWidth="10"
-                    markerHeight="7"
-                    refX="10"
-                    refY="3.5"
-                    orient="auto"
-                    >
-                        <polygon points="0 0, 10 3.5, 0 7" fill="black" />
-                    </marker>
-                </defs>
-            </svg>
         </div>
     );
 }
