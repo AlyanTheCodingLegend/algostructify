@@ -1,4 +1,4 @@
-import { Question } from "../_types/questions";
+import type { Question } from "../_types/questions";
 
 // Filter questions by topic and difficulty
 export function getQuestions(questions: Question[], topic: string, difficulty: "Easy" | "Medium" | "Hard"): Question[] {
