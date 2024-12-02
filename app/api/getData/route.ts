@@ -1,3 +1,4 @@
+import { main } from "@/app/_backend/_quizModule/_src/app";
 import { NextRequest, NextResponse } from "next/server";
 
 export function GET() {
@@ -7,10 +8,8 @@ export function GET() {
 }
 
 export async function POST(request: NextRequest){
-    const req = await request.json()
-    console.log(req.email)
-    console.log(req.password)
-
+    await main("Arrays", "Easy", 1)
+    
     return NextResponse.json({loggedIn: true})
 }
 

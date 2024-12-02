@@ -1,12 +1,15 @@
-import fs from "fs";
-import path from "path";
-import { Question } from "../_types/questions";
+import type { Question } from "../_types/questions";
+import data from "../_data/questions.json"
 
 // Function to load questions from JSON
 export function loadQuestions(): Question[] {
-  const filePath = path.join(__dirname, "../_data/questions.json");
-  const data = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(data);
+  let questions: Question[] = []
+
+  data.forEach((question) => {
+    questions.push({...question, difficulty: question.difficulty as "Easy" | "Medium" | "Hard"})
+  })
+
+  return questions
 }
 
 // Shuffle questions (Fisher-Yates Algorithm)
