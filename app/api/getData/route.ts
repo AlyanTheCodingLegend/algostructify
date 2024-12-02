@@ -8,7 +8,9 @@ export function GET() {
 }
 
 export async function POST(request: NextRequest){
-    await main("Arrays", "Easy", 1)
+    const req = await request.json()    
+
+    await main("Arrays", "Easy", req.value)
     
     return NextResponse.json({loggedIn: true})
 }
