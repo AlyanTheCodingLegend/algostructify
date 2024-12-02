@@ -7,9 +7,8 @@ export default function Page() {
   useEffect(()=>{
     async function fetchData() {
       const response = await fetch("/api/getData", { 
-        body: {email: "alyahskjhdkj", password: "jkshdjfkhsdkjhf"},
-        headers: {
-        }
+        body: JSON.stringify({email: "alyahskjhdkj", password: "jkshdjfkhsdkjhf"}),
+        method: "POST"
       })
       const serverData = await response.json()
       console.log(serverData)
