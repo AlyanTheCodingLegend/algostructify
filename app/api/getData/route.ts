@@ -1,3 +1,4 @@
+import { main } from "@/app/_backend/_quizModule/_src/app";
 import { NextRequest, NextResponse } from "next/server";
 
 export function GET() {
@@ -6,14 +7,12 @@ export function GET() {
     return NextResponse.json({name: "alyan"})
 }
 
-export function POST(context: ContextType, request: NextRequest){
-    const dataFromFrontend = request.body
+export async function POST(request: NextRequest){
+    const req = await request.json()    
 
-    // fetch user record using email from db, compare db password to user inputted password
-    if (wrongpassword) {
-        return NextResponse.json({user: null, error: "wrong credentials"})
-    }
-
-    return NextResponse.json({user: userAgent, error: null})
+    await main("Arrays", "Easy", req.value)
+    
+    return NextResponse.json({loggedIn: true})
 }
+
 
