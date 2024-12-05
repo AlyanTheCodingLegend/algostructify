@@ -10,41 +10,46 @@ postOrder
 search: to search with value returns boolean value
 delete(delete smallest from right side)
 
- */
-class AvlNode {
-    value: number;
+*/
+
+export class AvlNode<T> {
+    value: T;
     height: number;
-    left: AvlNode | null;
-    right: AvlNode | null;
+    left: AvlNode<T> | null;
+    right: AvlNode<T> | null;
+    index: number;
+    count: number;
   
-    constructor(value: number) {
+    constructor(value: T) {
         this.value = value;
         this.height = 1; // Initial height
         this.left = null;
         this.right = null;
+        this.index = -1;
+        this.count = 1;
     }
   }
   
-  class AVLTree {
-    root: AvlNode | null;
+class AVLTree<T> {
+    root: AvlNode<T> | null;
   
     constructor() {
         this.root = null;
     }
   
     // Utility to get the height of a node
-    private getHeight(node: AvlNode | null): number {
+    private getHeight(node: AvlNode<T> | null): number {
         return node ? node.height : 0;
     }
   
     // Utility to get the balance factor of a node
-    private getBalance(node: AvlNode | null): number {
+    private getBalance(node: AvlNode<T> | null): number {
         return node ? this.getHeight(node.left) - this.getHeight(node.right) : 0;
     }
   
     // Right rotation
-    private rotateRight(y: AvlNode): AvlNode {
-        const x = y.left as AvlNode;
+    private rotateRight(y: AvlNode<T>): AvlNode<T> {
+        const x = y.left as AvlNode<T>;
         const T2 = x.right;
   
         // Perform rotation
@@ -59,8 +64,8 @@ class AvlNode {
     }
   
     // Left rotation
-    private rotateLeft(x: AvlNode): AvlNode {
-        const y = x.right as AvlNode;
+    private rotateLeft(x: AvlNode<T>): AvlNode<T> {
+        const y = x.right as AvlNode<T>;
         const T2 = y.left;
   
         // Perform rotation
@@ -75,11 +80,11 @@ class AvlNode {
     }
   
     // Insert a value into the AVL tree
-    insert(value: number): void {
+    insert(value: T): void {
         this.root = this.insertNode(this.root, value);
     }
   
-    private insertNode(node: AvlNode | null, value: number): AvlNode {
+    private insertNode(node: AvlNode<T> | null, value: T): AvlNode<T> {
         // Perform the normal BST insertion
         if (node === null) {
             return new AvlNode(value);
@@ -102,24 +107,24 @@ class AvlNode {
   
         // If the node becomes unbalanced, perform rotations
         // Left Left Case
-        if (balance > 1 && value < (node.left as AvlNode).value) {
+        if (balance > 1 && value < (node.left as AvlNode<T>).value) {
             return this.rotateRight(node);
         }
   
         // Right Right Case
-        if (balance < -1 && value > (node.right as AvlNode).value) {
+        if (balance < -1 && value > (node.right as AvlNode<T>).value) {
             return this.rotateLeft(node);
         }
   
         // Left Right Case
-        if (balance > 1 && value > (node.left as AvlNode).value) {
-            node.left = this.rotateLeft(node.left as AvlNode);
+        if (balance > 1 && value > (node.left as AvlNode<T>).value) {
+            node.left = this.rotateLeft(node.left as AvlNode<T>);
             return this.rotateRight(node);
         }
   
         // Right Left Case
-        if (balance < -1 && value < (node.right as AvlNode).value) {
-            node.right = this.rotateRight(node.right as AvlNode);
+        if (balance < -1 && value < (node.right as AvlNode<T>).value) {
+            node.right = this.rotateRight(node.right as AvlNode<T>);
             return this.rotateLeft(node);
         }
   
@@ -127,47 +132,47 @@ class AvlNode {
     }
   
     // In-order traversal for printing the tree
-    inOrderTraversal(): void {
-        this.inOrder(this.root);
+    inOrderTraversal(callback: (index: number) => void): void {
+        this.inOrder(this.root, callback);
     }
   
-    private inOrder(node: AvlNode | null): void {
+    private inOrder(node: AvlNode<T> | null, callback: (index: number) => void): void {
         if (node !== null) {
-            this.inOrder(node.left);
-            console.log(node.value);
-            this.inOrder(node.right);
+            this.inOrder(node.left, callback);
+            callback(node.index);
+            this.inOrder(node.right, callback);
         }
     }
   
-    postOrderTraversal(): void {
-      this.postOrder(this.root);
-  }
+    postOrderTraversal(callback: (index: number) => void): void {
+      this.postOrder(this.root, callback);
+    }
   
-  private postOrder(node: AvlNode | null): void {
+  private postOrder(node: AvlNode<T> | null, callback: (index: number) => void): void {
       if (node !== null) {
-          this.postOrder(node.left); // Traverse left subtree
-          this.postOrder(node.right); // Traverse right subtree
-          console.log(node.value); // Visit node
-      }
+          this.postOrder(node.left, callback); // Traverse left subtree
+          this.postOrder(node.right, callback); // Traverse right subtree
+          callback(node.index) // Visit node
+       }
+   } 
+  
+  preOrderTraversal(callback: (index: number) => void): void {
+    this.preOrder(this.root, callback);
   }
   
-  preOrderTraversal(): void {
-    this.preOrder(this.root);
-  }
-  
-  private preOrder(node: AvlNode | null): void {
+  private preOrder(node: AvlNode<T> | null, callback: (index: number) => void): void {
     if (node !== null) {
-        console.log(node.value); // Visit node
-        this.preOrder(node.left); // Traverse left subtree
-        this.preOrder(node.right); // Traverse right subtree
+        callback(node.index); // Visit node
+        this.preOrder(node.left, callback); // Traverse left subtree
+        this.preOrder(node.right, callback); // Traverse right subtree
     }
   }
   
-  search(value: number): boolean {
+  search(value: T): boolean {
     return this.searchNode(this.root, value);
   }
   
-  private searchNode(node: AvlNode | null, value: number): boolean {
+  private searchNode(node: AvlNode<T> | null, value: T): boolean {
     if (node === null) {
         return false;
     }
@@ -181,11 +186,11 @@ class AvlNode {
     }
   }
   
-  delete(value: number): void {
+  delete(value: T): void {
     this.root = this.deleteNode(this.root, value);
   }
   
-  private deleteNode(node: AvlNode | null, value: number): AvlNode | null {
+  private deleteNode(node: AvlNode<T> | null, value: T): AvlNode<T> | null {
     if (node === null) {
         return node;
     }
@@ -205,7 +210,7 @@ class AvlNode {
             }
         } else {
             // Node has two children: Get the inorder successor (smallest in the right subtree)
-            let temp = this.minValueNode(node.right as AvlNode);
+            let temp = this.minValueNode(node.right as AvlNode<T>);
             node.value = temp.value;
             node.right = this.deleteNode(node.right, temp.value);
         }
@@ -234,20 +239,20 @@ class AvlNode {
   
     // Left Right Case
     if (balance > 1 && this.getBalance(node.left) < 0) {
-        node.left = this.rotateLeft(node.left as AvlNode);
+        node.left = this.rotateLeft(node.left as AvlNode<T>);
         return this.rotateRight(node);
     }
   
     // Right Left Case
     if (balance < -1 && this.getBalance(node.right) > 0) {
-        node.right = this.rotateRight(node.right as AvlNode);
+        node.right = this.rotateRight(node.right as AvlNode<T>);
         return this.rotateLeft(node);
     }
   
     return node;
   }
   
-  private minValueNode(node: AvlNode): AvlNode {
+  private minValueNode(node: AvlNode<T>): AvlNode<T> {
     let current = node;
     while (current.left !== null) {
         current = current.left;
@@ -255,9 +260,7 @@ class AvlNode {
     return current;
   }
   
-  
-  }
-
+}
 
 // Exporting
 export default AVLTree;

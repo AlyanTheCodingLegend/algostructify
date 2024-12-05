@@ -13,10 +13,11 @@ shortestPath
 longestPath
 display
 
- */
+*/
+
 class DirectedGraph {
-    private graph: { [key: string]: string[] };
-    private edgesCount: number;
+    public graph: { [key: string]: string[] };
+    public edgesCount: number;
 
     constructor() {
         this.graph = {};
