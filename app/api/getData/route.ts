@@ -8,11 +8,11 @@ export function GET() {
 }
 
 export async function POST(request: NextRequest){
-    const req = await request.json()    
+    const { value } = await request.json()    
 
-    await main("Arrays", "Easy", req.value)
+    await main(value.topic, value.difficulty, value.answer-1)
     
-    return NextResponse.json({loggedIn: true})
+    return NextResponse.json({})
 }
 
 

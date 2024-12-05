@@ -1,32 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export default function Page() {
-  const [value, setValue] = useState<number>(-1)
-  const [render, setRender] = useState<number>(0)
+  const [value, setValue] = useState({topic: "Arrays", difficulty: "Easy", answer: 1})
 
-  const handleSubmit = () => {
-    setRender(prev=>prev+1)
+  const handleSubmit = async () => {
+    await fetch("/api/getData", { 
+      body: JSON.stringify({value}),
+      method: "POST"
+    })
   }
 
-  useEffect(()=>{
-    async function fetchData() {
-      const response = await fetch("/api/getData", { 
-        body: JSON.stringify({value}),
-        method: "POST"
-      })
-      const serverData = await response.json()
-      console.log(serverData)
-    }
-
-    fetchData()
-  }, [render])
-
-    return (
-      <div>
-        <input type="number" className="text-black border-10" value={value} onChange={(e)=>setValue(Number(e.target.value))}/>
-        <button onClick={handleSubmit}>Click to submit answer</button>
-      </div>
-    )
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <input className="text-black border-10" placeholder="Topic" value={value.topic} onChange={(e)=>setValue(prev=>({...prev, topic: e.target.value}))}/>
+      <input className="text-black border-10" placeholder="Difficulty" value={value.difficulty} onChange={(e)=>setValue(prev=>({...prev, difficulty: e.target.value}))}/>
+      <input type="number" min={1} max={4} className="text-black border-10" value={value.answer} onChange={(e)=>setValue(prev=>({...prev, answer: Number(e.target.value)}))}/>
+      <button onClick={handleSubmit}>Click to submit answer</button>
+    </div>
+  )
 }
