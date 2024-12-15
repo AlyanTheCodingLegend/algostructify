@@ -9,8 +9,9 @@ export function GET() {
 
 export async function POST(request: NextRequest){
     const req = await request.json()    
+    console.log(req)        
 
-    await main("Arrays", "Easy", req.value)
+    await main(req.value.topic, req.value.difficulty, req.value.answer)
     
     return NextResponse.json({loggedIn: true})
 }
