@@ -16,6 +16,257 @@
     "options": ["O(log n)", "O(n)", "O(1)", "O(n^2)"],
     "correctAnswer": 1,
     "explanation": "In the worst case, a binary tree can degenerate into a linked list."
+  },
+  {
+    "id": 3,
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "questionText": "Which of the following operations is used to add an element to a stack?",
+    "options": ["push", "pop", "peek", "isEmpty"],
+    "correctAnswer": 0,
+    "explanation": "The push operation is used to add an element to a stack."
+  },
+  {
+    "id": 4,
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "questionText": "Which operation removes an element from a queue?",
+    "options": ["push", "pop", "enqueue", "dequeue"],
+    "correctAnswer": 3,
+    "explanation": "The dequeue operation removes an element from a queue."
+  },
+  {
+    "id": 5,
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "questionText": "What is the time complexity to access an element in a singly linked list?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+    "correctAnswer": 1,
+    "explanation": "In a singly linked list, we need to traverse the list to access an element, so the time complexity is O(n)."
+  },
+  {
+    "id": 6,
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "questionText": "What is the time complexity of inserting an element at the beginning of a singly linked list?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+    "correctAnswer": 0,
+    "explanation": "Inserting an element at the beginning of a singly linked list is an O(1) operation."
+  },
+  {
+    "id": 7,
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "questionText": "What is the time complexity of binary search on a sorted array?",
+    "options": ["O(n)", "O(log n)", "O(1)", "O(n^2)"],
+    "correctAnswer": 1,
+    "explanation": "Binary search has a time complexity of O(log n) on a sorted array."
+  },
+  {
+    "id": 8,
+    "topic": "Trees",
+    "difficulty": "Hard",
+    "questionText": "What is the time complexity to search for an element in a balanced binary search tree (BST)?",
+    "options": ["O(n)", "O(log n)", "O(n^2)", "O(log n) for balanced trees"],
+    "correctAnswer": 1,
+    "explanation": "In a balanced binary search tree, searching for an element takes O(log n) time."
+  },
+  {
+    "id": 9,
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "questionText": "Which of the following is the time complexity of Depth First Search (DFS) in a graph with V vertices and E edges?",
+    "options": ["O(V + E)", "O(V^2)", "O(E)", "O(V)"],
+    "correctAnswer": 0,
+    "explanation": "The time complexity of DFS is O(V + E), where V is the number of vertices and E is the number of edges."
+  },
+  {
+    "id": 10,
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "questionText": "What is the time complexity of Dijkstra's algorithm using a priority queue?",
+    "options": ["O(V^2)", "O(E log V)", "O(V log V)", "O(E)"],
+    "correctAnswer": 1,
+    "explanation": "Dijkstra's algorithm using a priority queue has a time complexity of O(E log V), where V is the number of vertices and E is the number of edges."
+  },
+  {
+    "id": 11,
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "questionText": "Which of the following is true about stack overflow?",
+    "options": ["Occurs when there is insufficient memory", "Occurs when the stack reaches its limit", "Occurs when the heap is full", "Occurs when there is an infinite loop"],
+    "correctAnswer": 1,
+    "explanation": "A stack overflow occurs when the stack reaches its limit, usually due to excessive function calls."
+  },
+  {
+    "id": 12,
+    "topic": "Queues",
+    "difficulty": "Medium",
+    "questionText": "What is the time complexity to insert an element in a queue implemented with a circular array?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+    "correctAnswer": 0,
+    "explanation": "Inserting an element into a queue implemented with a circular array is an O(1) operation."
+  },
+  {
+    "id": 13,
+    "topic": "Linked Lists",
+    "difficulty": "Hard",
+    "questionText": "What is the time complexity to reverse a singly linked list?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+    "correctAnswer": 1,
+    "explanation": "Reversing a singly linked list takes O(n) time."
+  },
+  {
+    "id": 14,
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "questionText": "What is the space complexity of storing an array of size n?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+    "correctAnswer": 1,
+    "explanation": "The space complexity of storing an array is O(n), as it requires space proportional to the number of elements."
+  },
+  {
+    "id": 15,
+    "topic": "Stacks",
+    "difficulty": "Hard",
+    "questionText": "Which of the following is true about the maximum size of a stack in most systems?",
+    "options": ["It is always fixed", "It is limited by available memory", "It grows dynamically", "There is no limit"],
+    "correctAnswer": 1,
+    "explanation": "The maximum size of a stack is limited by the available memory in most systems."
+  },
+  {
+    "id": 16,
+    "topic": "Trees",
+    "difficulty": "Easy",
+    "questionText": "Which of the following is true about a complete binary tree?",
+    "options": ["All levels are fully filled except possibly the last", "Every node has two children", "It is always balanced", "It has no leaf nodes"],
+    "correctAnswer": 0,
+    "explanation": "A complete binary tree is a binary tree in which all levels are fully filled except possibly the last."
+  },
+  {
+    "id": 17,
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "questionText": "Which algorithm is used to find the shortest path in an unweighted graph?",
+    "options": ["Dijkstra", "Floyd-Warshall", "Bellman-Ford", "Breadth-First Search"],
+    "correctAnswer": 3,
+    "explanation": "Breadth-First Search (BFS) is used to find the shortest path in an unweighted graph."
+  },
+  {
+    "id": 18,
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "questionText": "What is the time complexity to delete an element from a singly linked list?",
+    "options": ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+    "correctAnswer": 1,
+    "explanation": "In a singly linked list, deleting an element requires traversing the list to find the element, so the time complexity is O(n)."
+  },
+  {
+    "id": 19,
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "questionText": "What does the peek operation on a stack do?",
+    "options": ["Removes the top element", "Adds an element to the stack", "Returns the top element without removing it", "Checks if the stack is empty"],
+    "correctAnswer": 2,
+    "explanation": "The peek operation returns the top element of the stack without removing it."
+  },
+  {
+    "id": 20,
+    "topic": "Queues",
+    "difficulty": "Hard",
+    "questionText": "What is the time complexity to enqueue an element into a priority queue implemented with a binary heap?",
+    "options": ["O(log n)", "O(1)", "O(n)", "O(n log n)"],
+    "correctAnswer": 0,
+    "explanation": "In a priority queue implemented with a binary heap, the time complexity to enqueue an element is O(log n)."
+  },
+  {
+    "id": 21,
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "questionText": "What is the best-case time complexity for QuickSort?",
+    "options": ["O(n)", "O(n log n)", "O(n^2)", "O(log n)"],
+    "correctAnswer": 1,
+    "explanation": "The best-case time complexity of QuickSort is O(n log n) when the pivot splits the array evenly."
+  },
+  {
+    "id": 22,
+    "topic": "Trees",
+    "difficulty": "Medium",
+    "questionText": "What is the space complexity of Depth First Search (DFS) in a binary tree?",
+    "options": ["O(log n)", "O(n)", "O(1)", "O(n log n)"],
+    "correctAnswer": 1,
+    "explanation": "The space complexity of DFS in a binary tree is O(n) due to the recursion stack."
+  },
+  {
+    "id": 23,
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "questionText": "What is the time complexity of Floyd-Warshall's algorithm for finding shortest paths between all pairs of vertices?",
+    "options": ["O(V^3)", "O(V^2)", "O(E log V)", "O(V + E)"],
+    "correctAnswer": 0,
+    "explanation": "Floyd-Warshall's algorithm has a time complexity of O(V^3), where V is the number of vertices."
+  },
+  {
+    "id": 24,
+    "topic": "Linked Lists",
+    "difficulty": "Hard",
+    "questionText": "What is the time complexity of merging two sorted singly linked lists?",
+    "options": ["O(n)", "O(n^2)", "O(log n)", "O(1)"],
+    "correctAnswer": 0,
+    "explanation": "Merging two sorted singly linked lists takes O(n) time, where n is the total number of elements in both lists."
+  },
+  {
+    "id": 25,
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "questionText": "Which of the following is the primary use of a queue?",
+    "options": ["LIFO structure", "FIFO structure", "Binary search", "Balanced tree"],
+    "correctAnswer": 1,
+    "explanation": "A queue is a FIFO (First In, First Out) structure."
+  },
+  {
+    "id": 26,
+    "topic": "Arrays",
+    "difficulty": "Hard",
+    "questionText": "What is the space complexity of storing a dynamic array?",
+    "options": ["O(n)", "O(1)", "O(log n)", "O(n log n)"],
+    "correctAnswer": 0,
+    "explanation": "The space complexity of a dynamic array is O(n), as it needs space proportional to the number of elements."
+  },
+  {
+    "id": 27,
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "questionText": "Which of the following problems can be solved using a stack?",
+    "options": ["Balanced parentheses", "Finding shortest path", "Topological sorting", "Breadth-first search"],
+    "correctAnswer": 0,
+    "explanation": "Stacks are often used to solve problems like balanced parentheses, as they follow the LIFO principle."
+  },
+  {
+    "id": 28,
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "questionText": "Which of the following is true about a doubly linked list?",
+    "options": ["Each node has two pointers", "Each node has one pointer", "It can only traverse in one direction", "It has no tail pointer"],
+    "correctAnswer": 0,
+    "explanation": "In a doubly linked list, each node has two pointers: one to the next node and another to the previous node."
+  },
+  {
+    "id": 29,
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "questionText": "Which algorithm is used to find the shortest path in a weighted graph?",
+    "options": ["Dijkstra's algorithm", "Kruskal's algorithm", "Prim's algorithm", "Bellman-Ford"],
+    "correctAnswer": 0,
+    "explanation": "Dijkstra's algorithm is used to find the shortest path in a weighted graph."
+  },
+  {
+    "id": 30,
+    "topic": "Trees",
+    "difficulty": "Hard",
+    "questionText": "What is the time complexity of inserting an element into a balanced AVL tree?",
+    "options": ["O(log n)", "O(n)", "O(n log n)", "O(log n) for unbalanced trees"],
+    "correctAnswer": 0,
+    "explanation": "Inserting an element into a balanced AVL tree takes O(log n) time."
   }
 ]
-  
