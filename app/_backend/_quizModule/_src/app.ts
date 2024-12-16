@@ -40,6 +40,6 @@ export async function main(topic: string, difficulty: "Easy" | "Medium" | "Hard"
   // Step 3: Calculate the final score
   const score = calculateScore(userAnswers, shuffledQuestions);
   console.log(`\nYour final score is: ${score}/${shuffledQuestions.length}`);
-
   rl.close();
+  return shuffledQuestions;
 }
