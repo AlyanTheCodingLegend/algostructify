@@ -10,139 +10,198 @@ numOfNode
 numOfEdge
 clear
 shortestPath
-longestPath
-display
+displayGraph
 
 */
 
 class DirectedGraph {
-    public graph: { [key: string]: string[] };
-    public edgesCount: number;
+    private matrix: number[][];  // adjacency matrix to store the graph
+    private vertexNames: string[];  // list of vertex names for easy reference
+    private vertexCount: number;  // track of the number of vertices currently in the graph
+    private maxVertices: number;  // Max number of vertices allowed
 
-    constructor() {
-        this.graph = {};
-        this.edgesCount = 0;
+    constructor(maxVertices: number = 4) {
+        this.vertexCount = 0;
+        this.maxVertices = maxVertices;
+        this.matrix = [];
+        this.vertexNames = [];
     }
 
-    addVertex(vertex: string): void {
-        if (!(vertex in this.graph)) {
-            this.graph[vertex] = [];
-        } else {
-            console.log(`Vertex ${vertex} already exists.`);
+    // Add a vertex to the graph
+    addVertex(vertexName: string): void {
+        if (this.vertexCount >= this.maxVertices) {
+            console.log(`Cannot add more vertices. Maximum limit of ${this.maxVertices} reached.`);
+            return;
         }
+
+        // Add the vertex name
+        this.vertexNames.push(vertexName);
+
+        // Increase the size of the matrix by adding new row and column
+        for (let i = 0; i < this.matrix.length; i++) {
+            this.matrix[i].push(0);  // Add new column
+        }
+
+        const newRow: number[] = [];
+        for (let i = 0; i < this.vertexCount + 1; i++) {
+            newRow.push(0);  // New row with all 0s
+        }
+        this.matrix.push(newRow);
+
+        this.vertexCount++;
+        console.log(`Vertex ${vertexName} added successfully.`);
     }
 
+    // Add an edge between two vertices
     addEdge(startVertex: string, endVertex: string): void {
-        if (startVertex in this.graph) {
-            this.graph[startVertex].push(endVertex);
-            this.edgesCount++;
-        } else {
-            console.log(`Start vertex ${startVertex} not found.`);
-        }
-    }
+        const startIndex = this.vertexNames.indexOf(startVertex);
+        const endIndex = this.vertexNames.indexOf(endVertex);
 
-    deleteVertex(vertex: string): void {
-        if (vertex in this.graph) {
-            // Remove edges pointing to this vertex
-            for (const key in this.graph) {
-                this.graph[key] = this.graph[key].filter(v => v !== vertex);
-            }
-            // Remove the vertex and its edges
-            this.edgesCount -= this.graph[vertex].length;
-            delete this.graph[vertex];
-        } else {
-            console.log(`Vertex ${vertex} does not exist.`);
-        }
-    }
-
-    deleteEdge(startVertex: string, endVertex: string): void {
-        if (startVertex in this.graph) {
-            const edges = this.graph[startVertex];
-            const index = edges.indexOf(endVertex);
-            if (index !== -1) {
-                edges.splice(index, 1);
-                this.edgesCount--;
-            } else {
-                console.log(`Edge from ${startVertex} to ${endVertex} does not exist.`);
-            }
-        } else {
-            console.log(`Vertex ${startVertex} does not exist.`);
-        }
-    }
-
-    numOfNodes(): number {
-        return Object.keys(this.graph).length;
-    }
-
-    numOfEdges(): number {
-        return this.edgesCount;
-    }
-
-    clear(): void {
-        this.graph = {};
-        this.edgesCount = 0;
-    }
-
-    shortestPath(source: string, destination: string): string[] | null {
-        if (!(source in this.graph) || !(destination in this.graph)) {
-            console.log(`One or both vertices do not exist.`);
-            return null;
+        if (startIndex === -1 || endIndex === -1) {
+            console.log("One or both vertices not found.");
+            return;
         }
 
-        const queue: [string, string[]][] = [[source, [source]]];
-        const visited: string[] = [];
-
-        while (queue.length > 0) {
-            const [current, path] = queue.shift()!;
-            if (current === destination) {
-                return path;
-            }
-
-            if (visited.indexOf(current) === -1) {
-                visited.push(current);
-                for (const neighbor of this.graph[current]) {
-                    queue.push([neighbor, [...path, neighbor]]);
-                }
-            }
-        }
-
-        return null; // No path found
+        // Set the matrix entry to 1 to represent the edge
+        this.matrix[startIndex][endIndex] = 1;
+        console.log(`Edge added from ${startVertex} to ${endVertex}.`);
     }
 
-    longestPath(source: string, destination: string): string[] | null {
-        if (!(source in this.graph) || !(destination in this.graph)) {
-            console.log(`One or both vertices do not exist.`);
-            return null;
-        }
-
-        let longestPath: string[] | null = null;
-
-        const dfs = (current: string, path: string[]) => {
-            if (current === destination) {
-                if (!longestPath || path.length > longestPath.length) {
-                    longestPath = [...path];
-                }
-                return;
-            }
-
-            for (const neighbor of this.graph[current]) {
-                if (path.indexOf(neighbor) === -1) {
-                    dfs(neighbor, [...path, neighbor]);
-                }
-            }
-        };
-
-        dfs(source, [source]);
-        return longestPath;
-    }
-
+    // Display the graph as an adjacency matrix
     displayGraph(): void {
-        for (const vertex in this.graph) {
-            if (this.graph.hasOwnProperty(vertex)) {
-                console.log(`${vertex} -> ${this.graph[vertex].join(", ")}`);
+        console.log("Adjacency Matrix:");
+        console.log("    " + this.vertexNames.join("  "));
+        
+        for (let i = 0; i < this.vertexCount; i++) {
+            let row = `${this.vertexNames[i]}: `;
+            for (let j = 0; j < this.vertexCount; j++) {
+                row += `${this.matrix[i][j]} `;
+            }
+            console.log(row);
+        }
+    }
+
+
+    
+
+    // Get the number of vertices in the graph
+    numOfNodes(): number {
+        return this.vertexCount;
+    }
+
+    // Get the number of edges in the graph
+    numOfEdges(): number {
+        let edgeCount = 0;
+        for (let i = 0; i < this.vertexCount; i++) {
+            for (let j = 0; j < this.vertexCount; j++) {
+                if (this.matrix[i][j] === 1) edgeCount++;
+            }
+        }
+        return edgeCount;
+    }
+
+    // Clear the graph (remove all vertices and edges)
+    clear(): void {
+        this.matrix = [];
+        this.vertexNames = [];
+        this.vertexCount = 0;
+        console.log('Graph cleared.');
+    }
+
+    // Delete an edge from the graph
+    deleteEdge(startVertex: string, endVertex: string): void {
+        const startIndex = this.vertexNames.indexOf(startVertex);
+        const endIndex = this.vertexNames.indexOf(endVertex);
+
+        if (startIndex === -1 || endIndex === -1) {
+            console.log("One or both vertices not found.");
+            return;
+        }
+
+        // Remove the edge (set the matrix entry to 0)
+        this.matrix[startIndex][endIndex] = 0;
+        console.log(`Edge removed from ${startVertex} to ${endVertex}. If it was present.`);
+    }
+
+    // Delete a vertex from the graph along with its associated edges
+    deleteVertex(vertex: string): void {
+        const index = this.vertexNames.indexOf(vertex);
+        if (index === -1) {
+            console.log("Vertex not found.");
+            return;
+        }
+
+        // Remove the vertex's row and column from the matrix
+        this.matrix.splice(index, 1);  // Remove the row
+        for (let i = 0; i < this.matrix.length; i++) {
+            this.matrix[i].splice(index, 1);  // Remove the column
+        }
+
+        // Remove the vertex from the list of vertex names
+        this.vertexNames.splice(index, 1);
+        this.vertexCount--;
+        console.log(`Vertex ${vertex} removed successfully.`);
+    }
+
+    // BFS to find the shortest path (unweighted graph)
+shortestPath(source: string, destination: string): string[] | null {
+    const startIndex = this.vertexNames.indexOf(source);
+    const endIndex = this.vertexNames.indexOf(destination);
+
+    if (startIndex === -1 || endIndex === -1) {
+        console.log("One or both vertices not found.");
+        return null;
+    }
+
+    const queue: number[] = [];  // Queue for BFS
+    const visited: boolean[] = [];  // Visited vertices
+    const prev: number[] = [];  // To store the previous vertex on the path
+    
+    // Initialize visited and previous arrays
+    for (let i = 0; i < this.vertexCount; i++) {
+        visited[i] = false;
+        prev[i] = -1;
+    }
+
+    // Start BFS from the source
+    visited[startIndex] = true;
+    queue.push(startIndex);
+
+    while (queue.length > 0) {
+        const u = queue.shift()!;  // Get the front of the queue
+
+        // If we've reached the destination, break out of the loop
+        if (u === endIndex) {
+            break;
+        }
+
+        // Explore the neighbors of the current vertex
+        for (let v = 0; v < this.vertexCount; v++) {
+            if (!visited[v] && this.matrix[u][v] === 1) {  // Edge exists
+                visited[v] = true;
+                prev[v] = u;
+                queue.push(v);
             }
         }
     }
+
+    // Reconstruct the shortest path
+    let path: string[] = [];
+    let current = endIndex;
+    while (current !== -1) {
+        path.unshift(this.vertexNames[current]);
+        current = prev[current];
+    }
+
+    // If the destination is still not reached, no path exists
+    if (visited[endIndex] === false) {
+        console.log("No path found.");
+        return null;
+    }
+
+    return path;
+}
+
 }
 
 
@@ -150,38 +209,35 @@ export default DirectedGraph;
 
 
 // ---------------------- Rough work: Not for you-------------------------------------
+// // Example usage
+// const graph = new DirectedGraph(5);  // Maximum of 5 vertices allowed
+// // graph.takeUserInput();  // Ask the user to input vertices
+// // graph.displayGraph();   // Display the graph
 
+// // Add some edges
 
-// // Example usage:
-// const graph = new DirectedGraph();
 // graph.addVertex("A");
 // graph.addVertex("B");
 // graph.addVertex("C");
 // graph.addVertex("D");
+// graph.addVertex("E");
+
 // graph.addEdge("A", "B");
-// graph.addEdge("A", "C");
 // graph.addEdge("B", "C");
+// graph.addEdge("A", "C");
 // graph.addEdge("C", "D");
+// graph.addEdge("D", "E");
 
-// console.log("Graph:");
+// // Delete an edge
+// graph.deleteEdge("D", "E");
+
+// // Display the graph after deletion
 // graph.displayGraph();
 
-// console.log("\nNumber of nodes:", graph.numOfNodes());
-// console.log("Number of edges:", graph.numOfEdges());
+// // Find the shortest path
+// const shortestPath = graph.shortestPath("A", "C");
+// console.log("Shortest Path from A to C:", shortestPath);
 
-// console.log("\nShortest path from A to D:", graph.shortestPath("A", "D"));
-// console.log("Longest path from A to D:", graph.longestPath("A", "D"));
-
-// graph.deleteEdge("A", "C");
-// console.log("\nAfter deleting edge A -> C:");
-// graph.displayGraph();
-
+// // Delete a vertex
 // graph.deleteVertex("C");
-// console.log("\nAfter deleting vertex C:");
-// graph.displayGraph();
-
-// console.log("\nShortest path from A to D:", graph.shortestPath("A", "D"));
-
-// graph.clear();
-// console.log("\nAfter clearing the graph:");
-// graph.displayGraph();
+// graph.displayGraph();  // Display the graph after deletion of vertex B
