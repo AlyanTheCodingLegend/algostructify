@@ -1,18 +1,23 @@
-import { main } from "@/app/_backend/_quizModule/_src/app";
 import { NextRequest, NextResponse } from "next/server";
+import { main } from "@/app/_backend/_quizModule/_src/app";
+import { analyzePerformance } from "@/app/_backend/_quizModule/_src/_modules/recommendation";
 
-export function GET() {
-    // get user name from db or other source
+export async function POST(request: NextRequest) {
+  const req = await request.json();
+  console.log("from server: ", req);
 
-    return NextResponse.json({name: "alyan"})
+  const questions = await main(req.value.topic, req.value.difficulty, req.value.answer);
+  return NextResponse.json(questions);
 }
 
-export async function POST(request: NextRequest){
-    const { value } = await request.json()    
+export async function GET(request: NextRequest) {
+  const url = new URL(request.url);
+  const studentId = url.searchParams.get("studentId");
 
-    await main(value.topic, value.difficulty, value.answer-1)
-    
-    return NextResponse.json({})
+  if (studentId) {
+    const recommendations = analyzePerformance(studentId);
+    return NextResponse.json(recommendations);
+  }
+
+  return NextResponse.json({ message: "No studentId provided" });
 }
-
-
