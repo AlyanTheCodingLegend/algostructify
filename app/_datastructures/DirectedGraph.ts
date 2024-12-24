@@ -17,10 +17,10 @@ dfs
 */
 
 class DirectedGraph {
-    private matrix: number[][];  // adjacency matrix to store the graph
-    private vertexNames: string[];  // list of vertex names for easy reference
-    private vertexCount: number;  // track of the number of vertices currently in the graph
-    private maxVertices: number;  // Max number of vertices allowed
+    public matrix: number[][];  // adjacency matrix to store the graph
+    public vertexNames: string[];  // list of vertex names for easy reference
+    public vertexCount: number;  // track of the number of vertices currently in the graph
+    public maxVertices: number;  // Max number of vertices allowed
 
     constructor(maxVertices: number = 4) {
         this.vertexCount = 0;
@@ -83,9 +83,6 @@ class DirectedGraph {
         }
     }
 
-
-    
-
     // Get the number of vertices in the graph
     numOfNodes(): number {
         return this.vertexCount;
@@ -146,63 +143,63 @@ class DirectedGraph {
     }
 
     // BFS to find the shortest path (unweighted graph)
-shortestPath(source: string, destination: string): string[] | null {
-    const startIndex = this.vertexNames.indexOf(source);
-    const endIndex = this.vertexNames.indexOf(destination);
+    shortestPath(source: string, destination: string): string[] | null {
+        const startIndex = this.vertexNames.indexOf(source);
+        const endIndex = this.vertexNames.indexOf(destination);
 
-    if (startIndex === -1 || endIndex === -1) {
-        console.log("One or both vertices not found.");
-        return null;
-    }
-
-    const queue: number[] = [];  // Queue for BFS
-    const visited: boolean[] = [];  // Visited vertices
-    const prev: number[] = [];  // To store the previous vertex on the path
-    
-    // Initialize visited and previous arrays
-    for (let i = 0; i < this.vertexCount; i++) {
-        visited[i] = false;
-        prev[i] = -1;
-    }
-
-    // Start BFS from the source
-    visited[startIndex] = true;
-    queue.push(startIndex);
-
-    while (queue.length > 0) {
-        const u = queue.shift()!;  // Get the front of the queue
-
-        // If we've reached the destination, break out of the loop
-        if (u === endIndex) {
-            break;
+        if (startIndex === -1 || endIndex === -1) {
+            console.log("One or both vertices not found.");
+            return null;
         }
 
-        // Explore the neighbors of the current vertex
-        for (let v = 0; v < this.vertexCount; v++) {
-            if (!visited[v] && this.matrix[u][v] === 1) {  // Edge exists
-                visited[v] = true;
-                prev[v] = u;
-                queue.push(v);
+        const queue: number[] = [];  // Queue for BFS
+        const visited: boolean[] = [];  // Visited vertices
+        const prev: number[] = [];  // To store the previous vertex on the path
+        
+        // Initialize visited and previous arrays
+        for (let i = 0; i < this.vertexCount; i++) {
+            visited[i] = false;
+            prev[i] = -1;
+        }
+
+        // Start BFS from the source
+        visited[startIndex] = true;
+        queue.push(startIndex);
+
+        while (queue.length > 0) {
+            const u = queue.shift()!;  // Get the front of the queue
+
+            // If we've reached the destination, break out of the loop
+            if (u === endIndex) {
+                break;
+            }
+
+            // Explore the neighbors of the current vertex
+            for (let v = 0; v < this.vertexCount; v++) {
+                if (!visited[v] && this.matrix[u][v] === 1) {  // Edge exists
+                    visited[v] = true;
+                    prev[v] = u;
+                    queue.push(v);
+                }
             }
         }
-    }
 
-    // Reconstruct the shortest path
-    let path: string[] = [];
-    let current = endIndex;
-    while (current !== -1) {
-        path.unshift(this.vertexNames[current]);
-        current = prev[current];
-    }
+        // Reconstruct the shortest path
+        let path: string[] = [];
+        let current = endIndex;
+        while (current !== -1) {
+            path.unshift(this.vertexNames[current]);
+            current = prev[current];
+        }
 
-    // If the destination is still not reached, no path exists
-    if (visited[endIndex] === false) {
-        console.log("No path found.");
-        return null;
-    }
+        // If the destination is still not reached, no path exists
+        if (visited[endIndex] === false) {
+            console.log("No path found.");
+            return null;
+        }
 
-    return path;
-}
+        return path;
+    }
 
 bfs(startVertex: string): string[] {
     const startIndex = this.vertexNames.indexOf(startVertex);
