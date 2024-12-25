@@ -12,9 +12,10 @@ type Question = {
   explanation: string;
 };
 
-type Recommendation = {
-  weakTopics: string[];
-  tips: string[];
+type LeaderboardEntry = {
+  studentId: string;
+  score: number;
+  topic: string;
 };
 
 export default function Page() {
@@ -22,8 +23,8 @@ export default function Page() {
   const [render, setRender] = useState<number>(0);
   const [question, setQuestion] = useState<Question | null>(null);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const [recommendations, setRecommendations] = useState<Recommendation | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   const studentId = "student123"; // Replace with actual student ID from context/auth
 
@@ -39,31 +40,28 @@ export default function Page() {
 
       if (Array.isArray(serverData) && serverData.length > 0) {
         setQuestion(serverData[0]);
-      } else {
-        console.error("Invalid data format:", serverData);
+        const difficultyTime = { Easy: 25, Medium: 40, Hard: 60 };
+        setTimeLeft(difficultyTime[serverData[0].difficulty as keyof typeof difficultyTime]);
       }
-
-      setIsCorrect(null);
-      setSelectedOption(null);
     }
     fetchData();
   }, [render]);
 
-  // Fetch recommendations
-  const fetchRecommendations = async () => {
-    const response = await fetch(`/api/getData/?studentId=${studentId}`);
-    const data = await response.json();
-    setRecommendations(data);
-  };
-
-  const handleSubmitAnswer = () => {
-    if (selectedOption !== null && question) {
-      setIsCorrect(selectedOption === question.correctAnswer);
+  // Timer Logic
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+      return () => clearInterval(timerId);
+    } else if (timeLeft === 0) {
+      setRender((prev) => prev + 1); // Skip question
     }
-  };
+  }, [timeLeft]);
 
-  const handleNextQuestion = () => {
-    setRender((prev) => prev + 1);
+  // Fetch leaderboard
+  const fetchLeaderboard = async (topic: string) => {
+    const response = await fetch(`/api/leaderboard?topic=${topic}`);
+    const data = await response.json();
+    setLeaderboard(data);
   };
 
   return (
@@ -71,94 +69,27 @@ export default function Page() {
       <div className="w-full max-w-xl bg-white rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Quiz</h1>
 
-        {/* Topic and Difficulty Selection */}
-        <div className="mb-6">
-          <input
-            type="text"
-            placeholder="Topic"
-            className="w-full mb-2 p-2 border rounded text-gray-700"
-            value={value.topic}
-            onChange={(e) => setValue((prev) => ({ ...prev, topic: e.target.value }))}
-          />
-          <select
-            className="w-full p-2 border rounded"
-            value={value.difficulty}
-            onChange={(e) => setValue((prev) => ({ ...prev, difficulty: e.target.value as "Easy" | "Medium" | "Hard" }))}
-          >
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
+        {/* Timer */}
+        <div className="text-lg font-semibold text-red-600 mb-2">
+          Time Left: {timeLeft}s
         </div>
 
-        {/* Question Display */}
-        {question && (
-          <div>
-            <h2 className="text-lg font-semibold">{question.questionText}</h2>
-            <ul>
-              {question.options.map((option, index) => (
-                <li key={index}>
-                  <button
-                    className={`w-full p-2 my-1 text-left rounded ${
-                      selectedOption === index ? "bg-blue-500 text-white" : "bg-gray-100"
-                    }`}
-                    onClick={() => setSelectedOption(index)}
-                  >
-                    {option}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {/* Leaderboard Button */}
+        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => fetchLeaderboard(value.topic)}>
+          Show Leaderboard
+        </button>
 
-        {/* Feedback Display */}
-        {isCorrect !== null && (
-          <div
-            className={`p-4 mt-4 rounded text-center ${
-              isCorrect ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-            }`}
-          >
-            {isCorrect ? "Correct!" : `Incorrect. ${question?.explanation}`}
-          </div>
-        )}
-
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-4">
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={handleSubmitAnswer}
-            disabled={selectedOption === null || isCorrect !== null}
-          >
-            Submit Answer
-          </button>
-          <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={handleNextQuestion}>
-            Next Question
-          </button>
-        </div>
-
-        {/* Recommendation Section */}
-        <div className="mt-6">
-          <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={fetchRecommendations}>
-            Show Recommendations
-          </button>
-
-          {recommendations && (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold">Topics You Need to Focus On:</h3>
-              <ul>
-                {recommendations.weakTopics.map((topic, index) => (
-                  <li key={index}>{topic}</li>
-                ))}
-              </ul>
-              <h3 className="text-lg font-semibold mt-2">Improvement Tips:</h3>
-              <ul>
-                {recommendations.tips.map((tip, index) => (
-                  <li key={index}>{tip}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+        {/* Leaderboard Display */}
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold">Leaderboard</h3>
+          <ul>
+            {leaderboard.map((entry, index) => (
+              <li key={index} className="flex justify-between">
+                <span>{entry.studentId}</span>
+                <span>{entry.score}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
