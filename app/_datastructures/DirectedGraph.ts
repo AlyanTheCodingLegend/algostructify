@@ -14,7 +14,8 @@ displayGraph
 bfs 
 dfs
 
- */
+*/
+
 class DirectedGraph {
     private matrix: number[][];  // adjacency matrix to store the graph
     private vertexNames: string[];  // list of vertex names for easy reference
