@@ -11,6 +11,9 @@ numOfEdge
 clear
 shortestPath
 displayGraph
+bfs
+dfs
+kruskal
 
  */
 class WeightedUndirectedGraph {
@@ -71,7 +74,7 @@ class WeightedUndirectedGraph {
     // Display the graph as an adjacency matrix
     displayGraph(): void {
         console.log("Adjacency Matrix:");
-        console.log("    " + this.vertexNames.join("  "));
+        console.log("   " + this.vertexNames.join(" "));
 
         for (let i = 0; i < this.vertexCount; i++) {
             let row = `${this.vertexNames[i]}: `;
@@ -214,6 +217,150 @@ class WeightedUndirectedGraph {
 
         return path;
     }
+
+     
+    // Breadth-First Search (BFS) Traversal
+    bfs(startVertex: string): string[] {
+        const startIndex = this.vertexNames.indexOf(startVertex);
+    
+        if (startIndex === -1) {
+            console.log("Vertex not found.");
+            return [];
+        }
+    
+        // Initialize the visited array manually
+        const visited: boolean[] = [];
+        for (let i = 0; i < this.vertexCount; i++) {
+            visited[i] = false;
+        }
+    
+        const queue: number[] = []; // Queue for BFS
+        const result: string[] = []; // Stores the traversal order
+    
+        // Start BFS from the given vertex
+        queue.push(startIndex);
+        visited[startIndex] = true;
+    
+        while (queue.length > 0) {
+            // shift() removes the first element from the array and returns it
+            const currentIndex = queue.shift()!;
+            result.push(this.vertexNames[currentIndex]);
+
+            // Visit all neighbors of the current vertex
+            for (let i = 0; i < this.vertexCount; i++) {
+                if (this.matrix[currentIndex][i] !== Infinity && !visited[i]) {
+                    queue.push(i);
+                    visited[i] = true;
+                }
+            }
+        }
+    
+        return result;
+    }
+
+       // Depth-First Search (DFS) Traversal
+// Depth-First Search (DFS) Traversal using an Explicit Stack
+dfs(startVertex: string): string[] {
+    const startIndex = this.vertexNames.indexOf(startVertex);
+
+    if (startIndex === -1) {
+        console.log("Vertex not found.");
+        return [];
+    }
+
+    const visited: boolean[] = [];
+    for (let i = 0; i < this.vertexCount; i++) {
+        visited[i] = false;
+    }
+
+    const result: string[] = []; // Stores the traversal order
+    const stack: number[] = []; 
+
+    // Start DFS from the given vertex
+    stack.push(startIndex);
+
+    while (stack.length > 0) {
+        const currentIndex = stack.pop()!;
+
+        if (!visited[currentIndex]) {
+            visited[currentIndex] = true;
+            result.push(this.vertexNames[currentIndex]);
+
+            // Push all unvisited neighbors onto the stack
+            for (let i = this.vertexCount - 1; i >= 0; i--) {
+                if (this.matrix[currentIndex][i] !== Infinity && !visited[i]) {
+                    stack.push(i);
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+// Kruskal's Algorithm to find Minimum Spanning Tree (MST)
+kruskal() {
+    // Step 1: Save all upper triangular vertices and their weights into a data structure
+    let edges: { start: number; end: number; weight: number }[] = [];
+
+    for (let i = 0; i < this.vertexCount; i++) {
+        for (let j = i + 1; j < this.vertexCount; j++) {
+            if (this.matrix[i][j] !== Infinity) {
+                edges.push({ start: i, end: j, weight: this.matrix[i][j] });
+            }
+        }
+    }
+
+    // Step 2: Sort edges by weight using insertion sort
+    for (let i = 1; i < edges.length; i++) {
+        let key = edges[i];
+        let j = i - 1;
+
+        // Compare weights and place the current edge in its sorted position
+        while (j >= 0 && edges[j].weight > key.weight) {
+            edges[j + 1] = edges[j];
+            j--;
+        }
+        edges[j + 1] = key;
+    }
+
+    // Step 3: Initialize output matrix (without using fill)
+    let outputMatrix: number[][] = [];
+    for (let i = 0; i < this.vertexCount; i++) {
+        outputMatrix[i] = [];
+        for (let j = 0; j < this.vertexCount; j++) {
+            outputMatrix[i][j] = Infinity;
+        }
+    }
+
+    let edgeCount = 0;
+    let addedVertices = new Set<number>(); //to ensure no cycles
+
+    // Step 4: Add edges to the output matrix while ensuring no cycles
+    for (const edge of edges) {
+        const { start, end, weight } = edge;
+
+        // Ensure no cycle by checking that both vertices are not already in the output
+        if (!(addedVertices.has(start) && addedVertices.has(end))) {
+            // Add edge to the output matrix
+            outputMatrix[start][end] = weight;
+            outputMatrix[end][start] = weight; // For undirected graphs
+
+            // Add the vertices to the set of included vertices
+            addedVertices.add(start);
+            addedVertices.add(end);
+            edgeCount++;
+
+            // Stop if we have n-1 edges
+            if (edgeCount === this.vertexCount - 1) {
+                break;
+            }
+        }
+    }
+
+    return outputMatrix;
+}
+    
 }
 
 export default WeightedUndirectedGraph;
@@ -223,13 +370,14 @@ export default WeightedUndirectedGraph;
 
 // // Create a graph with a maximum of 5 vertices
 // const graph = new WeightedUndirectedGraph(5);
-
+// // console.log(graph.dfs("B"));
 // // Add vertices to the graph
 // graph.addVertex("A");
 // graph.addVertex("B");
 // graph.addVertex("C");
 // graph.addVertex("D");
 // graph.addVertex("E");
+// console.log(graph.dfs("B"));
 
 // // Add weighted edges between vertices
 // graph.addEdge("A", "B", 4);  // Edge from A to B with weight 4
@@ -240,16 +388,20 @@ export default WeightedUndirectedGraph;
 // graph.addEdge("C", "E", 5);  // Edge from C to E with weight 5
 // graph.addEdge("D", "E", 3);  // Edge from D to E with weight 3
 
+// graph.kruskal();
+
+
+// // console.log(graph.dfs("B"));
 // // Display the graph's adjacency matrix
 // graph.displayGraph();
 
 // // Find the shortest path from vertex "A" to "E" using Dijkstra's algorithm
-// const shortestPath = graph.shortestPath("A", "E");
-// console.log("Shortest path from A to E:", shortestPath);
-// graph.deleteEdge("D", "E");
-// graph.displayGraph();
-// graph.deleteVertex("E");
-// graph.displayGraph();
+// // const shortestPath = graph.shortestPath("A", "E");
+// // console.log("Shortest path from A to E:", shortestPath);
+// // graph.deleteEdge("D", "E");
+// // graph.displayGraph();
+// // graph.deleteVertex("E");
+// // graph.displayGraph();
 
 // // Find the shortest path from vertex "B" to "D"
 // const shortestPath2 = graph.shortestPath("B", "D");
