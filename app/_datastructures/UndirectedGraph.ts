@@ -11,7 +11,8 @@ numOfEdge
 clear
 shortestPath
 displayGraph
-
+bfs 
+dfs
  */
 class UndirectedGraph {
     private matrix: number[][];  // adjacency matrix to store the graph
@@ -197,6 +198,81 @@ class UndirectedGraph {
     
         return path;
     }
+
+    bfs(startVertex: string): string[] {
+        const startIndex = this.vertexNames.indexOf(startVertex);
+    
+        if (startIndex === -1) {
+            console.log("Vertex not found.");
+            return [];
+        }
+    
+        const visited: boolean[] = []; // Initialize empty visited array
+        for (let i = 0; i < this.vertexCount; i++) {
+            visited[i] = false; // Set each index to false explicitly
+        }
+    
+        const result: string[] = []; // To store traversal order
+        const queue: number[] = []; // BFS queue
+    
+        // Start BFS from the given vertex
+        visited[startIndex] = true;
+        queue.push(startIndex);
+    
+        while (queue.length > 0) {
+            const currentIndex = queue.shift()!;
+            result.push(this.vertexNames[currentIndex]);
+    
+            // Explore neighbors of the current vertex
+            for (let i = 0; i < this.vertexCount; i++) {
+                if (this.matrix[currentIndex][i] !== 0 && !visited[i]) {
+                    visited[i] = true;
+                    queue.push(i);
+                }
+            }
+        }
+    
+        return result;
+    }
+    
+    
+    // dfs code
+    dfs(startVertex: string): string[] {
+        const startIndex = this.vertexNames.indexOf(startVertex);
+    
+        if (startIndex === -1) {
+            console.log("Vertex not found.");
+            return [];
+        }
+    
+        const visited: boolean[] = []; // Initialize empty visited array
+        for (let i = 0; i < this.vertexCount; i++) {
+            visited[i] = false; // Set each index to false explicitly
+        }
+        
+        const result: string[] = []; // Stores the traversal order
+        const stack: number[] = []; // Stack for DFS
+    
+        // Push the start vertex to the stack
+        stack.push(startIndex);
+    
+        while (stack.length > 0) {
+            const currentIndex = stack.pop()!; // Pop the top of the stack
+            if (!visited[currentIndex]) {
+                visited[currentIndex] = true;
+                result.push(this.vertexNames[currentIndex]);
+    
+                // Visit all neighbors of the current vertex (push to stack)
+                for (let i = 0; i < this.vertexCount; i++) {
+                    if (this.matrix[currentIndex][i] !== 0 && !visited[i]) {
+                        stack.push(i); // Push unvisited neighbors to stack
+                    }
+                }
+            }
+        }
+    
+        return result;
+    }
     
   }
   
@@ -206,30 +282,32 @@ class UndirectedGraph {
   
   
   // ---------------------- Rough work: Not for you-------------------------------------
-  // Example usage
+//   // Example usage
 //   const graph = new UndirectedGraph(5);  // Maximum of 5 vertices allowed
   
 //   graph.displayGraph();   // Display the graph
   
-//   // Add some edges
-  
+// // Add some edges
+// console.log(graph.dfs("A"));
 //   graph.addVertex("A");
 //   graph.addVertex("B");
 //   graph.addVertex("C");
 //   graph.addVertex("D");
-//   graph.addVertex("E");
+//   graph.addVertex("f");
+//   console.log(graph.dfs("A"));
   
 //   graph.addEdge("A", "B");
 //   graph.addEdge("B", "C");
 //   graph.addEdge("A", "C");
 //   graph.addEdge("C", "D");
-//   graph.addEdge("D", "E");
-  
+//   graph.addEdge("D", "f");
+//   console.log(graph.dfs("A"));
+//   console.log(graph.dfs("B"));
 //     const sortestPath = graph.shortestPath("A", "C");
 // console.log("Shortest Path from A to C:", sortestPath);
 
 //   // Delete an edge
-//   graph.deleteEdge("D", "E");
+//   graph.deleteEdge("D", "f");
   
 //   // Display the graph after deletion
 //   graph.displayGraph();
