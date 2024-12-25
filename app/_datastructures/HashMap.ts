@@ -14,7 +14,7 @@ printAll: Print all keys-values */
 
 
 class HashMap<K, V> {
-    private map: Array<[K, V] | null>;
+    public map: Array<[K, V] | null>;
   
     constructor(size: number = 16) {
         this.map = new Array(size);

@@ -1,4 +1,11 @@
 import type { Question } from "../_types/questions";
+import { updatePerformance } from "./performance";
+
+function completeQuiz(studentId: string, topic: string, correct: number, attempted: number, time: number) {
+  // Update performance data
+  updatePerformance(studentId, topic, correct, attempted, time);
+}
+
 
 // Filter questions by topic and difficulty
 export function getQuestions(questions: Question[], topic: string, difficulty: "Easy" | "Medium" | "Hard"): Question[] {
