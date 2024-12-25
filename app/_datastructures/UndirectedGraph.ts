@@ -14,10 +14,10 @@ displayGraph
 
  */
 class UndirectedGraph {
-    private matrix: number[][];  // adjacency matrix to store the graph
-    private vertexNames: string[];  // list of vertex names for easy reference
-    private vertexCount: number;  // track of the number of vertices currently in the graph
-    private maxVertices: number;  // Max number of vertices allowed
+    public matrix: number[][];  // adjacency matrix to store the graph
+    public vertexNames: string[];  // list of vertex names for easy reference
+    public vertexCount: number;  // track of the number of vertices currently in the graph
+    public maxVertices: number;  // Max number of vertices allowed
   
     constructor(maxVertices: number = 4) {
         this.vertexCount = 0;
