@@ -6,9 +6,9 @@ type VertexProps = {
     adjMatrix: number[];
     svgRef: React.RefObject<SVGSVGElement>;
     renderTrigger: number;
-};
+}
 
-export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }: VertexProps) {
+export default function Vertex({index, name, adjMatrix, svgRef, renderTrigger}: VertexProps) {
     const [position, setPosition] = useState({ top: 0, left: 0 });
 
     const isColliding = () => {
@@ -17,8 +17,22 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
 
         const currentRect = currentVertex.getBoundingClientRect();
 
+        const header = document.getElementById("header");
+        if (!header) return false;
+
+        const headerRect = header.getBoundingClientRect();
+
+        if (
+            currentRect.top < headerRect.bottom ||
+            currentRect.bottom > window.innerHeight ||
+            currentRect.left < 0 ||
+            currentRect.right > window.innerWidth
+        ) {
+            return true;
+        }
+
         const colliding = adjMatrix.map((edge, i) => {
-            if (i !== index) {
+            if (i!==index) {
                 const node = document.getElementById(`${i}`);
                 if (!node) return;
                 const rect = node.getBoundingClientRect();
@@ -35,7 +49,7 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
 
         return colliding.includes(true);
     };
-
+    
     useEffect(() => {
         let randomTop: number;
         let randomLeft: number;
@@ -52,13 +66,13 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
     useEffect(() => {
         const children: number[] = [];
 
-        const currentNode = document.getElementById(`${index}`);
+        const currentNode = document.getElementById(`${index}`)
         if (!currentNode || !svgRef.current) return;
 
         const currentRect = currentNode.getBoundingClientRect();
 
         adjMatrix.forEach((edge, i) => {
-            if (i !== index && edge === 1) {
+            if (i!==index && edge === 1 && index<i) {
                 children.push(i);
             }
         });
@@ -77,17 +91,16 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
             );
 
             if (svgRef.current && path) {
-                const oldPathElement = svgRef.current.getElementById(`${index}-${childIndex}`);
+                const oldPathElement = svgRef.current.getElementById(`${index}-${childIndex}`); // Get the old path element);
                 if (oldPathElement) {
-                    svgRef.current.removeChild(oldPathElement);
+                    svgRef.current.removeChild(oldPathElement); // Removes the path from the SVG
                 }
                 const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 pathElement.setAttribute("d", path);
-                pathElement.setAttribute("stroke", "#3B82F6"); // Blue stroke for better visibility
+                pathElement.setAttribute("stroke", "black");
                 pathElement.setAttribute("fill", "transparent");
-                pathElement.setAttribute("stroke-width", "3");
+                pathElement.setAttribute("strokeWidth", "4");
                 pathElement.setAttribute("id", `${index}-${childIndex}`);
-                pathElement.setAttribute("marker-end", "url(#arrowhead)");
 
                 svgRef.current.appendChild(pathElement);
             }
@@ -101,6 +114,7 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
                 }
             });
         };
+
     }, [adjMatrix, svgRef, index, renderTrigger]);
 
     const createPath = (x1: number, y1: number, x2: number, y2: number) => {
@@ -108,17 +122,16 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
     };
 
     return (
-        <div
-            id={index.toString()}
-            key={index}
-            style={{
-                position: "absolute",
-                top: `${position.top}px`,
-                left: `${position.left}px`,
-            }}
-            className="h-20 w-20 bg-gradient-to-br from-blue-500 to-blue-700 text-white text-center flex items-center justify-center rounded-full shadow-lg transition-transform transform hover:scale-110 cursor-pointer"
-        >
-            <span className="font-bold text-lg">{name}</span>
+        <div 
+          id={index.toString()}
+          key={index}
+          style={{
+            position: "absolute",
+            top: `${position.top}px`,
+            left: `${position.left}px`,
+          }}
+          className="h-20 w-20 bg-red-600 text-white text-center items-center justify-center">
+            {name}
         </div>
     );
 }
