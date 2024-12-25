@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 
 type Question = {
   id: number;
@@ -27,6 +28,9 @@ export default function Page() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [recommendations, setRecommendations] = useState<Recommendation | null>(null);
   const [timer, setTimer] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
+  const [progress, setProgress] = useState<number>(0); // Percentage progress
+  const [badge, setBadge] = useState<string | null>(null);
 
   const studentId = "student123"; // Replace with actual student ID from context/auth
 
@@ -42,6 +46,7 @@ export default function Page() {
 
       if (Array.isArray(serverData) && serverData.length > 0) {
         setQuestion(serverData[0]);
+        setProgress((prev) => prev + 10); // Increment progress by 10% for each question
       } else {
         console.error("Invalid data format:", serverData);
       }
@@ -80,15 +85,53 @@ export default function Page() {
     setRecommendations(data);
   };
 
+  // Handle answer submission
   const handleSubmitAnswer = () => {
     if (selectedOption !== null && question) {
-      setIsCorrect(selectedOption === question.correctAnswer);
+      const isAnswerCorrect = selectedOption === question.correctAnswer;
+      setIsCorrect(isAnswerCorrect);
+
+      if (isAnswerCorrect) {
+        const points = question.difficulty === "Easy" ? 10 : question.difficulty === "Medium" ? 20 : 30;
+        setScore((prev) => prev + points);
+
+        // Check for badge milestones
+        if (score + points >= 100) setBadge("100 Points Achieved!");
+        else if (points >= 50) setBadge("Great Start!");
+      }
     }
   };
 
+  // Handle next question
   const handleNextQuestion = () => {
     setRender((prev) => prev + 1);
   };
+
+  // Chart Data for Recommendations
+  const chartData = recommendations
+    ? {
+        labels: [
+          ...recommendations.weakTopics.map((t) => t.topic),
+          ...recommendations.moderateTopics.map((t) => t.topic),
+          ...recommendations.strongTopics.map((t) => t.topic),
+        ],
+        datasets: [
+          {
+            label: "Performance (in %)",
+            data: [
+              ...recommendations.weakTopics.map((t) => t.threshold),
+              ...recommendations.moderateTopics.map((t) => t.threshold),
+              ...recommendations.strongTopics.map((t) => t.threshold),
+            ],
+            backgroundColor: [
+              ...recommendations.weakTopics.map(() => "red"),
+              ...recommendations.moderateTopics.map(() => "yellow"),
+              ...recommendations.strongTopics.map(() => "green"),
+            ],
+          },
+        ],
+      }
+    : null;
 
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen bg-gray-100 p-4">
@@ -100,29 +143,25 @@ export default function Page() {
           <div className="text-lg font-bold text-gray-700 mb-4">Time Remaining: {timer}s</div>
         )}
 
-        {/* Topic and Difficulty Selection */}
-        <div className="mb-6">
-          <input
-            type="text"
-            placeholder="Topic"
-            className="w-full mb-2 p-2 border rounded text-gray-700"
-            value={value.topic}
-            onChange={(e) => setValue((prev) => ({ ...prev, topic: e.target.value }))}
-          />
-          <select
-            className="w-full p-2 border rounded"
-            value={value.difficulty}
-            onChange={(e) =>
-              setValue((prev) => ({ ...prev, difficulty: e.target.value as "Easy" | "Medium" | "Hard" }))
-            }
-          >
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
+        {/* Score and Progress */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-lg font-bold text-blue-700">Score: {score}</div>
+          <div className="w-2/3 bg-gray-200 h-4 rounded-lg">
+            <div
+              className="bg-blue-500 h-4 rounded-lg"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
         </div>
 
-        {/* Question Display */}
+        {/* Badge Display */}
+        {badge && (
+          <div className="text-center bg-green-100 text-green-700 p-2 rounded-lg mb-4">
+            🎉 {badge}
+          </div>
+        )}
+
+        {/* Question and Options */}
         {question && (
           <div>
             <h2 className="text-lg font-semibold">{question.questionText}</h2>
@@ -168,57 +207,16 @@ export default function Page() {
           </button>
         </div>
 
-        {/* Recommendation Section */}
+        {/* Recommendations */}
         <div className="mt-6">
           <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={fetchRecommendations}>
             Show Recommendations
           </button>
 
-          {recommendations && (
+          {recommendations && chartData && (
             <div className="mt-6">
               <h3 className="text-lg font-bold text-gray-800">Performance Summary</h3>
-
-              <div className="mt-4">
-                <h4 className="text-md font-semibold text-red-600">Weak Topics:</h4>
-                <ul>
-                  {recommendations.weakTopics.map((topic, index) => (
-                    <li key={index}>
-                      {topic.topic}: {topic.threshold.toFixed(2)}%
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-4">
-                <h4 className="text-md font-semibold text-yellow-600">Moderate Topics:</h4>
-                <ul>
-                  {recommendations.moderateTopics.map((topic, index) => (
-                    <li key={index}>
-                      {topic.topic}: {topic.threshold.toFixed(2)}%
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-4">
-                <h4 className="text-md font-semibold text-green-600">Strong Topics:</h4>
-                <ul>
-                  {recommendations.strongTopics.map((topic, index) => (
-                    <li key={index}>
-                      {topic.topic}: {topic.threshold.toFixed(2)}%
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-4">
-                <h4 className="text-md font-semibold">Improvement Tips:</h4>
-                <ul>
-                  {recommendations.tips.map((tip, index) => (
-                    <li key={index}>{tip}</li>
-                  ))}
-                </ul>
-              </div>
+              <Bar data={chartData} />
             </div>
           )}
         </div>
