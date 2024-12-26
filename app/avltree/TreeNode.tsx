@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { TreeNode as TreeNodeClass } from "../_datastructures/BinaryTree";
+import { AvlNode } from "../_datastructures/AVLTree";
 
 type TreeNodeProps = {
-    node: TreeNodeClass<number> | null;
+    node: AvlNode<number> | null;
     index: number;
     type: "left" | "right" | "root";
     svgRef: React.RefObject<SVGSVGElement>;
@@ -78,7 +78,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, r
                         : "border-green-500 bg-green-100"
                 }`}
             >
-                <span>{node.count>1 ? `${node.data} (${node.count})` : node.data}</span>
+                <span>{node.count>1 ? `${node.value} (${node.count})` : node.value}</span>
             </div>
 
             {/* Left and Right Children */}
