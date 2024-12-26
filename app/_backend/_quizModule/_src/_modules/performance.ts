@@ -40,7 +40,7 @@ export function updatePerformance(
   if (!performance[studentId]) performance[studentId] = { topics: {} };
 
   performance[studentId].topics[topic] = {
-    topic, // Add missing 'topic' property
+    topic, 
     correct: (performance[studentId].topics[topic]?.correct || 0) + correct,
     attempted: (performance[studentId].topics[topic]?.attempted || 0) + attempted,
     time: (performance[studentId].topics[topic]?.time || 0) + time,
