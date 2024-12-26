@@ -1,4 +1,3 @@
-// app.ts
 "use server";
 
 import readline from "readline";
@@ -12,7 +11,7 @@ const rl = readline.createInterface({
 });
 
 // Main function to start the quiz
-export async function main(topic: string, difficulty: "Easy" | "Medium" | "Hard", answer: number) {
+export async function main(topic: string, difficulty: "Easy" | "Medium" | "Hard", answer: number, numQuestions: 5 | 10) {
   console.log("Welcome to the DSA Quiz!");
 
   // Load the questions directly into the 'questionsMap' (HashMap)
@@ -27,9 +26,12 @@ export async function main(topic: string, difficulty: "Easy" | "Medium" | "Hard"
   // Step 1: Shuffle the questions using the modified Fisher-Yates algorithm
   const shuffledQuestions = shuffleMap(questionsMap);
 
-  // Step 2: Conduct the quiz
+  // Step 2: Select the required number of questions (5 or 10)
+  const selectedQuestions = shuffledQuestions.slice(0, numQuestions);
+
+  // Step 3: Conduct the quiz
   const userAnswers: { questionId: number; selectedOption: number }[] = [];
-  for (const question of shuffledQuestions) {
+  for (const question of selectedQuestions) {
     console.log(`\n${question.questionText}`);
     question.options.forEach((option, index) => console.log(`${index + 1}. ${option}`));
 
@@ -37,9 +39,9 @@ export async function main(topic: string, difficulty: "Easy" | "Medium" | "Hard"
     userAnswers.push({ questionId: question.id, selectedOption: answer });
   }
 
-  // Step 3: Calculate the final score
-  const score = calculateScore(userAnswers, shuffledQuestions);
-  console.log(`\nYour final score is: ${score}/${shuffledQuestions.length}`);
+  // Step 4: Calculate the final score
+  const score = calculateScore(userAnswers, selectedQuestions);
+  console.log(`\nYour final score is: ${score}/${selectedQuestions.length}`);
   rl.close();
-  return shuffledQuestions;
+  return selectedQuestions;
 }

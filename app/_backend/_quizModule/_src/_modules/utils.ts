@@ -9,7 +9,7 @@ export function loadQuestions(topic: string, difficulty: "Easy" | "Medium" | "Ha
   // Filter the questions based on the topic and difficulty
   data.forEach((question) => {
     if (question.topic === topic && question.difficulty === difficulty) {
-      questionsMap.set(question.id, { ...question, difficulty: question.difficulty as "Easy" | "Medium" | "Hard" });
+      questionsMap.set(question.id, { ...question, difficulty: question.difficulty as "Easy" | "Medium" |"Hard" });
     }
   });
 

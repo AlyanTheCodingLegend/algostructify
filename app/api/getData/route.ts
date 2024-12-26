@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Leaderboard updated" });
   }
 
-  const questions = await main(req.value.topic, req.value.difficulty, req.value.answer);
+  const questions = await main(req.value.topic, req.value.difficulty, req.value.answer,req.value.numQuestions);
   return NextResponse.json(questions);
 }
 
