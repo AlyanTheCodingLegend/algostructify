@@ -1,21 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import BinaryTree from "../_datastructures/BinaryTree";
+import AVLTree from "../_datastructures/AVLTree";
 import { TreeNode } from "./TreeNode";
 import { toast } from "react-toastify";
 
 export default function Page() {
-    const [tree] = useState(new BinaryTree<number>());
+    const [tree] = useState(new AVLTree<number>());
     const [renderTrigger, setRenderTrigger] = useState(0);
-    const [deleteLeftVal, setDeleteLeftVal] = useState(1);
-    const [deleteRightVal, setDeleteRightVal] = useState(1);
     const [insertVal, setInsertVal] = useState(1);
+    const [deleteVal, setDeleteVal] = useState(1);
+    const svgRef = useRef<SVGSVGElement>(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [traversalInProcess, setTraversalInProcess] = useState(false);
     const [scrollY, setScrollY] = useState(0);
-
-    const svgRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
         const handleResize = () => {
@@ -41,44 +39,14 @@ export default function Page() {
     const forceRender = () => setRenderTrigger((prev) => prev + 1);
 
     const insertNode = (data: number) => {
-        // if (tree.getHeight(tree.root) > 6) {
-        //     if (tree.wouldIncreaseHeight(data)) {
-        //         toast.error("Binary Tree is too large.");
-        //         return;
-        //     }
-        // }
         tree.insert(data);
         forceRender();
-        // toast.success(`Node with data: ${data} inserted successfully.`);
     };
 
-    const deleteNodeLeft = (data: number) => {
-        if (!tree.root) {
-            toast.error("No nodes in the Binary Tree.");
-            return;
-        }
-        tree.deleteNodeLeft(data, (node)=> {
-            const pathToDelete = svgRef.current?.getElementById(`${node.index}`);
-            if (pathToDelete) {
-                svgRef.current?.removeChild(pathToDelete);
-            }
-        });
+    const deleteNode = (data: number) => {
+        tree.delete(data);
         forceRender();
-    }
-
-    const deleteNodeRight = (data: number) => {
-        if (!tree.root) {
-            toast.error("No nodes in the Binary Tree.");
-            return;
-        }
-        tree.deleteNodeRight(data, (node)=> {
-            const pathToDelete = svgRef.current?.getElementById(`${node.index}`);
-            if (pathToDelete) {
-                svgRef.current?.removeChild(pathToDelete);
-            }
-        });
-        forceRender();
-    }
+    };
 
     const preOrderTraversal = () => {
         if (!tree.root) {
@@ -89,7 +57,7 @@ export default function Page() {
         setTraversalInProcess(true);
         let delay = 0;
 
-        tree.preOrderTraversal(tree.root, (index) => {
+        tree.preOrderTraversal((index) => {
             setTimeout(() => {
                 setCurrentIndex(index);
             }, delay += 1000);
@@ -110,7 +78,7 @@ export default function Page() {
         setTraversalInProcess(true);
         let delay = 0;
 
-        tree.inOrderTraversal(tree.root, (index) => {
+        tree.inOrderTraversal((index) => {
             setTimeout(() => {
                 setCurrentIndex(index);
             }, delay += 1000);
@@ -131,7 +99,7 @@ export default function Page() {
         setTraversalInProcess(true);
         let delay = 0;
 
-        tree.postOrderTraversal(tree.root, (index) => {
+        tree.postOrderTraversal((index) => {
             setTimeout(() => {
                 setCurrentIndex(index);
             }, delay += 1000);
@@ -156,7 +124,7 @@ export default function Page() {
     return (
         <div className="flex flex-col items-center justify-center h-screen w-screen">
             <h1 className="text-4xl font-semibold text-center">
-                Binary Tree
+                AVL Tree
             </h1>
             <div className="flex items-center z-10 justify-center space-x-4">
                 <div
@@ -168,14 +136,8 @@ export default function Page() {
                 <div
                     className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
-                    <input className="text-black" value={deleteLeftVal} onChange={(event)=>setDeleteLeftVal(Number(event.target.value))} />
-                    <button onClick={() => deleteNodeLeft(deleteLeftVal)}>Delete Left Node</button>
-                </div>
-                <div
-                    className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
-                >
-                    <input className="text-black" value={deleteRightVal} onChange={(event)=>setDeleteRightVal(Number(event.target.value))} />
-                    <button onClick={() => deleteNodeRight(deleteRightVal)}>Delete Right Node</button>
+                    <input className="text-black" value={deleteVal} onChange={(event)=>setDeleteVal(Number(event.target.value))} />
+                    <button onClick={() => deleteNode(deleteVal)}>Delete Node</button>
                 </div>
                 <button
                     className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
