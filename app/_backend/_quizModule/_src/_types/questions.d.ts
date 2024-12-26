@@ -4,13 +4,12 @@ export interface Question {
   difficulty: "Easy" | "Medium" | "Hard";
   questionText: string;
   options: string[];
-  correctAnswer: number; // Index of the correct option
+  correctAnswer: number; 
   explanation?: string;
 }
 
 export interface Quiz {
   topic: string;
-  difficulty: "Easy" | "Medium" | "Hard";
+  difficulty: "Easy" | "Medium" | "Hard" ;
   questions: Question[];
 }
-  
