@@ -21,10 +21,9 @@ type Recommendation = {
 };
 
 export default function Page() {
-  const [value, setValue] = useState({ topic: "", difficulty: "Easy" as "Easy" | "Medium" | "Hard" });
+  const [value, setValue] = useState({ topic: "", difficulty: "Easy" as "Easy" | "Medium" | "Hard", answer: -1, numQuestions: 5 });
   const [render, setRender] = useState<number>(0);
   const [question, setQuestion] = useState<Question | null>(null);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [recommendations, setRecommendations] = useState<Recommendation | null>(null);
   const [timer, setTimer] = useState<number>(0);
@@ -37,8 +36,8 @@ export default function Page() {
   // Fetch quiz questions
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("/api/getData/", {
-        body: JSON.stringify({ value }),
+      const response = await fetch("/api/getQuestions/", {
+        body: JSON.stringify({ value, studentId, score }),
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
@@ -52,7 +51,6 @@ export default function Page() {
       }
 
       setIsCorrect(null);
-      setSelectedOption(null);
     }
     fetchData();
   }, [render]);
@@ -87,8 +85,8 @@ export default function Page() {
 
   // Handle answer submission
   const handleSubmitAnswer = () => {
-    if (selectedOption !== null && question) {
-      const isAnswerCorrect = selectedOption === question.correctAnswer;
+    if (value.answer !== -1 && question) {
+      const isAnswerCorrect = value.answer === question.correctAnswer;
       setIsCorrect(isAnswerCorrect);
 
       if (isAnswerCorrect) {
@@ -170,9 +168,9 @@ export default function Page() {
                 <li key={index}>
                   <button
                     className={`w-full p-2 my-1 text-left rounded ${
-                      selectedOption === index ? "bg-blue-500 text-white" : "bg-gray-100"
+                      value.answer === index ? "bg-blue-500 text-white" : "bg-gray-100"
                     }`}
-                    onClick={() => setSelectedOption(index)}
+                    onClick={() => setValue({ ...value, answer: index })}
                   >
                     {option}
                   </button>
@@ -198,7 +196,7 @@ export default function Page() {
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={handleSubmitAnswer}
-            disabled={selectedOption === null || isCorrect !== null}
+            disabled={value.answer === -1 || isCorrect !== null}
           >
             Submit Answer
           </button>
