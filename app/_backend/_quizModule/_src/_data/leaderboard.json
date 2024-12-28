@@ -1,0 +1,33 @@
+[
+    {
+      "studentId": "student1",
+      "score": 75,
+      "topic": "Arrays"
+    },
+    {
+      "studentId": "student2",
+      "score": 80,
+      "topic": "Queues"
+    },
+    {
+      "studentId": "student3",
+      "score": 90,
+      "topic": "Stacks"
+    },
+    {
+      "studentId": "student1",
+      "score": 70,
+      "topic": "Linked Lists"
+    },
+    {
+      "studentId": "student2",
+      "score": 85,
+      "topic": "Graphs"
+    },
+    {
+      "studentId": "student3",
+      "score": 65,
+      "topic": "Trees"
+    }
+  ]
+  
