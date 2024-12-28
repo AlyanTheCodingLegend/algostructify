@@ -7,10 +7,11 @@ export async function POST(request: NextRequest) {
   console.log("from server: ", req);
 
   const { studentId, score, topic } = req;
+  
   if (req) {
     updateLeaderboard(studentId, score, topic);
-    return NextResponse.json({ message: "Leaderboard updated" });
+    return NextResponse.json({ success: true, message: "Leaderboard updated" });
   } else {
-    return NextResponse.json({ message: "Invalid request" });
+    return NextResponse.json({ success: false, message: "Invalid request" });
   }
 }
