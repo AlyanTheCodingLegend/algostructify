@@ -6,9 +6,10 @@ type VertexProps = {
     adjMatrix: number[];
     svgRef: React.RefObject<SVGSVGElement>;
     renderTrigger: number;
+    currentIndex: number;
 };
 
-export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }: VertexProps) {
+export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger, currentIndex }: VertexProps) {
     const [position, setPosition] = useState({ top: 0, left: 0 });
 
     const isColliding = () => {
@@ -69,11 +70,21 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
 
             const childRect = childNode.getBoundingClientRect();
 
+            let x1 = currentRect.left + currentRect.width / 2;
+            let y1 = currentRect.bottom;
+            let x2 = childRect.left + childRect.width / 2;
+            let y2 = childRect.top;
+
+            if (childRect.top > currentRect.top) {
+                y1 = currentRect.top;
+                y2 = childRect.bottom;
+            }
+
             const path = createPath(
-                currentRect.left + currentRect.width / 2, // X center of current node
-                currentRect.bottom, // Y bottom of current node
-                childRect.left + childRect.width / 2, // X center of child node
-                childRect.top // Y top of child node
+                x1 + window.scrollX,
+                y1 + window.scrollY,
+                x2 + window.scrollX,
+                y2 + window.scrollY
             );
 
             if (svgRef.current && path) {
@@ -116,7 +127,7 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger }
                 top: `${position.top}px`,
                 left: `${position.left}px`,
             }}
-            className="h-20 w-20 bg-gradient-to-br from-blue-500 to-blue-700 text-white text-center flex items-center justify-center rounded-full shadow-lg transition-transform transform hover:scale-110 cursor-pointer"
+            className={`h-20 w-20 text-white text-center flex items-center justify-center shadow-lg transition-transform transform hover:scale-110 cursor-pointer ${currentIndex===index ? "bg-yellow-500" : "bg-blue-400"}`}
         >
             <span className="font-bold text-lg">{name}</span>
         </div>

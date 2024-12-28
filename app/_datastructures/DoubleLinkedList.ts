@@ -8,21 +8,23 @@
 // search(returns location of value)
 
 
-class ListNode<T> {
+export class ListNode<T> {
     data: T;
     next: ListNode<T> | null;
     prev: ListNode<T> | null;
+    index: number;
 
     constructor(data: T) {
         this.data = data;
         this.next = null;
         this.prev = null;
+        this.index = -1;
     }
 }
 
 class DoublyLinkedList<T> {
-    private head: ListNode<T> | null;
-    private tail: ListNode<T> | null;
+    public head: ListNode<T> | null;
+    public tail: ListNode<T> | null;
 
     constructor() {
         this.head = null;
