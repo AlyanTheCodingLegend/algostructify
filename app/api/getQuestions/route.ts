@@ -5,6 +5,6 @@ export async function POST(request: NextRequest) {
   const req = await request.json();
   console.log("from server: ", req);
 
-  const questions = await main(req.value.topic, req.value.difficulty, req.value.answer,req.value.numQuestions);
+  const questions = await main(req.value.topic, req.value.difficulty, req.value.answer, req.value.numQuestions);
   return NextResponse.json(questions);
 }
