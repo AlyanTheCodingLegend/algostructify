@@ -15,7 +15,7 @@ interface StudentPerformance {
   };
 }
 
-const PERFORMANCE_FILE = "./_data/performance.json";
+const PERFORMANCE_FILE = "./app/_backend/_quizModule/_src/_data/performance.json";
 
 // Load performance data
 export function loadPerformanceData(): StudentPerformance {

@@ -1,6 +1,6 @@
 import fs from "fs";
 
-const LEADERBOARD_FILE = "./_app/_data/leaderboard.json";
+const LEADERBOARD_FILE = "./app/_backend/_quizModule/_src/_data/leaderboard.json";
 
 type ScoreNode = {
   studentId: string;
