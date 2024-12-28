@@ -9,10 +9,10 @@ export async function GET(request: NextRequest) {
     const studentId = url.searchParams.get("studentId");
     const topic = url.searchParams.get("topic");
   
-    if (studentId) {
-      const recommendations = analyzePerformance(studentId);
-      return NextResponse.json(recommendations);
-    }
+    // if (studentId) {
+    //   const recommendations = analyzePerformance(studentId);
+    //   return NextResponse.json(recommendations);
+    // }
   
     if (topic) {
       const leaderboard = getLeaderboard(topic);
