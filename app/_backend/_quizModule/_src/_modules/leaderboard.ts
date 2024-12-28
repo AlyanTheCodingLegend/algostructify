@@ -1,6 +1,6 @@
 import fs from "fs";
 
-const LEADERBOARD_FILE = "./_app/_data/leaderboard.json";
+const LEADERBOARD_FILE = "./app/_backend/_quizModule/_src/_data/leaderboard.json";
 
 type ScoreNode = {
   studentId: string;
@@ -59,14 +59,16 @@ function saveLeaderboard(data: ScoreNode[]) {
 
 // Update leaderboard
 export function updateLeaderboard(studentId: string, score: number, topic: string) {
-  const leaderboard = new BST();
   const existingScores = loadLeaderboard();
 
-  existingScores.forEach((scoreData) => leaderboard.insert(scoreData.studentId, scoreData.score, scoreData.topic));
-  leaderboard.insert(studentId, score, topic);
+  // Create new score node and add it to the leaderboard
+  const newScore: ScoreNode = { studentId, score, topic, left: null, right: null };
+  existingScores.push(newScore);
 
-  saveLeaderboard(leaderboard.toSortedArray());
+  // Save updated leaderboard to file
+  saveLeaderboard(existingScores);
 }
+
 
 // Get leaderboard
 export function getLeaderboard(topic: string): ScoreNode[] {
