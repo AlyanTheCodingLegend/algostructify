@@ -2,7 +2,7 @@ import fs from "fs";
 
 const LEADERBOARD_FILE = "./app/_backend/_quizModule/_src/_data/leaderboard.json";
 
-type ScoreNode = {
+export type ScoreNode = {
   studentId: string;
   score: number;
   topic: string;

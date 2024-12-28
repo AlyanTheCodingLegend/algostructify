@@ -13,3 +13,19 @@ export interface Quiz {
   difficulty: "Easy" | "Medium" | "Hard" ;
   questions: Question[];
 }
+
+export interface Recommendations {
+  weakTopics: {
+    topics: string;
+    threshold: number;
+  }[],
+  moderateTopics: {
+    topics: string;
+    threshold: number;
+  }[],
+  strongTopics: {
+    topics: string;
+    threshold: number;
+  }[],
+  tips: string[];
+}
