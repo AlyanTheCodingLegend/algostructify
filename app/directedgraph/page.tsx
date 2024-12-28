@@ -9,6 +9,8 @@ export default function Page() {
     const [renderTrigger, setRenderTrigger] = useState(0);
     const [insertVal, setInsertVal] = useState("");
     const [insertEdgeVal, setInsertEdgeVal] = useState({ start: "", end: "" });
+    const [currentIndex, setCurrentIndex] = useState(-1);
+    const [traversalInProcess, setTraversalInProcess] = useState(false);
 
     const svgRef = useRef<SVGSVGElement>(null);
 
@@ -23,6 +25,38 @@ export default function Page() {
         graph.addEdge(startVertex, endVertex);
         forceRender();
     };
+
+    const performBFS = () => {
+        setTraversalInProcess(true);
+        let delay = 0;
+
+        graph.bfs(graph.vertexNames[0], (index) => {
+            setTimeout(() => {
+                setCurrentIndex(index);
+            }, delay += 1000);
+        });
+
+        setTimeout(() => {
+            setCurrentIndex(-1);
+            setTraversalInProcess(false);
+        }, delay + 1000);
+    }
+
+    const performDFS = () => {
+        setTraversalInProcess(true);
+        let delay = 0;
+
+        graph.dfs(graph.vertexNames[0], (index) => {
+            setTimeout(() => {
+                setCurrentIndex(index);
+            }, delay += 1000);
+        });
+
+        setTimeout(() => {
+            setCurrentIndex(-1);
+            setTraversalInProcess(false);
+        }, delay + 1000);
+    }
 
     const renderGraph = () => {
         if (!graph.matrix) {
@@ -40,6 +74,7 @@ export default function Page() {
                     adjMatrix={adjMatrix}
                     svgRef={svgRef}
                     renderTrigger={renderTrigger}
+                    currentIndex={currentIndex}
                 />
             );
         });
@@ -103,34 +138,49 @@ export default function Page() {
                     >
                         Insert Edge
                     </button>
+                    <button
+                        className={`px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 ${traversalInProcess ? "opacity-50 cursor-not-allowed" : ""}`}
+                        onClick={() => performBFS()}
+                        disabled={traversalInProcess}
+                    >
+                        Perform BFS
+                    </button>
+                    <button
+                        className={`px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 ${traversalInProcess ? "opacity-50 cursor-not-allowed" : ""}`}
+                        onClick={() => performDFS()}
+                        disabled={traversalInProcess}
+                    >
+                        Perform DFS
+                    </button>
                 </div>
             </div>
 
             <div className="relative flex items-center justify-center w-full h-full">
                 {renderGraph()}
                 <svg
-                    ref={svgRef}
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        pointerEvents: "none",
-                        zIndex: -1,
-                    }}
-                >
-                    <defs>
-                        <marker
-                            id="arrowhead"
-                            markerWidth="10"
-                            markerHeight="7"
-                            refX="0"
-                            refY="3.5"
-                            orient="auto"
-                        >
-                            <polygon points="0 0, 10 3.5, 0 7" fill="blue" />
-                        </marker>
-                    </defs>
+                // viewBox="0 0 1800 700"
+                ref={svgRef}
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    pointerEvents: "none",
+                    zIndex: 5,
+                }}
+            >
+                <defs>
+                    <marker
+                        id="arrowhead"
+                        markerWidth="10"
+                        markerHeight="7"
+                        refX="0"
+                        refY="3.5"
+                        orient="auto"
+                    >
+                        <polygon points="0 0, 10 3.5, 0 7" fill="blue" />
+                    </marker>
+                </defs>
                 </svg>
             </div>
         </div>
