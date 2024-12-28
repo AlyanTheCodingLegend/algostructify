@@ -5,10 +5,13 @@ type User = {
     password: string;
 };
 
+
+   const USER_FILE = './app/_backend/_quizModule/_src/_data/users.json';
+
 function login(username: string, password: string): string {
     try {
         // Read the users.json file
-        const data = fs.readFileSync('./app/_backend/_quizModule/_src/_data/users.json', 'utf-8');
+        const data = fs.readFileSync(USER_FILE, 'utf-8');
         const users: User[] = JSON.parse(data);
 
         // Find the user with the given username and password
@@ -27,7 +30,28 @@ function login(username: string, password: string): string {
     }
 }
 
-// Example usage
-const username = 'testuser'; // Replace with user input
-const password = 'testpassword'; // Replace with user input
-console.log(login(username, password));
+function signup(username: string, password: string): string {
+    try {
+        // Read the users.json file
+        const data = fs.readFileSync(USER_FILE, 'utf-8');
+        const users: User[] = JSON.parse(data);
+
+        // Check if the username already exists
+        if (users.some((user) => user.username === username)) {
+            return 'Username already exists. Please choose a different username.';
+        }
+
+        // Add the new user
+        const newUser: User = { username, password };
+        users.push(newUser);
+
+        // Write the updated users list back to the file
+        fs.writeFileSync('./users.json', JSON.stringify(users, null, 2));
+
+        return `Signup successful! Welcome, ${username}.`;
+    } catch (error) {
+        console.error('Error reading or writing users.json:', error);
+        return 'An error occurred while processing the signup.';
+    }
+}
+
