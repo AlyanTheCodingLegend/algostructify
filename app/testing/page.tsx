@@ -21,7 +21,7 @@ type Recommendation = {
 };
 
 export default function Page() {
-  const [value, setValue] = useState({ topic: "", difficulty: "Easy" as "Easy" | "Medium" | "Hard", answer: -1, numQuestions: 5 });
+  const [value, setValue] = useState({ topic: "Arrays", difficulty: "Easy" as "Easy" | "Medium" | "Hard", answer: -1, numQuestions: 5 });
   const [render, setRender] = useState<number>(0);
   const [question, setQuestion] = useState<Question | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -31,7 +31,7 @@ export default function Page() {
   const [progress, setProgress] = useState<number>(0); // Percentage progress
   const [badge, setBadge] = useState<string | null>(null);
 
-  const studentId = "student123"; // Replace with actual student ID from context/auth
+  const studentId = "student1"; // Replace with actual student ID from context/auth
 
   // Fetch quiz questions
   useEffect(() => {
@@ -78,9 +78,13 @@ export default function Page() {
 
   // Fetch recommendations
   const fetchRecommendations = async () => {
-    const response = await fetch(`/api/getData/?studentId=${studentId}`);
-    const data = await response.json();
-    setRecommendations(data);
+    const response = await fetch(`/api/getRecommendations/?studentId=${studentId}`);
+if (!response.ok) {
+  console.error("API error:", response.statusText);
+}
+const data = await response.json();
+console.log("Recommendations:", data);
+
   };
 
   // Handle answer submission
