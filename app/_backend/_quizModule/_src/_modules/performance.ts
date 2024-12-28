@@ -15,7 +15,7 @@ interface StudentPerformance {
   };
 }
 
-const PERFORMANCE_FILE = "./_data/performance.json";
+const PERFORMANCE_FILE = "./app/_backend/_quizModule/_src/_data/performance.json";
 
 // Load performance data
 export function loadPerformanceData(): StudentPerformance {
@@ -24,7 +24,7 @@ export function loadPerformanceData(): StudentPerformance {
   return JSON.parse(data) as StudentPerformance;
 }
 
-// Save updated performance data
+// Save updated performance datA
 export function savePerformanceData(data: StudentPerformance): void {
   fs.writeFileSync(PERFORMANCE_FILE, JSON.stringify(data, null, 2), "utf-8");
 }

@@ -1,0 +1,72 @@
+[
+  {
+    "studentId": "student1",
+    "score": 75,
+    "topic": "Arrays",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 80,
+    "topic": "Queues",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student3",
+    "score": 90,
+    "topic": "Stacks",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student1",
+    "score": 70,
+    "topic": "Linked Lists",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 85,
+    "topic": "Graphs",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student3",
+    "score": 65,
+    "topic": "Trees",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 90,
+    "topic": "Queues",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student4",
+    "score": 88,
+    "topic": "Queues",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student5",
+    "score": 92,
+    "topic": "Arrays",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 92,
+    "topic": "Queues",
+    "left": null,
+    "right": null
+  }
+]
