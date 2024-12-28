@@ -12,7 +12,7 @@ class Queue<T> {
     public front: number;      // Index of the front element
     public rear: number;       // Index of the rear element
     public capacity: number;   // Maximum size of the queue
-    private size: number;       // Current size of the queue
+    public size: number;       // Current size of the queue
 
     constructor(capacity: number) {
         this.capacity = capacity;

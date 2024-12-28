@@ -16,6 +16,9 @@ dfs
 
 */
 
+import Queue from "./QueueArray";
+import StackArr from "./StackArray";
+
 class DirectedGraph {
     public matrix: number[][];  // adjacency matrix to store the graph
     public vertexNames: string[];  // list of vertex names for easy reference
@@ -152,7 +155,7 @@ class DirectedGraph {
             return null;
         }
 
-        const queue: number[] = [];  // Queue for BFS
+        const queue = new Queue<number>(this.maxVertices);  // Queue for BFS
         const visited: boolean[] = [];  // Visited vertices
         const prev: number[] = [];  // To store the previous vertex on the path
         
@@ -164,10 +167,10 @@ class DirectedGraph {
 
         // Start BFS from the source
         visited[startIndex] = true;
-        queue.push(startIndex);
+        queue.enqueue(startIndex);
 
-        while (queue.length > 0) {
-            const u = queue.shift()!;  // Get the front of the queue
+        while (queue.size > 0) {
+            const u = queue.dequeue()!;  // Get the front of the queue
 
             // If we've reached the destination, break out of the loop
             if (u === endIndex) {
@@ -179,7 +182,7 @@ class DirectedGraph {
                 if (!visited[v] && this.matrix[u][v] === 1) {  // Edge exists
                     visited[v] = true;
                     prev[v] = u;
-                    queue.push(v);
+                    queue.enqueue(v);
                 }
             }
         }
@@ -201,7 +204,7 @@ class DirectedGraph {
         return path;
     }
 
-bfs(startVertex: string): string[] {
+bfs(startVertex: string, callback: (index: number) => void): string[] {
     const startIndex = this.vertexNames.indexOf(startVertex);
 
     if (startIndex === -1) {
@@ -215,21 +218,23 @@ bfs(startVertex: string): string[] {
     }
 
     const result: string[] = []; // To store traversal order
-    const queue: number[] = []; // BFS queue
+    const queue = new Queue<number>(this.maxVertices); // Queue for BFS
 
     // Start BFS from the given vertex
     visited[startIndex] = true;
-    queue.push(startIndex);
+    queue.enqueue(startIndex);
+    callback(startIndex);
 
-    while (queue.length > 0) {
-        const currentIndex = queue.shift()!;
+    while (queue.size > 0) {
+        const currentIndex = queue.dequeue()!;
         result.push(this.vertexNames[currentIndex]);
 
         // Explore neighbors of the current vertex
         for (let i = 0; i < this.vertexCount; i++) {
             if (this.matrix[currentIndex][i] !== 0 && !visited[i]) {
                 visited[i] = true;
-                queue.push(i);
+                queue.enqueue(i);
+                callback(i);
             }
         }
     }
@@ -239,7 +244,7 @@ bfs(startVertex: string): string[] {
 
 
 // dfs code
-dfs(startVertex: string): string[] {
+dfs(startVertex: string, callback: (index: number) => void): string[] {
     const startIndex = this.vertexNames.indexOf(startVertex);
 
     if (startIndex === -1) {
@@ -253,16 +258,17 @@ dfs(startVertex: string): string[] {
     }
     
     const result: string[] = []; // Stores the traversal order
-    const stack: number[] = []; // Stack for DFS
+    const stack = new StackArr<number>(this.maxVertices); // Stack for DFS
 
     // Push the start vertex to the stack
     stack.push(startIndex);
 
-    while (stack.length > 0) {
+    while (stack.size() > 0) {
         const currentIndex = stack.pop()!; // Pop the top of the stack
         if (!visited[currentIndex]) {
             visited[currentIndex] = true;
             result.push(this.vertexNames[currentIndex]);
+            callback(currentIndex);
 
             // Visit all neighbors of the current vertex (push to stack)
             for (let i = 0; i < this.vertexCount; i++) {
