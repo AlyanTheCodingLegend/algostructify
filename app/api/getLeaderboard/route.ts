@@ -1,3 +1,4 @@
+// this provides leaderboard data to frontend.
 import { getLeaderboard } from "@/app/_backend/_quizModule/_src/_modules/leaderboard";
 import { NextRequest, NextResponse } from "next/server";
 
