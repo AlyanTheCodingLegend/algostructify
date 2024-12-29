@@ -1,14 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import LinkedList, { ListNode } from "@/app/_datastructures/LinkedList";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
   const [list] = useState(new LinkedList<number>());
   const [, setRenderTrigger] = useState(0);
 
   const triggerRender = () => setRenderTrigger((prev) => prev + 1);
+
+  const { isOpen, setHeading } = useGlobalStatesContext();
+
+  useEffect(() => {
+    setHeading("Linked List");
+  }, []);
 
   const addNode = (value: number) => {
     list.append(value);
@@ -51,7 +58,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100">
+    <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100">
       <div className="flex flex-col items-center justify-center w-full h-full relative space-y-8">
         <div className="flex items-center justify-center">{renderNodes()}</div>
         <div className="flex justify-center items-center mt-10 space-x-6">

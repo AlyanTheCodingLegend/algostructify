@@ -3,12 +3,19 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import CircularLinkedList, { ListNode } from "@/app/_datastructures/CircularLinkedList";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
   const [cll] = useState(new CircularLinkedList<number>());
   const [renderTrigger, setRenderTrigger] = useState(0);
 
   const svgRef = useRef<SVGSVGElement>(null);
+
+  const { isOpen, setHeading } = useGlobalStatesContext();
+
+  useEffect(() => {
+    setHeading("Circular Linked List");
+  }, []);
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -107,7 +114,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100 overflow-none">
+    <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100 overflow-none">
       <div className="flex flex-col items-center justify-center w-full h-full relative space-y-8">
         <div className="flex items-center justify-center">
           {renderNodes()}

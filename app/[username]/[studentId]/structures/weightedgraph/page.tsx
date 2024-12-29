@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import WeightedUndirectedGraph from "@/app/_datastructures/WeightedUndirectedGraph";
 import Vertex from "./Vertex";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [graph] = useState(new WeightedUndirectedGraph(5));
@@ -13,6 +14,12 @@ export default function Page() {
     const svgRef = useRef<SVGSVGElement>(null);
 
     const forceRender = () => setRenderTrigger(prev=>prev+1);
+
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(()=>{
+        setHeading("Weighted Undirected Graph");
+    }, []);
 
     const insertVertex = (name: string) => {
         graph.addVertex(name);
@@ -39,10 +46,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen w-screen">
-            <h1 className="text-4xl font-semibold text-center">
-                Weighted Undirected Graph
-            </h1>
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full">
             <div className="flex items-center z-10 justify-center space-x-4">
                 <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"

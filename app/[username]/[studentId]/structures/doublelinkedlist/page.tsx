@@ -1,14 +1,21 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import DoublyLinkedList, { ListNode } from "@/app/_datastructures/DoubleLinkedList";
 import Node from "./Node";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
   const [list] = useState(new DoublyLinkedList<number>());
   const [renderTrigger, setRenderTrigger] = useState(0);
   const svgRef = useRef<SVGSVGElement>(null);
+
+  const { isOpen, setHeading } = useGlobalStatesContext();
+
+  useEffect(() => {
+    setHeading("Doubly Linked List");
+  }, []);
 
   const triggerRender = () => setRenderTrigger((prev) => prev + 1);
 
@@ -41,7 +48,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col h-full w-full justify-center items-center bg-gray-100">
+    <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100 overflow-hidden">
       <div className="flex flex-col items-center justify-center w-full h-full relative space-y-8">
         <div className="flex items-center justify-center gap-x-8">
             {renderNodes()}

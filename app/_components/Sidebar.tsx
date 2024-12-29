@@ -4,12 +4,12 @@ import { useGlobalStatesContext } from "../[username]/[studentId]/structures/lay
 import { PiSignOut, PiTreeStructureThin } from "react-icons/pi";
 import { CgOptions } from "react-icons/cg";
 import { FaBookOpen } from "react-icons/fa";
-import { MdOutlineLeaderboard } from "react-icons/md";
-import { dataStructures } from "../[username]/[studentId]/menu/page";
+import { MdOutlineLeaderboard, MdOutlineTipsAndUpdates } from "react-icons/md";
 import { useState } from "react";
+import { RxDashboard } from "react-icons/rx";
 
 export default function Sidebar() {
-    const [topic, setTopic] = useState("Doubly Linked List");
+    const [topic, setTopic] = useState("Arrays");
 
     const { username, studentId } = useParams();
 
@@ -21,7 +21,7 @@ export default function Sidebar() {
         <div
           className={`${
             isOpen ? "w-64" : "w-16"
-          } h-full z-0 fixed top-0 left-0 bg-black text-white transition-all duration-300 shadow-lg`}
+          } h-full z-10000 fixed top-0 left-0 bg-black text-white transition-all duration-300 shadow-lg`}
         >
           {/* Sidebar Header */}
           <div className="flex items-center justify-between px-4 py-3">
@@ -57,6 +57,11 @@ export default function Sidebar() {
               </div>
               <div className="space-y-4">
                 <SidebarOption
+                  icon={<RxDashboard size={24} />}
+                  label="Dashboard"
+                  onClick={() => router.push(`/${username}/${studentId}/dashboard`)}
+                />
+                <SidebarOption
                   icon={<PiTreeStructureThin size={24} />}
                   label="Visualize Structures"
                   onClick={() => router.push(`/${username}/${studentId}/menu`)}
@@ -70,6 +75,12 @@ export default function Sidebar() {
                   icon={<MdOutlineLeaderboard size={24} />}
                   label="View Leaderboard"
                   onClick={() => router.push(`/${username}/${studentId}/quiz/leaderboard?topic=${topic}`)}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
+                <SidebarOption
+                  icon={<MdOutlineTipsAndUpdates size={24} />}
+                  label="Get Recommendations"
+                  onClick={() => router.push(`/${username}/${studentId}/quiz/recommendations?studentId=${studentId}`)}
                   onChange={(e) => setTopic(e.target.value)}
                 />
               </div>
@@ -106,10 +117,23 @@ export default function Sidebar() {
         {icon}
         <span className="text-lg font-medium">{label}</span>
         {label === "View Leaderboard" && (
-            <select onChange={onChange} className="bg-gray-700 text-white p-2 rounded-lg">
-                {dataStructures.map((structure) => (
-                <option value={structure.name}>{structure.name}</option>
-                ))}
+            <select onChange={onChange} onClick={e=>e.stopPropagation()} className="bg-gray-700 text-white p-2 rounded-lg">
+                <option>Arrays</option>
+                <option>Stacks</option>
+                <option>Queues</option>
+                <option>Linked Lists</option>
+                <option>Trees</option>
+                <option>Graphs</option>
+                <option>Sorting Algorithms</option>
+                <option>Searching Algorithms</option>
+                <option>Heaps</option>
+                <option>Binary Search Tree</option>
+                <option>Dynamic Programming</option>
+                <option>Recursion</option>
+                <option>Hashing</option>
+                <option>Trie</option>
+                <option>Segment Tree</option>
+                <option>Bit Manipulation</option>
             </select>
         )}
       </div>

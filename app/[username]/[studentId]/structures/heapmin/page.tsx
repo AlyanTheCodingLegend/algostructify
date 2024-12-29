@@ -1,14 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MinHeap from "@/app/_datastructures/HeapMIn";
 import { TreeNode } from "./TreeNode";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [heap] = useState(new MinHeap());
     const [, setRenderTrigger] = useState(0);
 
     const triggerRender = () => setRenderTrigger((prev) => prev + 1);
+
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(() => {
+        setHeading("Min Heap");
+    }, []);
 
     const insert = (value: number) => {
         heap.insert(value);
@@ -31,10 +38,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-full space-y-8">
-            <h1 className="text-4xl font-semibold text-center">
-                Min Heap
-            </h1>
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center w-full h-full space-y-8">
             <div className="flex items-center justify-center space-x-4">
                 <button
                     className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md"

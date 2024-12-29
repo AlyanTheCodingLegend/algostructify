@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HashMap from "@/app/_datastructures/HashMap";
 import { toast } from "react-toastify";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [map] = useState(new HashMap<string, string>(10));
@@ -11,6 +12,12 @@ export default function Page() {
     const [removeKey, setRemoveKey] = useState("");
 
     const forceRender = () => setRenderTrigger((prev) => prev + 1);
+
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(() => {
+        setHeading("Hash Map");
+    }, []);
 
     const insertEntry = (key: string, value: string) => {
         map.set(key, value);
@@ -28,10 +35,7 @@ export default function Page() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen w-screen">
-            <h1 className="text-4xl font-semibold text-center">
-                Hash Map
-            </h1>
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full">
             <div>
                 <div
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex flex-col"
