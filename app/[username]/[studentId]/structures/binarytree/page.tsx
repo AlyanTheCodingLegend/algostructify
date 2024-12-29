@@ -23,12 +23,9 @@ export default function Page() {
     useEffect(() => {
         setHeading("Binary Tree");
 
-        const handleResize = () => {
-            forceRender();
-        };
-
         const handleScroll = () => {
             setScrollY(window.scrollY);
+            renderTree();
             forceRender();
         };
 
@@ -43,7 +40,16 @@ export default function Page() {
         };
     }, []);
 
+    useEffect(() => {
+        handleResize();
+    }, [isOpen]);
+
     const forceRender = () => setRenderTrigger((prev) => prev + 1);
+
+    const handleResize = () => {
+        renderTree();
+        forceRender();
+    };
 
     const insertNode = (data: number) => {
         // if (tree.getHeight(tree.root) > 6) {
@@ -159,8 +165,9 @@ export default function Page() {
     }
 
     return (
-        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full">
-            <div className="flex items-center z-10 justify-center space-x-4">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col items-center justify-center h-full w-full">
+            <div className="flex flex-col items-center z-10 justify-center space-x-4">
+            <div className="flex gap-x-3 mb-3">
                 <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
@@ -179,28 +186,30 @@ export default function Page() {
                     <input className="text-black" value={deleteRightVal} onChange={(event)=>setDeleteRightVal(Number(event.target.value))} />
                     <button onClick={() => deleteNodeRight(deleteRightVal)}>Delete Right Node</button>
                 </div>
+                </div>
+                <div className="flex gap-x-3">
                 <button
-                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
+                    className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md shadow-md"
                     onClick={() => preOrderTraversal()}
                     disabled={traversalInProcess}
                 >
                     Pre-order Traversal
                 </button>
                 <button
-                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
+                    className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md shadow-md"
                     onClick={() => inOrderTraversal()}
                     disabled={traversalInProcess}
                 >
                     In-order Traversal
                 </button>
                 <button
-                    className="px-4 py-2 bg-red-500 text-white rounded-md shadow-md"
+                    className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md shadow-md"
                     onClick={() => postOrderTraversal()}
                     disabled={traversalInProcess}
                 >
                     Post-order Traversal
                 </button>
-                
+                </div>
             </div>
             <div className="flex items-center justify-center w-screen h-screen overflow-scroll" id="scrollable-tree">
                 {renderTree()}

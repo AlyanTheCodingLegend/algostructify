@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { AvlNode } from "../_datastructures/AVLTree";
+import { AvlNode } from "@/app/_datastructures/AVLTree";
 
 type TreeNodeProps = {
     node: AvlNode<number> | null;

@@ -105,7 +105,7 @@ export default function Page() {
           <span className="value">{node.data}</span>
         </div>
         {node.next !== cll.head && (
-          <div className="flex justify-center items-center text-3xl text-green-500">
+          <div className="flex justify-center items-center text-3xl text-black">
             →
           </div>
         )}
@@ -114,24 +114,10 @@ export default function Page() {
   };
 
   return (
-    <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100 overflow-none">
+    <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100 overflow-none">
       <div className="flex flex-col items-center justify-center w-full h-full relative space-y-8">
         <div className="flex items-center justify-center">
           {renderNodes()}
-          <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
-            <defs>
-              <marker
-                id="arrowhead"
-                markerWidth="10"
-                markerHeight="7"
-                refX="10"
-                refY="3.5"
-                orient="auto"
-              >
-                <polygon points="0 0, 10 3.5, 0 7" fill="black" />
-              </marker>
-            </defs>
-          </svg>
         </div>
         <div className="flex justify-center items-center mt-10 space-x-6">
           <button
@@ -148,6 +134,20 @@ export default function Page() {
           </button>
         </div>
       </div>
+      <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}>
+            <defs>
+              <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="7"
+                refX="10"
+                refY="3.5"
+                orient="auto"
+              >
+                <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+              </marker>
+            </defs>
+          </svg>
     </div>
   );
 }

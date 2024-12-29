@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     // Check if the username or studentId already exists
     if (users.some(user => user.username === username || user.studentId === studentId)) {
         return NextResponse.json(
-            { message: 'Username or Student ID already exists. Please choose a different one.' },
+            { status: 400, message: 'Username or Student ID already exists. Please choose a different one.' },
             { status: 400 }
         );
     }
