@@ -6,12 +6,13 @@ leftChild
 rightChild
 heapifyDown
 heapifyUp
-insert(to insert value)
+insert(to insert value
 extractMin(to delete root and return it)
 peek(to return max)
 size
 deleteValue
 print
+findIndex: return -1 if not found else return index
 */ 
 class MinHeap {
     public heap: number[];
@@ -130,6 +131,12 @@ class MinHeap {
     print(): void {
       console.log(this.heap);
     }
+    // Method to find the index of a value in the heap
+findIndex(value: number): number {
+  const index = this.heap.indexOf(value);
+  return index !== -1 ? index : -1; // Return -1 if value not found
+}
+
   }
   
 
