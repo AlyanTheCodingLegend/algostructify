@@ -35,31 +35,76 @@ export default function Page() {
     };
 
     return (
-        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full">
-            <div>
-                <div
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex flex-col"
-                >
-                    <input className="text-black" placeholder="Key" value={entry.key} onChange={(e)=>setEntry(prev=>({...prev, key: e.target.value}))}/>
-                    <input className="text-black" placeholder="Value" value={entry.value} onChange={(e)=>setEntry(prev=>({...prev, value: e.target.value}))}/>
-                    <button onClick={() => insertEntry(entry.key, entry.value)}>Insert Entry</button>
+        <div
+            style={{ marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})` }}
+            className="flex flex-col items-center justify-center h-full w-full bg-gray-50 p-6"
+        >
+            <div className="flex justify-center items-center mb-6">
+                <div className="bg-blue-500 text-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+                    <h2 className="text-lg font-semibold mb-4">Insert Entry</h2>
+                    <input
+                        type="text"
+                        className="mb-3 w-full p-2 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Key"
+                        value={entry.key}
+                        onChange={(e) => setEntry((prev) => ({ ...prev, key: e.target.value }))}
+                    />
+                    <input
+                        type="text"
+                        className="mb-3 w-full p-2 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="Value"
+                        value={entry.value}
+                        onChange={(e) => setEntry((prev) => ({ ...prev, value: e.target.value }))}
+                    />
+                    <button
+                        onClick={() => insertEntry(entry.key, entry.value)}
+                        className="py-2 px-4 w-full bg-blue-700 hover:bg-blue-600 rounded-md font-bold focus:outline-none focus:ring focus:ring-blue-400"
+                    >
+                        Insert Entry
+                    </button>
                 </div>
-                <div
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex flex-col"
-                >
-                    <input className="text-black" placeholder="Enter key to remove" value={removeKey} onChange={(e)=>setRemoveKey(e.target.value)}/>
-                    <button onClick={() => removeEntry(removeKey)}>Remove Entry</button>
+
+                {/* Remove Entry Section */}
+                <div className="bg-red-500 text-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+                    <h2 className="text-lg font-semibold mb-4">Remove Entry</h2>
+                    <input
+                        type="text"
+                        className="mb-3 w-full p-2 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring focus:ring-red-300"
+                        placeholder="Enter key to remove"
+                        value={removeKey}
+                        onChange={(e) => setRemoveKey(e.target.value)}
+                    />
+                    <button
+                        onClick={() => removeEntry(removeKey)}
+                        className="py-2 px-4 w-full bg-red-700 hover:bg-red-600 rounded-md font-bold focus:outline-none focus:ring focus:ring-red-400"
+                    >
+                        Remove Entry
+                    </button>
                 </div>
             </div>
-            <div>
-                {map.map.map((entry, index) => {
-                    return (
-                        <div key={index}>
-                            {entry ? `Key: ${entry[0]}, Value: ${entry[1]}` : "Empty"}
+
+            {/* Map Display Section */}
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md">
+                <h2 className="text-xl font-semibold mb-4 text-gray-800 text-center">Current Entries</h2>
+                <div className="divide-y divide-gray-300">
+                    {map.map.map((entry, index) => (
+                        <div
+                            key={index}
+                            className="py-2 text-sm text-gray-700 flex justify-between"
+                        >
+                            {entry ? (
+                                <>
+                                    <span className="font-medium">Key:</span> {entry[0]}
+                                    <span className="font-medium">Value:</span> {entry[1]}
+                                </>
+                            ) : (
+                                <span className="text-gray-500">Empty</span>
+                            )}
                         </div>
-                    );
-                })}
+                    ))}
+                </div>
             </div>
         </div>
+
     )
 }

@@ -59,6 +59,7 @@ export default function Page() {
         //     }
         // }
         tree.insert(data);
+        renderTree();
         forceRender();
         // toast.success(`Node with data: ${data} inserted successfully.`);
     };
@@ -74,6 +75,7 @@ export default function Page() {
                 svgRef.current?.removeChild(pathToDelete);
             }
         });
+        renderTree();
         forceRender();
     }
 
@@ -88,6 +90,7 @@ export default function Page() {
                 svgRef.current?.removeChild(pathToDelete);
             }
         });
+        renderTree();
         forceRender();
     }
 

@@ -18,8 +18,9 @@ export default function StartQuiz({ params }: StartQuizProps) {
     const [userAnswers, setUserAnswers] = useState<number[]>([]);
     const [score, setScore] = useState(0);
     const [showResults, setShowResults] = useState(false);
-    const [recommendations, setRecommendations] = useState<Recommendations | undefined>();
+    const [timeTaken, setTimeTaken] = useState(0);
     const [submitted, setSubmitted] = useState(false);
+
 
     const { username, studentId } = use(params);
 
@@ -70,11 +71,13 @@ export default function StartQuiz({ params }: StartQuizProps) {
             handleNextQuestion();
         }
 
-        const timer = setTimeout(() => {
-            setTimeLeft((prev) => prev - 1);
-        }, 1000);
+        if (!submitted) {
+            const timer = setTimeout(() => {
+                setTimeLeft((prev) => prev - 1);
+            }, 1000);
 
-        return () => clearTimeout(timer);
+            return () => clearTimeout(timer);
+        }
     }, [timeLeft]);
 
     const handleNextQuestion = () => {
@@ -99,6 +102,8 @@ export default function StartQuiz({ params }: StartQuizProps) {
             return;
         }
 
+        setTimeTaken((prev) => prev + (timeLimit - timeLeft));
+
         if (currentQuestion.correctAnswer === userAnswer) {
             setScore((prev) => prev + 1);
         }
@@ -121,12 +126,6 @@ export default function StartQuiz({ params }: StartQuizProps) {
                 topic,
             }),
         });
-
-        const reponsetwo = await fetch(`/api/getRecommendations?studentId=${studentId}`);
-        const restwo = await reponsetwo.json();
-        if (restwo.success) {
-            setRecommendations(restwo.recommendations);
-        }
 
         setShowResults(true);
         setIsLoading(false);
@@ -231,6 +230,9 @@ export default function StartQuiz({ params }: StartQuizProps) {
                             End Quiz
                         </button>
                     )}
+                </div>
+                <div>
+                    
                 </div>
             </div>
         </div>
