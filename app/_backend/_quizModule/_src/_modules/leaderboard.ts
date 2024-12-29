@@ -73,5 +73,5 @@ export function updateLeaderboard(studentId: string, score: number, topic: strin
 // Get leaderboard
 export function getLeaderboard(topic: string): ScoreNode[] {
   const allScores = loadLeaderboard();
-  return allScores.filter((score) => score.topic === topic);
+  return allScores.filter((score) => score.topic === topic).sort((a, b) => b.score - a.score);
 }

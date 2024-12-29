@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { TreeNode as TreeNodeClass } from "../../../../_datastructures/BinaryTree";
+import { TreeNode as TreeNodeClass } from "@/app/_datastructures/BinaryTree";
 
 type TreeNodeProps = {
     node: TreeNodeClass<number> | null;

@@ -117,7 +117,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
             },
             body: JSON.stringify({
                 studentId,
-                score,
+                score: (score/questions.length)*100,
                 topic,
             }),
         });
