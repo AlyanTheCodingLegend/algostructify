@@ -11,6 +11,7 @@ export default function Page() {
     const [renderTrigger, setRenderTrigger] = useState(0);
     const [insertVal, setInsertVal] = useState(1);
     const [deleteVal, setDeleteVal] = useState(1);
+    const [searchVal, setSearchVal] = useState(1);
     const svgRef = useRef<SVGSVGElement>(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [traversalInProcess, setTraversalInProcess] = useState(false);
@@ -56,10 +57,20 @@ export default function Page() {
     };
 
     const deleteNode = (data: number) => {
-        tree.delete(data);
+        const index = tree.delete(data);
+        svgRef.current?.removeChild(svgRef.current.getElementById(`${index}`));
         renderTree();
         forceRender();
     };
+
+    const searchNode = (data: number) => {
+        const found = tree.search(data);
+        if (found) {
+            toast.success(`Node with data: ${data} found.`);
+        } else {
+            toast.error(`Node with data: ${data} not found.`);
+        }
+    }
 
     const preOrderTraversal = () => {
         if (!tree.root) {
@@ -142,13 +153,19 @@ export default function Page() {
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
                     <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(Number(event.target.value))} />
-                    <button onClick={() => insertNode(Math.floor((Math.random()+1)*200))}>Insert Node</button>
+                    <button onClick={(e) => {e.stopPropagation(); insertNode(Math.floor((Math.random()+1)*200))}}>Insert Node</button>
                 </div>
                 <div
                     className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
                     <input className="text-black" value={deleteVal} onChange={(event)=>setDeleteVal(Number(event.target.value))} />
-                    <button onClick={() => deleteNode(deleteVal)}>Delete Node</button>
+                    <button onClick={(e) => {e.stopPropagation(); deleteNode(deleteVal)}}>Delete Node</button>
+                </div>
+                <div
+                    className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
+                >
+                    <input className="text-black" value={searchVal} onChange={(event)=>setSearchVal(Number(event.target.value))} />
+                    <button onClick={(e) => {e.stopPropagation(); searchNode(searchVal)}}>Search Node</button>
                 </div>
                 </div>
                 <div className="flex gap-x-3 mb-4">
