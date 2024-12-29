@@ -38,7 +38,7 @@ export default function Page() {
     }
 
     return (
-        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center w-full h-full space-y-8">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col items-center justify-center w-full h-full space-y-8">
             <div className="flex items-center justify-center space-x-4">
                 <button
                     className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md"

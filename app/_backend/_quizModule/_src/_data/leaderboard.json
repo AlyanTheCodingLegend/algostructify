@@ -6,7 +6,7 @@
   },
   {
     "studentId": "student5",
-    "score": 92,
+    "score": "99",
     "topic": "Arrays"
   },
   {
@@ -181,15 +181,15 @@
     "right": null
   },
   {
-    "studentId": "student23",
+    "studentId": "469355",
     "score": 0,
     "topic": "Arrays",
     "left": null,
     "right": null
   },
   {
-    "studentId": "student23",
-    "score": 0,
+    "studentId": "student99",
+    "score": "87",
     "topic": "Arrays",
     "left": null,
     "right": null

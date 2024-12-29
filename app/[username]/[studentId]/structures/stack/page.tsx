@@ -53,7 +53,7 @@ export default function Page() {
     }
 
     return (
-        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100">
             <div className="flex flex-col items-center justify-center space-x-0">
                 {renderStack()}
             </div>    
