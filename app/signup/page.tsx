@@ -24,8 +24,7 @@ export default function Page() {
         if (res.status===400) {
             toast.error(res.message);
         } else {
-            localStorage.setItem('studentId', credentials.studentId);
-            router.push(`/${credentials.username}/dashboard`);
+            router.push(`/${credentials.username}/${credentials.studentId}/dashboard`);
         }
     }
 
