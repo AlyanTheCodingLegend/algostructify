@@ -1,14 +1,21 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StackLL, { ListNode } from "@/app/_datastructures/StackLL";
 import { toast } from "react-toastify";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [stack] = useState(new StackLL<number>());
     const [, setRenderTrigger] = useState(0);
 
     const triggerRender = () => setRenderTrigger((prev) => prev + 1);
+
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(() => {
+        setHeading("Stack using Linked List");
+    }, []);
 
     const push = (value: number) => {
         stack.push(value);
@@ -54,7 +61,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-full space-y-8">
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full space-y-8">
             <h1 className="text-4xl font-semibold text-center">
                 Stack using Linked List
             </h1>

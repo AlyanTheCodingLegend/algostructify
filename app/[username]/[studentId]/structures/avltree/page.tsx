@@ -16,7 +16,7 @@ export default function Page() {
     const [traversalInProcess, setTraversalInProcess] = useState(false);
     const [scrollY, setScrollY] = useState(0);
 
-    const { setHeading } = useGlobalStatesContext();
+    const { isOpen, setHeading } = useGlobalStatesContext();
 
     useEffect(() => {
         setHeading("AVL Tree");
@@ -127,10 +127,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen w-screen">
-            <h1 className="text-4xl font-semibold text-center">
-                AVL Tree
-            </h1>
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full">
             <div className="flex items-center z-10 justify-center space-x-4">
                 <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"

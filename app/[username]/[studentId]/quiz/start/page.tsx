@@ -19,6 +19,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
     const [score, setScore] = useState(0);
     const [showResults, setShowResults] = useState(false);
     const [recommendations, setRecommendations] = useState<Recommendations | undefined>();
+    const [submitted, setSubmitted] = useState(false);
 
     const { username, studentId } = use(params);
 
@@ -78,6 +79,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < questions.length - 1) {
+            setSubmitted(false);
             setCurrentQuestionIndex((prev) => prev + 1);
             setTimeLeft(timeLimit); // Reset timer for the next question
         }
@@ -89,18 +91,23 @@ export default function StartQuiz({ params }: StartQuizProps) {
         setUserAnswers(updatedAnswers);
     };
 
+    const handleSubmitAnswer = () => {
+        const currentQuestion = questions[currentQuestionIndex];
+        const userAnswer = userAnswers[currentQuestionIndex];
+
+        if (userAnswer === -1) {
+            return;
+        }
+
+        if (currentQuestion.correctAnswer === userAnswer) {
+            setScore((prev) => prev + 1);
+        }
+
+        setSubmitted(true);
+    }
+
     const handleSubmitQuiz = async () => {
         setIsLoading(true);
-
-        // Calculate score
-        let quizScore = 0;
-        questions.forEach((question, index) => {
-            if (question.correctAnswer === userAnswers[index]) {
-                quizScore++;
-            }
-        });
-
-        setScore(quizScore);
 
         // Submit score to the server
         const response = await fetch("/api/updateLeaderboard", {
@@ -130,52 +137,13 @@ export default function StartQuiz({ params }: StartQuizProps) {
             <div className="flex items-center justify-center h-screen bg-gray-100">
                 <div className="bg-white p-8 rounded shadow-md w-96">
                     <h1 className="text-2xl font-bold text-center mb-4">Results</h1>
-                    <p className="text-gray-700 text-center mb-6">Your score: {score} / {numQuestions}</p>
-                    {(recommendations && (recommendations.weakTopics.length>0 || recommendations.moderateTopics.length>0 || recommendations.strongTopics.length>0 || recommendations.tips.length>0)) && (
-                        <>
-                            <h2 className="text-lg font-bold text-center mb-4">Recommendations</h2>
-                            {recommendations.weakTopics.length > 0 && (
-                                <div className="mb-4">
-                                    <h3 className="text-md font-bold text-center mb-2">Weak Topics</h3>
-                                    <ul className="list-disc list-inside">
-                                        {recommendations.weakTopics.map((topic, index) => (
-                                            <li key={index}>Topic: {topic.topics} | Threshold: {topic.threshold}</li>
-                                        ))}
-                                    </ul>
-                                </div>    
-                            )}
-                            {recommendations.moderateTopics.length > 0 && (
-                                <div className="mb-4">
-                                    <h3 className="text-md font-bold text-center mb-2">Moderate Topics</h3>
-                                    <ul className="list-disc list-inside">
-                                        {recommendations.moderateTopics.map((topic, index) => (
-                                            <li key={index}>Topic: {topic.topics} | Threshold: {topic.threshold}</li>
-                                        ))}
-                                    </ul>
-                                </div>    
-                            )}
-                            {recommendations.strongTopics.length > 0 && (
-                                <div className="mb-4">
-                                    <h3 className="text-md font-bold text-center mb-2">Strong Topics</h3>
-                                    <ul className="list-disc list-inside">
-                                        {recommendations.strongTopics.map((topic, index) => (
-                                            <li key={index}>Topic: {topic.topics} | Threshold: {topic.threshold}</li>
-                                        ))}
-                                    </ul>
-                                </div>    
-                            )}
-                            {recommendations.tips.length > 0 && (
-                                <div className="mb-4">
-                                    <h3 className="text-md font-bold text-center mb-2">Tips</h3>
-                                    <ul className="list-disc list-inside">
-                                        {recommendations.tips.map((tip, index) => (
-                                            <li key={index}>{tip}</li>
-                                        ))}
-                                    </ul>
-                                </div>  
-                            )}
-                        </>
-                    )}
+                    <p className="text-gray-700 text-center mb-6">Your score: {score} / {questions.length}</p>
+                    <button
+                        onClick={() => router.push(`/${username}/${studentId}/quiz/recommendations?studentId=${studentId}`) }
+                        className="py-2 px-4 mb-2 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white text-sm font-medium focus:outline-none focus:ring focus:ring-indigo-500"
+                    >
+                        Get Recommendations
+                    </button>
                     <button
                         onClick={() => router.push(`/${username}/${studentId}/quiz/leaderboard?topic=${topic}`)}
                         className="py-2 px-4 mb-2 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white text-sm font-medium focus:outline-none focus:ring focus:ring-indigo-500"
@@ -224,6 +192,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
                                     id={`${currentQuestionIndex}-${index}`}
                                     name={`question-${currentQuestionIndex}`}
                                     value={index}
+                                    disabled={submitted}
                                     checked={userAnswers[currentQuestionIndex] === index}
                                     onChange={() => handleAnswerChange(index)}
                                     className="cursor-pointer"
@@ -240,6 +209,13 @@ export default function StartQuiz({ params }: StartQuizProps) {
                 </div>
 
                 <div className="flex justify-between">
+                        <button
+                            onClick={handleSubmitAnswer}
+                            disabled={submitted}
+                            className={`${submitted ? "bg-gray-600 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"} py-2 px-4 rounded-md text-white text-sm font-medium focus:outline-none focus:ring focus:ring-green-500`}
+                        >
+                            Submit Answer
+                        </button>
                     {currentQuestionIndex < questions.length - 1 ? (
                         <button
                             onClick={handleNextQuestion}
@@ -250,9 +226,9 @@ export default function StartQuiz({ params }: StartQuizProps) {
                     ) : (
                         <button
                             onClick={handleSubmitQuiz}
-                            className="py-2 px-4 bg-green-600 hover:bg-green-700 rounded-md text-white text-sm font-medium focus:outline-none focus:ring focus:ring-green-500"
+                            className="py-2 px-4 bg-red-600 hover:bg-red-700 rounded-md text-white text-sm font-medium focus:outline-none focus:ring focus:ring-green-500"
                         >
-                            Submit Quiz
+                            End Quiz
                         </button>
                     )}
                 </div>

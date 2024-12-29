@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import BinaryTree from "@/app/_datastructures/BinaryTree";
 import { TreeNode } from "./TreeNode";
 import { toast } from "react-toastify";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [tree] = useState(new BinaryTree<number>());
@@ -17,7 +18,11 @@ export default function Page() {
 
     const svgRef = useRef<SVGSVGElement>(null);
 
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
     useEffect(() => {
+        setHeading("Binary Tree");
+
         const handleResize = () => {
             forceRender();
         };
@@ -154,10 +159,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen w-screen">
-            <h1 className="text-4xl font-semibold text-center">
-                Binary Tree
-            </h1>
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full">
             <div className="flex items-center z-10 justify-center space-x-4">
                 <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"

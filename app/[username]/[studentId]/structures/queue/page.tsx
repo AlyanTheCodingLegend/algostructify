@@ -1,14 +1,21 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Queue from "@/app/_datastructures/QueueArray";
 import { toast } from "react-toastify";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [queue] = useState(new Queue<number>(7));
     const [, setRenderTrigger] = useState(0);
 
     const triggerRender = () => setRenderTrigger((prev) => prev + 1);
+
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(() => {
+        setHeading("Queue using Array");
+    }, []);
 
     const enqueue = (value: number) => {
         if (queue.isFull()) {
@@ -46,7 +53,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100">
             <div className="flex flex-col items-center justify-center space-x-0">
                 {renderQueue()}
             </div>    

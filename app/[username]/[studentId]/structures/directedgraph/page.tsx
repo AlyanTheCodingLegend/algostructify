@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DirectedGraph from "@/app/_datastructures/DirectedGraph";
 import Vertex from "./Vertex";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [graph] = useState(new DirectedGraph(5));
@@ -13,6 +14,12 @@ export default function Page() {
     const [traversalInProcess, setTraversalInProcess] = useState(false);
 
     const svgRef = useRef<SVGSVGElement>(null);
+
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(()=>{
+        setHeading("Directed Graph");
+    }, []);
 
     const forceRender = () => setRenderTrigger((prev) => prev + 1);
 
@@ -81,10 +88,7 @@ export default function Page() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen w-screen bg-gradient-to-b from-blue-200 to-blue-50">
-            <h1 className="text-4xl font-bold text-center text-blue-700 mb-6">
-                Directed Graph Visualization
-            </h1>
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-b from-blue-200 to-blue-50">
             <div className="flex items-center justify-center space-x-6 mb-6">
                 {/* Vertex Input */}
                 <div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-lg">

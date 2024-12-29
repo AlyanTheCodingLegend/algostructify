@@ -1,14 +1,21 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CircularQueue, { ListNode } from "@/app/_datastructures/CircularQueue";
 import { toast } from "react-toastify";
+import { useGlobalStatesContext } from "../layout";
 
 export default function Page() {
     const [queue] = useState(new CircularQueue<number>(7));
     const [, setRenderTrigger] = useState(0);
 
     const triggerRender = () => setRenderTrigger((prev) => prev + 1);
+
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(() => {
+        setHeading("Queue using Linked List");
+    }, []);
 
     const enqueue = (value: number) => {
         if (queue.isFull()) {
@@ -60,7 +67,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100">
             <div className="flex items-center justify-center space-x-0">
                 {renderQueue()}
             </div>    
