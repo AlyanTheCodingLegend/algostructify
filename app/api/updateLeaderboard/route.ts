@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const req = await request.json();
-
+// ok
   const { studentId, score, topic } = req;
   
   if (req) {
