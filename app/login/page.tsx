@@ -22,8 +22,7 @@ export default function Page() {
         const res = await response.json()
 
         if (res.success) {
-            localStorage.setItem('studnetId', credentials.studentId);
-            router.push(`/${credentials.username}/dashboard`);
+            router.push(`/${credentials.username}/${credentials.studentId}/dashboard`);
         } else {
             toast.error(res.message);
         }
