@@ -1,10 +1,11 @@
 // _modules/utils.ts
 import { Question } from "../_types/questions";
+import HashMap from "@/app/_datastructures/HashMap"
 import data from "../_data/questions.json";
 
 // Function to load questions from JSON into a HashMap (keyed by question ID)
-export function loadQuestions(topic: string, difficulty: "Easy" | "Medium" | "Hard"): Map<number, Question> {
-  const questionsMap = new Map<number, Question>();
+export function loadQuestions(topic: string, difficulty: "Easy" | "Medium" | "Hard"): HashMap<number, Question> {
+  const questionsMap = new HashMap<number, Question>();
 
   // Filter the questions based on the topic and difficulty
   data.forEach((question) => {
@@ -17,7 +18,7 @@ export function loadQuestions(topic: string, difficulty: "Easy" | "Medium" | "Ha
 }
 
 // Shuffle the keys of the HashMap using a modified Fisher-Yates Algorithm
-export function shuffleMap(map: Map<number, Question>): Question[] {
+export function shuffleMap(map: HashMap<number, Question>): Question[] {
   const keys = Array.from(map.keys());  // Get an array of keys
   for (let i = keys.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

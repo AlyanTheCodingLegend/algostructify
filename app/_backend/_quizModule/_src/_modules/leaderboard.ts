@@ -40,9 +40,9 @@ class BST {
 
   private inOrderTraversal(node: ScoreNode | null, result: ScoreNode[]) {
     if (node) {
-      this.inOrderTraversal(node.left, result);
-      result.push(node);
-      this.inOrderTraversal(node.right, result);
+      this.inOrderTraversal(node.left, result); // Traverse left subtree
+      result.push(node); // Visit node
+      this.inOrderTraversal(node.right, result); // Traverse right subtree
     }
   }
 }
@@ -69,9 +69,18 @@ export function updateLeaderboard(studentId: string, score: number, topic: strin
   saveLeaderboard(existingScores);
 }
 
-
 // Get leaderboard
 export function getLeaderboard(topic: string): ScoreNode[] {
   const allScores = loadLeaderboard();
-  return allScores.filter((score) => score.topic === topic).sort((a, b) => b.score - a.score);
+
+  // Build a BST from the scores for the specific topic
+  const bst = new BST();
+  allScores
+    .filter((score) => score.topic === topic)
+    .forEach(({ studentId, score, topic }) => {
+      bst.insert(studentId, score, topic);
+    });
+
+  // Use in-order traversal to get scores sorted in descending order
+  return bst.toSortedArray();
 }

@@ -9,6 +9,7 @@ preOrder
 postOrder
 search: to search with value returns boolean value
 delete(delete smallest from right side)
+findIndex: return -1 if not found else return index
 
 */
 
@@ -259,6 +260,31 @@ class AVLTree<T> {
     }
     return current;
   }
+
+  // Find index of a node with a given value
+findIndex(value: T): number {
+    return this.findIndexHelper(this.root, value);
+  }
+  
+  // Helper method to recursively search for the node and return its index
+  private findIndexHelper(node: AvlNode<T> | null, value: T): number {
+    if (node === null) {
+      return -1; // Node is not found
+    }
+  
+    if (value < node.value) {
+      return this.findIndexHelper(node.left, value); // Search in the left subtree
+    } else if (value > node.value) {
+      return this.findIndexHelper(node.right, value); // Search in the right subtree
+    } else {
+      // If value matches, but any additional condition is required
+      if (node.value !== value) {
+        return -1; // Node value doesn't match, return -1
+      }
+      return node.index; // Node found, return its index
+    }
+  }
+  
   
 }
 
