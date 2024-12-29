@@ -1,3 +1,4 @@
+// this API route is responsible for checking if the user's login
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 
