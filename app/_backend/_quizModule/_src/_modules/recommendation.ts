@@ -40,9 +40,10 @@ export function analyzePerformance(studentId: string): {
       difficulty: string;
     };
     const accuracy = correct / attempted;
+    const maxTime = difficulty === "Easy" ? 60 : difficulty === "Medium" ? 60 : 60;
 
     const normalizedAccuracy = accuracy * 100; // Convert accuracy to percentage
-    const normalizedTime = (time/60)*100; // Cap the time to the max time per difficulty
+    const normalizedTime = (time/maxTime)*100; // Cap the time to the max time per difficulty
 
     // Calculate threshold
     const threshold = (0.3 * normalizedTime) + (0.7 * normalizedAccuracy);
