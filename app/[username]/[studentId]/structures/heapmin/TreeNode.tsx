@@ -1,4 +1,4 @@
-import MinHeap from "../_datastructures/HeapMin";
+import MinHeap from "@/app/_datastructures/HeapMIn";
 
 type TreeNodeProps = {
     index: number;
