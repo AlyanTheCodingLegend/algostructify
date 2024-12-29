@@ -1,161 +1,181 @@
 [
   {
-    "studentId": "student1",
-    "score": 75,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
+    "studentId": "student2",
+    "score": 100,
+    "topic": "Graphs"
+  },
+  {
+    "studentId": "student5",
+    "score": 92,
+    "topic": "Arrays"
   },
   {
     "studentId": "student2",
-    "score": 80,
-    "topic": "Queues",
-    "left": null,
-    "right": null
+    "score": 92,
+    "topic": "Queues"
   },
   {
     "studentId": "student3",
     "score": 90,
-    "topic": "Stacks",
-    "left": null,
-    "right": null
+    "topic": "Stacks"
   },
   {
-    "studentId": "student1",
-    "score": 70,
-    "topic": "Linked Lists",
-    "left": null,
-    "right": null
+    "studentId": "student2",
+    "score": 90,
+    "topic": "Queues"
+  },
+  {
+    "studentId": "student4",
+    "score": 88,
+    "topic": "Queues"
   },
   {
     "studentId": "student2",
     "score": 85,
+    "topic": "Graphs"
+  },
+  {
+    "studentId": "student2",
+    "score": 80,
+    "topic": "Queues"
+  },
+  {
+    "studentId": "student1",
+    "score": 75,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "student2",
+    "score": 75,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "student1",
+    "score": 70,
+    "topic": "Linked Lists"
+  },
+  {
+    "studentId": "student3",
+    "score": 65,
+    "topic": "Trees"
+  },
+  {
+    "studentId": "469355",
+    "score": 2,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 1,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 1,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Linked Lists"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Linked Lists"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Linked Lists"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "469355",
+    "score": 0,
+    "topic": "Arrays"
+  },
+  {
+    "studentId": "student2",
+    "score": 100,
     "topic": "Graphs",
     "left": null,
     "right": null
   },
   {
-    "studentId": "student3",
-    "score": 65,
-    "topic": "Trees",
+    "studentId": "student2",
+    "score": 100,
+    "topic": "Graphs",
     "left": null,
     "right": null
   },
   {
     "studentId": "student2",
-    "score": 90,
-    "topic": "Queues",
+    "score": 100,
+    "topic": "Graphs",
     "left": null,
     "right": null
   },
   {
-    "studentId": "student4",
-    "score": 88,
-    "topic": "Queues",
+    "studentId": "student2",
+    "score": 100,
+    "topic": "Graphs",
     "left": null,
     "right": null
   },
   {
-    "studentId": "student5",
-    "score": 92,
+    "studentId": "student2",
+    "score": 0,
+    "topic": "Graphs",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 0,
+    "topic": "Stacks",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 0,
     "topic": "Arrays",
     "left": null,
     "right": null
   },
   {
     "studentId": "student2",
-    "score": 92,
-    "topic": "Queues",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Linked Lists",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Linked Lists",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Linked Lists",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 1,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 0,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 1,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 2,
+    "score": 25,
     "topic": "Arrays",
     "left": null,
     "right": null
