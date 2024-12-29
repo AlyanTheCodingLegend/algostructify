@@ -61,7 +61,7 @@ export default function Page() {
     }
 
     return (
-        <div style={{marginLeft: isOpen ? "256px" : "64px"}} className="flex flex-col items-center justify-center h-full w-full space-y-8">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col items-center justify-center h-full w-full space-y-8">
             <h1 className="text-4xl font-semibold text-center">
                 Stack using Linked List
             </h1>
