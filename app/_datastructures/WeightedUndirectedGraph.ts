@@ -1,5 +1,5 @@
 // Directed Graph:
-// Methods present in it:-
+// Method present in it:-
 /*
 
 addVertex
