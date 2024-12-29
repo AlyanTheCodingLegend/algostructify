@@ -165,5 +165,19 @@
     "topic": "Stacks",
     "left": null,
     "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 0,
+    "topic": "Arrays",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student2",
+    "score": 25,
+    "topic": "Arrays",
+    "left": null,
+    "right": null
   }
 ]
