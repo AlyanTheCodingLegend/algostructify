@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import CircularQueue, { ListNode } from "@/app/_datastructures/CircularQueue";
 import { toast } from "react-toastify";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [queue] = useState(new CircularQueue<number>(7));

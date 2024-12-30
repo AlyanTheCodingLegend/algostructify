@@ -4,9 +4,27 @@
     "topics": {
       "Arrays": {
         "topic": "Arrays",
-        "correct": 3,
-        "attempted": 12,
-        "time": 15
+        "correct": 6,
+        "attempted": 24,
+        "time": 62
+      },
+      "Trees": {
+        "topic": "Trees",
+        "correct": 4,
+        "attempted": 4,
+        "time": 4
+      },
+      "Queues": {
+        "topic": "Queues",
+        "correct": 2,
+        "attempted": 4,
+        "time": 11
+      },
+      "Heap Sort": {
+        "topic": "Heap Sort",
+        "correct": 2,
+        "attempted": 4,
+        "time": 7
       }
     }
   },

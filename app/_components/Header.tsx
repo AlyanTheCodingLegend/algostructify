@@ -1,4 +1,4 @@
-import { useGlobalStatesContext } from "../[username]/[studentId]/structures/layout";
+import { useGlobalStatesContext } from "../[username]/[studentId]/layout";
 
 export default function Header() {
     const { isOpen, heading } = useGlobalStatesContext();

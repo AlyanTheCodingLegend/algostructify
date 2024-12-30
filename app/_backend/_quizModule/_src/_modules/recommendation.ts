@@ -40,7 +40,7 @@ export function analyzePerformance(studentId: string): {
       difficulty: string;
     };
     const accuracy = correct / attempted;
-    const maxTime = difficulty === "Easy" ? 60 : difficulty === "Medium" ? 60 : 60;
+    const maxTime = 60; // Maximum time allowed per question (in seconds)
 
     const normalizedAccuracy = accuracy * 100; // Convert accuracy to percentage
     const normalizedTime = (time/maxTime)*100; // Cap the time to the max time per difficulty
