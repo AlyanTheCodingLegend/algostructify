@@ -104,35 +104,13 @@
       }
     }
   },
-  "student23": {
+  "student69": {
     "topics": {
       "Arrays": {
         "topic": "Arrays",
-        "correct": 10,
-        "attempted": 12,
-        "time": 68
-      },
-      "Searching": {
-        "topic": "Searching",
-        "correct": 7,
-        "attempted": 20,
-        "time": 135
-      }
-    }
-  },
-  "hassam1": {
-    "topics": {
-      "Searching": {
-        "topic": "Searching",
         "correct": 3,
-        "attempted": 5,
-        "time": 27
-      },
-      "Arrays": {
-        "topic": "Arrays",
-        "correct": 3,
-        "attempted": 4,
-        "time": 20
+        "attempted": 8,
+        "time": 28
       }
     }
   }

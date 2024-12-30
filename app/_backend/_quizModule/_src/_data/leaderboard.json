@@ -209,50 +209,15 @@
     "right": null
   },
   {
-    "studentId": "469355",
-    "score": 100,
-    "topic": "Trees",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 50,
-    "topic": "Queues",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "469355",
-    "score": 50,
-    "topic": "Heap Sort",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "student23",
-    "score": 100,
+    "studentId": "student69",
+    "score": 75,
     "topic": "Arrays",
     "left": null,
     "right": null
   },
   {
-    "studentId": "student23",
-    "score": 60,
-    "topic": "Searching",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "hassam1",
-    "score": 60,
-    "topic": "Searching",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "hassam1",
-    "score": 75,
+    "studentId": "student69",
+    "score": 0,
     "topic": "Arrays",
     "left": null,
     "right": null
