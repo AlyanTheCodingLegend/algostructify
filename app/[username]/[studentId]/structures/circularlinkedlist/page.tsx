@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import CircularLinkedList, { ListNode } from "@/app/_datastructures/CircularLinkedList";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
   const [cll] = useState(new CircularLinkedList<number>());

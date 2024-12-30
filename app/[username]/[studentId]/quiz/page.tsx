@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useGlobalStatesContext } from "../layout";
 
 type QuizProps = {
     params: Promise<{
@@ -25,6 +26,12 @@ export default function Quiz({ params }: QuizProps) {
 
     const { username, studentId } = use(params);
 
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
+    useEffect(() => {
+        setHeading("Quiz");
+    }, []);
+
     const handleStartQuiz = () => {
         if (settings.topic === '' || settings.difficulty === '' || settings.numQuestions === 0) {
             toast.warning('Please fill in all fields');
@@ -34,16 +41,9 @@ export default function Quiz({ params }: QuizProps) {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex items-center justify-center h-screen bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md w-96 relative">
-                {/* Back to Dashboard */}
-                <div className="absolute top-4 left-4">
-                    <Link href={`/${username}/${studentId}/dashboard`}>
-                        <button className="py-1 px-3 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white text-sm font-medium focus:outline-none focus:ring focus:ring-indigo-500">
-                            Back to Dashboard
-                        </button>
-                    </Link>
-                </div>
+                
 
                 <h1 className="text-2xl font-bold text-center mb-4">Quiz</h1>
                 <p className="text-gray-700 text-center mb-6">Welcome, {username}</p>
@@ -59,16 +59,12 @@ export default function Quiz({ params }: QuizProps) {
                             <option>Linked Lists</option>
                             <option>Trees</option>
                             <option>Graphs</option>
-                            <option>Sorting Algorithms</option>
-                            <option>Searching Algorithms</option>
-                            <option>Heaps</option>
-                            <option>Binary Search Tree</option>
+                            <option value="Sorting">Sorting Algorithms</option>
+                            <option value="Searching">Searching Algorithms</option>
+                            <option value="Heap Sort">Heaps</option>
                             <option>Dynamic Programming</option>
                             <option>Recursion</option>
                             <option>Hashing</option>
-                            <option>Trie</option>
-                            <option>Segment Tree</option>
-                            <option>Bit Manipulation</option>
                         </select>
                     </div>
 

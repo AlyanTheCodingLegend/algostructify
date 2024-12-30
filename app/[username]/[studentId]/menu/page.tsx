@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { use } from 'react';
+import { useGlobalStatesContext } from '../layout';
 
 export const dataStructures = [
     { name: 'Doubly Linked List', route: '/doublelinkedlist' },
@@ -31,8 +32,10 @@ type MenuProps = {
 export default function Menu({ params }: MenuProps) {
     const { username, studentId } = use(params)
 
+    const { isOpen } = useGlobalStatesContext();
+
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md w-full max-w-xl">
                 <h2 className="text-2xl font-bold text-center mb-6">DSA Visualization Dashboard</h2>
                 <p className="text-center mb-4">Select a data structure to visualize:</p>

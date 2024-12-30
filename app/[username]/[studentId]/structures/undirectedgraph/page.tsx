@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import UndirectedGraph from "@/app/_datastructures/UndirectedGraph";
 import Vertex from "./Vertex";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [graph] = useState(new UndirectedGraph(5));

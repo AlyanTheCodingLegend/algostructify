@@ -1,6 +1,6 @@
 import { useParams, useRouter } from "next/navigation";
 import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
-import { useGlobalStatesContext } from "../[username]/[studentId]/structures/layout";
+import { useGlobalStatesContext } from "../[username]/[studentId]/layout";
 import { PiSignOut, PiTreeStructureThin } from "react-icons/pi";
 import { CgOptions } from "react-icons/cg";
 import { FaBookOpen } from "react-icons/fa";
@@ -124,16 +124,12 @@ export default function Sidebar() {
                 <option>Linked Lists</option>
                 <option>Trees</option>
                 <option>Graphs</option>
-                <option>Sorting Algorithms</option>
-                <option>Searching Algorithms</option>
-                <option>Heaps</option>
-                <option>Binary Search Tree</option>
+                <option value="Sorting">Sorting Algorithms</option>
+                <option value="Searching">Searching Algorithms</option>
+                <option value="Heap Sort">Heaps</option>
                 <option>Dynamic Programming</option>
                 <option>Recursion</option>
                 <option>Hashing</option>
-                <option>Trie</option>
-                <option>Segment Tree</option>
-                <option>Bit Manipulation</option>
             </select>
         )}
       </div>

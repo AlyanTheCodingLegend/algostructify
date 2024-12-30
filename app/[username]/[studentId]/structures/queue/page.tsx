@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Queue from "@/app/_datastructures/QueueArray";
 import { toast } from "react-toastify";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [queue] = useState(new Queue<number>(7));
