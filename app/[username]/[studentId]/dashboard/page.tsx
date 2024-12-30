@@ -45,16 +45,12 @@ export default function Dashboard({ params }: DashboardProps) {
                             <option>Linked Lists</option>
                             <option>Trees</option>
                             <option>Graphs</option>
-                            <option>Sorting Algorithms</option>
-                            <option>Searching Algorithms</option>
-                            <option>Heaps</option>
-                            <option>Binary Search Tree</option>
+                            <option value="Sorting">Sorting Algorithms</option>
+                            <option value="Searching">Searching Algorithms</option>
+                            <option value="Heap Sort">Heaps</option>
                             <option>Dynamic Programming</option>
                             <option>Recursion</option>
                             <option>Hashing</option>
-                            <option>Trie</option>
-                            <option>Segment Tree</option>
-                            <option>Bit Manipulation</option>
                         </select>
                     </div>
                     <Link href={`/${username}/${studentId}/quiz/recommendations`}>
