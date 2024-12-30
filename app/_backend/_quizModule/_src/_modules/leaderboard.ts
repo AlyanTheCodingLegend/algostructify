@@ -60,15 +60,27 @@ function saveLeaderboard(data: ScoreNode[]) {
 // Update leaderboard
 export function updateLeaderboard(studentId: string, score: number, topic: string) {
   const existingScores = loadLeaderboard();
+  let isUpdated = false;
 
-  // Create new score node and add it to the leaderboard
-  const newScore: ScoreNode = { studentId, score, topic, left: null, right: null };
-  existingScores.push(newScore);
+  for (let i = 0; i < existingScores.length; i++) {
+    if (existingScores[i].studentId === studentId && existingScores[i].topic === topic) {
+      // Update the score if the new score is higher
+      if (score > existingScores[i].score) {
+        existingScores[i].score = score;
+      }
+      isUpdated = true;
+      break;
+    }
+  }
+
+  // If the student or topic is not found, add the new score
+  if (!isUpdated) {
+    existingScores.push({ studentId, score, topic, left: null, right: null });
+  }
 
   // Save updated leaderboard to file
   saveLeaderboard(existingScores);
 }
-
 // Get leaderboard
 export function getLeaderboard(topic: string): ScoreNode[] {
   const allScores = loadLeaderboard();
