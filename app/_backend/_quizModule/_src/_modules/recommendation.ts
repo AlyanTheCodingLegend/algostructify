@@ -24,6 +24,7 @@ export function analyzePerformance(studentId: string): {
   const performance = loadPerformanceData();
   const tips = loadTips();
 
+  // If student has no performance data, return empty recommendations
   if (!performance[studentId]) {
     return { weakTopics: [], moderateTopics: [], strongTopics: [], tips: [] };
   }
@@ -43,12 +44,18 @@ export function analyzePerformance(studentId: string): {
     };
     const accuracy = correct / attempted;
     const maxTime = 60; // Maximum time allowed per question (in seconds)
-
+    const remTime = (60*attempted - time); // Remaining time for the student
     const normalizedAccuracy = accuracy * 100; // Convert accuracy to percentage
-    const normalizedTime = (time/maxTime)*100; // Cap the time to the max time per difficulty
+    const normalizedTime = (remTime/(maxTime*attempted))*100; // Cap the time to the max time per difficulty
 
     // Calculate threshold
-    const threshold = (0.3 * normalizedTime) + (0.7 * normalizedAccuracy);
+    
+    let threshold = (0.3 * normalizedTime) + (0.7 * normalizedAccuracy);
+    if (difficulty === "hard") {
+        threshold = threshold + 5;
+    } else if (difficulty === "medium") {
+        threshold = threshold + 3;
+    }
 
     if (threshold < 60) {
       weakTopics.push({ topic, threshold });
