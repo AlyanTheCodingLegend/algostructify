@@ -244,6 +244,7 @@ export default function Page() {
   </div>
   <svg
       ref={svgRef}
+      viewBox="0 0 100 100"
       xmlns="http://www.w3.org/2000/svg"
       style={{
         position: "absolute",
