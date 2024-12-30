@@ -26,8 +26,18 @@ export default function Page() {
         forceRender();
     }
 
+    const removeVertex = (name: string) => {
+        graph.deleteVertex(name);
+        forceRender();
+    }
+
     const insertEdge = (startVertex: string, endVertex: string) => {
         graph.addEdge(startVertex, endVertex);
+        forceRender();
+    }
+
+    const removeEdge = (startVertex: string, endVertex: string) => {
+        graph.deleteEdge(startVertex, endVertex);
         forceRender();
     }
 
@@ -47,25 +57,25 @@ export default function Page() {
 
     return (
         <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col items-center justify-center h-full w-full">
-            <div id="header" className="bg-red-500 w-full">
+            <div id="header" className="w-full">
             <div className="flex items-center z-10 justify-center space-x-4">
                 <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
-                    <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(event.target.value)} />
+                    <input className="text-black" value={insertVal} onChange={(event)=>{event.stopPropagation();setInsertVal(event.target.value)}} />
                     <button onClick={() => insertVertex(insertVal)}>Insert Vertex</button>
                 </div>
                 <div
                     className="px-4 py-2 bg-green-500 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
                     Start: 
-                    <select key="start" className="text-black" onChange={(event)=>{console.log(event.target.value);setInsertEdgeVal({...insertEdgeVal, start: event.target.value})}}>
+                    <select key="start" className="text-black" onChange={(event)=>{event.stopPropagation();setInsertEdgeVal({...insertEdgeVal, start: event.target.value})}}>
                         {graph.vertexNames.map((name) => (
                             <option key={name} value={name}>{name}</option>
                         ))}
                     </select>
                     End: 
-                    <select key="end" className="text-black" onChange={(event)=>setInsertEdgeVal({...insertEdgeVal, end: event.target.value})}>
+                    <select key="end" className="text-black" onChange={(event)=>{event.stopPropagation();setInsertEdgeVal({...insertEdgeVal, end: event.target.value})}}>
                         {graph.vertexNames.map((name) => (
                             <option key={name} value={name}>{name}</option>
                         ))}
