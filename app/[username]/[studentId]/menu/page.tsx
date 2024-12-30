@@ -5,7 +5,7 @@ import { use } from 'react';
 import { useGlobalStatesContext } from '../layout';
 
 export const dataStructures = [
-    { name: 'Doubly Linked List', route: '/doublelinkedlist' },
+    // { name: 'Doubly Linked List', route: '/doublelinkedlist' },
     { name: 'Circular Linked List', route: '/circularlinkedlist' },
     { name: 'Linked List', route: '/linkedlist' },
     { name: 'Hashmap', route: '/hashmap' },
@@ -15,10 +15,10 @@ export const dataStructures = [
     { name: 'Queue from Linked List', route: '/linkedqueue' },
     { name: 'Directed Graph', route: '/directedgraph' },
     { name: 'Undirected Graph', route: '/undirectedgraph' },
-    { name: 'Weighted Graph', route: '/weightedgraph' },
+    // { name: 'Weighted Graph', route: '/weightedgraph' },
     { name: 'Binary Tree', route: '/binarytree' },
-    { name: 'Heap Min', route: '/heapmin' },
-    { name: 'Heap Max', route: '/heapmax' },
+    // { name: 'Heap Min', route: '/heapmin' },
+    // { name: 'Heap Max', route: '/heapmax' },
     { name: 'AVL Tree', route: '/avltree' },
 ];
 
