@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { use } from 'react';
+import { useGlobalStatesContext } from '../layout';
 
 export const dataStructures = [
-    { name: 'Doubly Linked List', route: '/doublelinkedlist' },
+    // { name: 'Doubly Linked List', route: '/doublelinkedlist' },
     { name: 'Circular Linked List', route: '/circularlinkedlist' },
     { name: 'Linked List', route: '/linkedlist' },
     { name: 'Hashmap', route: '/hashmap' },
@@ -14,10 +15,10 @@ export const dataStructures = [
     { name: 'Queue from Linked List', route: '/linkedqueue' },
     { name: 'Directed Graph', route: '/directedgraph' },
     { name: 'Undirected Graph', route: '/undirectedgraph' },
-    { name: 'Weighted Graph', route: '/weightedgraph' },
+    // { name: 'Weighted Graph', route: '/weightedgraph' },
     { name: 'Binary Tree', route: '/binarytree' },
-    { name: 'Heap Min', route: '/heapmin' },
-    { name: 'Heap Max', route: '/heapmax' },
+    // { name: 'Heap Min', route: '/heapmin' },
+    // { name: 'Heap Max', route: '/heapmax' },
     { name: 'AVL Tree', route: '/avltree' },
 ];
 
@@ -31,8 +32,10 @@ type MenuProps = {
 export default function Menu({ params }: MenuProps) {
     const { username, studentId } = use(params)
 
+    const { isOpen } = useGlobalStatesContext();
+
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md w-full max-w-xl">
                 <h2 className="text-2xl font-bold text-center mb-6">DSA Visualization Dashboard</h2>
                 <p className="text-center mb-4">Select a data structure to visualize:</p>

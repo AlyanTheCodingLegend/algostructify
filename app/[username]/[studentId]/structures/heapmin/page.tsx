@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import MinHeap from "@/app/_datastructures/HeapMIn";
 import { TreeNode } from "./TreeNode";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [heap] = useState(new MinHeap());

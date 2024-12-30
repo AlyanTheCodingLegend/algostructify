@@ -61,7 +61,7 @@
   },
   {
     "studentId": "469355",
-    "score": 2,
+    "score": 75,
     "topic": "Arrays"
   },
   {
@@ -204,20 +204,6 @@
   {
     "studentId": "469355",
     "score": 50,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "student69",
-    "score": 75,
-    "topic": "Arrays",
-    "left": null,
-    "right": null
-  },
-  {
-    "studentId": "student69",
-    "score": 0,
     "topic": "Arrays",
     "left": null,
     "right": null

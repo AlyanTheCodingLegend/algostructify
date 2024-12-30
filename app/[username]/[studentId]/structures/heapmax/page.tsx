@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MaxHeap from "@/app/_datastructures/HeapMax";
 import { TreeNode } from "./TreeNode";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [heap] = useState(new MaxHeap());

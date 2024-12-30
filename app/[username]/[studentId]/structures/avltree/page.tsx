@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import AVLTree from "@/app/_datastructures/AVLTree";
 import { TreeNode } from "./TreeNode";
 import { toast } from "react-toastify";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [tree] = useState(new AVLTree<number>());
