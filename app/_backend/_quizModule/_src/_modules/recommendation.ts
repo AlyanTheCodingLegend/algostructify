@@ -52,7 +52,7 @@ export function analyzePerformance(studentId: string): {
 
     if (threshold < 60) {
       weakTopics.push({ topic, threshold });
-      improvementTips.push(tips[topic] || "Practice more questions for this topic.");
+      improvementTips.push(tips[topic.toLowerCase()] || "Practice more questions for this topic.");
     } else if (threshold >= 60 && threshold < 80) {
       moderateTopics.push({ topic, threshold });
     } else {
