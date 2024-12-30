@@ -63,6 +63,7 @@ export function analyzePerformance(studentId: string): {
     } else {
       strongTopics.push({ topic, threshold });
     }
+    //testing
   });
 
   return { weakTopics, moderateTopics, strongTopics, tips: improvementTips };
