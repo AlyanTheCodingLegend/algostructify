@@ -212,7 +212,7 @@ bfs(startVertex: string, callback: (index: number) => void): string[] {
         return [];
     }
 
-    const visited: boolean[] = []; // Initialize empty visited array
+    const visited: boolean[] = []; // Initialize empty visited arra
     for (let i = 0; i < this.vertexCount; i++) {
         visited[i] = false; // Set each index to false explicitly
     }
