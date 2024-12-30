@@ -42,7 +42,7 @@ export default function Vertex({ index, name, adjMatrix, svgRef, renderTrigger, 
         let randomLeft: number;
 
         do {
-            randomTop = Math.floor(Math.random() * (window.innerHeight - 120)); // Subtract to prevent overflow
+            randomTop = Math.floor(Math.random() * (window.innerHeight - 400)); // Subtract to prevent overflow
             randomLeft = Math.floor(Math.random() * (window.innerWidth - 120));
         } while (isColliding());
 

@@ -17,7 +17,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({ index, node, type, svgRef, r
         if (node) {
             node.index=index
         }
-    }, [index])
+    }, [renderTrigger])
 
     useEffect(() => {
         if (type === "root") return; // Root node has no parent

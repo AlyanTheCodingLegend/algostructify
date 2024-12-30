@@ -124,156 +124,149 @@ export default function Page() {
     };
 
     return (
-        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-b from-blue-200 to-blue-50">
-            <div className="flex items-center justify-center space-x-6 mb-6">
-                
-                <div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-lg">
-                    <input
-                        className="w-full px-3 py-2 mb-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                        placeholder="Vertex Name"
-                        value={insertVal}
-                        onChange={(event) => setInsertVal(event.target.value)}
-                    />
-                    <button
-                        className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
-                        onClick={(e) => {e.stopPropagation(); insertVertex(insertVal)}}
-                    >
-                        Insert Vertex
-                    </button>
-                </div>
-                <div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-lg">
-                    <input
-                        className="w-full px-3 py-2 mb-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                        placeholder="Vertex Name"
-                        value={deleteVal}
-                        onChange={(event) => setDeleteVal(event.target.value)}
-                    />
-                    <button
-                        className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
-                        onClick={(e) => {e.stopPropagation(); deleteVertex(deleteVal)}}
-                    >
-                        Delete Vertex
-                    </button>
-                </div>
-                
-                <div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-lg">
-                    <div>
-                    <label className="text-sm text-gray-600">Start Vertex:</label>
-                    <select
-                        value={insertEdgeVal.start}
-                        className="w-full px-3 py-2 mb-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                        onChange={(event) =>
-                            setInsertEdgeVal(prev=>({...prev, start: event.target.value}))
-                        }
-                    >
-                        {graph.vertexNames.map((name) => (
-                            <option key={name} value={name}>
-                                {name}
-                            </option>
-                        ))}
-                    </select>
-                    <label className="text-sm text-gray-600">End Vertex:</label>
-                    <select
-                        value={insertEdgeVal.end}
-                        className="w-full px-3 py-2 mb-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                        onChange={(event) =>
-                            setInsertEdgeVal(prev=>({...prev, end: event.target.value}))
-                        }
-                    >
-                        {graph.vertexNames.map((name) => (
-                            <option key={name} value={name}>
-                                {name}
-                            </option>
-                        ))}
-                    </select>
-                    <button
-                        className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
-                        onClick={(e) => {e.stopPropagation(); insertEdge(insertEdgeVal.start, insertEdgeVal.end)}}
-                    >
-                        Insert Edge
-                    </button>
-                    </div>
-                    <div>
-                    <label className="text-sm text-gray-600">Start Vertex:</label>
-                    <select
-                        value={deleteEdgeVal.start}
-                        className="w-full px-3 py-2 mb-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                        onChange={(event) =>
-                            setDeleteEdgeVal(prev=>({...prev, start: event.target.value}))
-                        }
-                    >
-                        {graph.vertexNames.map((name) => (
-                            <option key={name} value={name}>
-                                {name}
-                            </option>
-                        ))}
-                    </select>
-                    <label className="text-sm text-gray-600">End Vertex:</label>
-                    <select
-                        value={deleteEdgeVal.end}
-                        className="w-full px-3 py-2 mb-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
-                        onChange={(event) =>
-                            setDeleteEdgeVal(prev=>({...prev, end: event.target.value}))
-                        }
-                    >
-                        {graph.vertexNames.map((name) => (
-                            <option key={name} value={name}>
-                                {name}
-                            </option>
-                        ))}
-                    </select>
-                    <button
-                        className="px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
-                        onClick={(e) => {e.stopPropagation(); deleteEdge(deleteEdgeVal.start, deleteEdgeVal.end)}}
-                    >
-                        Delete Edge
-                    </button>
-                    </div>
-                    <button
-                        className={`px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 ${traversalInProcess ? "opacity-50 cursor-not-allowed" : ""}`}
-                        onClick={() => performBFS()}
-                        disabled={traversalInProcess}
-                    >
-                        Perform BFS
-                    </button>
-                    <button
-                        className={`px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 ${traversalInProcess ? "opacity-50 cursor-not-allowed" : ""}`}
-                        onClick={() => performDFS()}
-                        disabled={traversalInProcess}
-                    >
-                        Perform DFS
-                    </button>
-                </div>
-            </div>
+        <div
+  style={{
+    marginLeft: isOpen ? "256px" : "64px",
+    marginTop: "64px",
+    width: `calc(100vw - ${isOpen ? "256px" : "64px"})`,
+  }}
+  className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-b from-blue-300 to-blue-100 p-6"
+>
+  <div className="flex gap-6 mb-8">
+    <div className="flex flex-col gap-y-4">
+    {/* Insert Vertex */}
+    <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg space-y-4">
+      <input
+        className="w-full px-4 py-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        placeholder="Vertex Name"
+        value={insertVal}
+        onChange={(event) => setInsertVal(event.target.value)}
+      />
+      <button
+        className="w-full px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
+        onClick={(e) => {
+          e.stopPropagation();
+          insertVertex(insertVal);
+        }}
+      >
+        Insert Vertex
+      </button>
+    </div>
 
-            <div className="relative flex items-center justify-center w-full h-full">
-                {renderGraph()}
-                <svg
-                // viewBox="0 0 1800 700"
-                ref={svgRef}
-                xmlns="http://www.w3.org/2000/svg"
-                style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    pointerEvents: "none",
-                    zIndex: 5,
-                }}
-            >
-                <defs>
-                    <marker
-                        id="arrowhead"
-                        markerWidth="10"
-                        markerHeight="7"
-                        refX="0"
-                        refY="3.5"
-                        orient="auto"
-                    >
-                        <polygon points="0 0, 10 3.5, 0 7" fill="blue" />
-                    </marker>
-                </defs>
-                </svg>
-            </div>
-        </div>
+    {/* Delete Vertex */}
+    <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg space-y-4">
+      <input
+        className="w-full px-4 py-2 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        placeholder="Vertex Name"
+        value={deleteVal}
+        onChange={(event) => setDeleteVal(event.target.value)}
+      />
+      <button
+        className="w-full px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
+        onClick={(e) => {
+          e.stopPropagation();
+          deleteVertex(deleteVal);
+        }}
+      >
+        Delete Vertex
+      </button>
+    </div>
+    </div>
+    {/* Edges and Traversal */}
+    <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg space-y-4">
+      {/* Insert Edge */}
+      <div>
+        <label className="block text-sm text-gray-600 mb-2">Start Vertex:</label>
+        <select
+          value={insertEdgeVal.start}
+          className="w-full px-4 py-2 mb-4 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
+          onChange={(event) =>
+            setInsertEdgeVal((prev) => ({ ...prev, start: event.target.value }))
+          }
+        >
+          {graph.vertexNames.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+        <label className="block text-sm text-gray-600 mb-2">End Vertex:</label>
+        <select
+          value={insertEdgeVal.end}
+          className="w-full px-4 py-2 mb-4 text-sm border rounded focus:outline-none focus:ring focus:ring-blue-300"
+          onChange={(event) =>
+            setInsertEdgeVal((prev) => ({ ...prev, end: event.target.value }))
+          }
+        >
+          {graph.vertexNames.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+        <button
+          className="w-full px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
+          onClick={(e) => {
+            e.stopPropagation();
+            insertEdge(insertEdgeVal.start, insertEdgeVal.end);
+          }}
+        >
+          Insert Edge
+        </button>
+      </div>
+
+      {/* Traversal Buttons */}
+      <div className="flex flex-col space-y-2">
+        <button
+          className={`w-full px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 ${
+            traversalInProcess ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={() => performBFS()}
+          disabled={traversalInProcess}
+        >
+          Perform BFS
+        </button>
+        <button
+          className={`w-full px-4 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600 ${
+            traversalInProcess ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={() => performDFS()}
+          disabled={traversalInProcess}
+        >
+          Perform DFS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div className="relative flex items-center justify-center w-full h-full bg-white rounded-lg shadow-lg">
+    {renderGraph()}
+  </div>
+  <svg
+      ref={svgRef}
+      xmlns="http://www.w3.org/2000/svg"
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: 5,
+      }}
+    >
+      <defs>
+        <marker
+          id="arrowhead"
+          markerWidth="10"
+          markerHeight="7"
+          refX="0"
+          refY="3.5"
+          orient="auto"
+        >
+          <polygon points="0 0, 10 3.5, 0 7" fill="blue" />
+        </marker>
+      </defs>
+    </svg>
+</div>
+
     );
 }
