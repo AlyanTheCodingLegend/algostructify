@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import { Recommendations, type Question } from "@/app/_backend/_quizModule/_src/_types/questions";
+import { type Question } from "@/app/_backend/_quizModule/_src/_types/questions";
 
 type StartQuizProps = {
     params: Promise<{
@@ -30,7 +30,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
     const difficulty = searchParams.get("difficulty");
     const numQuestions = searchParams.get("questions");
 
-    const timeLimit = difficulty === "Easy" ? 25 : difficulty === "Medium" ? 40 : 60;
+    const timeLimit = 60;
 
     const [timeLeft, setTimeLeft] = useState(timeLimit);
 
@@ -115,7 +115,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
         setIsLoading(true);
 
         // Submit score to the server
-        const response = await fetch("/api/updateLeaderboard", {
+        await fetch("/api/updateLeaderboard", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -124,6 +124,21 @@ export default function StartQuiz({ params }: StartQuizProps) {
                 studentId,
                 score: (score/questions.length)*100,
                 topic,
+            }),
+        });
+
+        // Update performance data
+        await fetch("/api/updatePerformance", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                studentId,
+                topic,
+                correct: score,
+                attempted: questions.length,
+                time: timeTaken,
             }),
         });
 
@@ -231,9 +246,13 @@ export default function StartQuiz({ params }: StartQuizProps) {
                         </button>
                     )}
                 </div>
-                <div>
-                    
-                </div>
+                {submitted && (
+                    <div className={`${currentQuestion.correctAnswer === userAnswers[currentQuestionIndex] ? "bg-green-700" : "bg-red-700 text-white"} text-center mt-4`}>
+                        <p className="text-white font-bold">
+                            {currentQuestion.correctAnswer === userAnswers[currentQuestionIndex] ? "Correct!" : `Wrong! Explanation: ${currentQuestion.explanation}`}
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -22,6 +22,16 @@ export default function Dashboard({ params }: DashboardProps) {
                             Visualize Data Structures
                         </div>
                     </Link>
+                    <Link href={`/${username}/${studentId}/quiz/leaderboard`}>
+                        <div className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white text-sm text-center font-medium focus:outline-none focus:ring focus:ring-indigo-500">
+                            View Leaderboard
+                        </div>
+                    </Link>
+                    <Link href={`/${username}/${studentId}/recommendations`}>
+                        <div className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white text-sm text-center font-medium focus:outline-none focus:ring focus:ring-indigo-500">
+                            Attempt A Quiz
+                        </div>
+                    </Link>
                     <Link href={`/${username}/${studentId}/quiz`}>
                         <div className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white text-sm text-center font-medium focus:outline-none focus:ring focus:ring-indigo-500">
                             Attempt A Quiz
