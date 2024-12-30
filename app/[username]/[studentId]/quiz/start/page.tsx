@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { type Question } from "@/app/_backend/_quizModule/_src/_types/questions";
+import { useGlobalStatesContext } from "../../layout";
+import { toast } from "react-toastify";
 
 type StartQuizProps = {
     params: Promise<{
@@ -34,6 +36,8 @@ export default function StartQuiz({ params }: StartQuizProps) {
 
     const [timeLeft, setTimeLeft] = useState(timeLimit);
 
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
     useEffect(() => {
         async function getQuestions() {
             const response = await fetch("/api/getQuestions", {
@@ -52,16 +56,18 @@ export default function StartQuiz({ params }: StartQuizProps) {
             });
 
             const res = await response.json();
-            if (res.success) {
+            if (res.success && res.questions.length>0) {
                 setQuestions(res.questions);
                 setIsLoading(false);
                 setUserAnswers(Array(Number(numQuestions)).fill(-1)); // Initialize answers
             } else {
-                router.push(`/${username}/quiz`);
+                toast.error("No questions found for the selected topic and difficulty. Please try again later.");
+                router.push(`/${username}/${studentId}/quiz`);
             }
         }
 
         if (topic && difficulty && numQuestions) {
+            setHeading(`Quiz: ${topic} | Difficulty: ${difficulty}`);
             getQuestions();
         }
     }, [topic, difficulty, numQuestions]);
@@ -143,12 +149,13 @@ export default function StartQuiz({ params }: StartQuizProps) {
         });
 
         setShowResults(true);
+        setHeading("Quiz Results");
         setIsLoading(false);
     };
 
     if (showResults) {
         return (
-            <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex items-center justify-center h-screen bg-gray-100">
                 <div className="bg-white p-8 rounded shadow-md w-96">
                     <h1 className="text-2xl font-bold text-center mb-4">Results</h1>
                     <p className="text-gray-700 text-center mb-6">Your score: {score} / {questions.length}</p>
@@ -177,7 +184,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex items-center justify-center h-screen bg-gray-100">
                 <div className="bg-white p-8 rounded shadow-md w-96">
                     <h1 className="text-2xl font-bold text-center mb-4">Loading...</h1>
                 </div>
@@ -188,7 +195,7 @@ export default function StartQuiz({ params }: StartQuizProps) {
     const currentQuestion = questions[currentQuestionIndex];
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex items-center justify-center h-screen bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md w-96 relative">
                 <h1 className="text-2xl font-bold text-center mb-4">Quiz</h1>
                 <p className="text-gray-700 text-center mb-6">

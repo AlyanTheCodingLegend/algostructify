@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     // Check if all required fields are provided
     if (!username || !studentId || !password) {
         return NextResponse.json(
-            { message: 'Please provide username, student ID, and password.' },
+            { status: 400, message: 'Please provide username, student ID, and password.' },
             { status: 400 }
         );
     }

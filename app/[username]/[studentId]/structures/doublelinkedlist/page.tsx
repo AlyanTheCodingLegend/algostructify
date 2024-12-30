@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import DoublyLinkedList, { ListNode } from "@/app/_datastructures/DoubleLinkedList";
 import Node from "./Node";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
   const [list] = useState(new DoublyLinkedList<number>());

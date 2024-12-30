@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import DirectedGraph from "@/app/_datastructures/DirectedGraph";
 import Vertex from "./Vertex";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 import { toast } from "react-toastify";
 
 export default function Page() {
