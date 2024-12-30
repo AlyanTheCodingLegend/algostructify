@@ -256,12 +256,5 @@
     "topic": "Arrays",
     "left": null,
     "right": null
-  },
-  {
-    "studentId": "student23",
-    "score": 20,
-    "topic": "Searching",
-    "left": null,
-    "right": null
   }
 ]
