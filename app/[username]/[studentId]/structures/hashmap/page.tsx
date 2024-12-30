@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import HashMap from "@/app/_datastructures/HashMap";
 import { toast } from "react-toastify";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [map] = useState(new HashMap<string, string>(10));

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import StackArr from "@/app/_datastructures/StackArray";
 import { toast } from "react-toastify";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [stack] = useState(new StackArr<number>(7));

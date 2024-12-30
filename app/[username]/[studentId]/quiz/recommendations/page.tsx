@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react"
+import { useGlobalStatesContext } from "../../layout";
 
 type Recommendations = {
     weakTopics: {
@@ -24,8 +25,11 @@ export default function Page() {
 
     const [recommendations, setRecommendations] = useState<Recommendations | undefined>();
 
+    const { isOpen, setHeading } = useGlobalStatesContext();
 
     useEffect(() => {
+        setHeading("Recommendations");
+
         async function getRecommendations() {
             const response = await fetch(`/api/getRecommendations?studentId=${studentId}`);
             const res = await response.json();
@@ -45,11 +49,7 @@ export default function Page() {
           recommendations.tips.length > 0)
       ) {
         return (
-          <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold text-center text-gray-800 mb-6 border-b pb-3">
-              Recommendations
-            </h2>
-      
+          <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl mx-auto">
             {recommendations.weakTopics.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-xl font-semibold text-red-600 mb-3">Weak Topics</h3>
@@ -126,7 +126,7 @@ export default function Page() {
       
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex items-center justify-center h-screen bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md w-96">
                 <h1 className="text-2xl font-bold text-center mb-4">No recommendations available</h1>
             </div>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import LinkedList, { ListNode } from "@/app/_datastructures/LinkedList";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
   const [list] = useState(new LinkedList<number>());

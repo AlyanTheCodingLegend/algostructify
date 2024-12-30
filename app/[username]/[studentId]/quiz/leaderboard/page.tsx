@@ -3,6 +3,7 @@
 import type { ScoreNode } from "@/app/_backend/_quizModule/_src/_modules/leaderboard";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Leaderboard() {
     const [leaderboard, setLeaderboard] = useState<ScoreNode[]>([]);
@@ -12,7 +13,11 @@ export default function Leaderboard() {
     const searchParams = useSearchParams();
     const topic = searchParams.get("topic");
 
+    const { isOpen, setHeading } = useGlobalStatesContext();
+
     useEffect(() => {
+        setHeading("Leaderboard");
+
         async function getLeaderboard() {
             const response = await fetch(`/api/getLeaderboard?topic=${topic}`)
             const res = await response.json();
@@ -27,8 +32,7 @@ export default function Leaderboard() {
     }, []);
 
     return (
-        <div className="container mx-auto my-8 p-6 bg-white shadow-md rounded-lg">
-            <h1 className="text-4xl font-bold text-center text-indigo-600 mb-6">Leaderboard</h1>
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="container mx-auto my-8 p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-bold text-center text-indigo-600 mb-6">Topic: {topic}</h2>
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-200 text-sm text-left">

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import WeightedUndirectedGraph from "@/app/_datastructures/WeightedUndirectedGraph";
 import Vertex from "./Vertex";
-import { useGlobalStatesContext } from "../layout";
+import { useGlobalStatesContext } from "../../layout";
 
 export default function Page() {
     const [graph] = useState(new WeightedUndirectedGraph(5));
