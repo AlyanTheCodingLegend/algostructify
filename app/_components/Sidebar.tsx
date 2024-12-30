@@ -30,9 +30,9 @@ export default function Sidebar() {
                 <div className="text-xl font-semibold">Welcome, {username}!</div>
                 <div
                   onClick={() => setIsOpen(!isOpen)}
-                  className="text-gray-400 hover:text-white transition"
+                  className="absolute right-2 text-gray-400 hover:text-white transition"
                 >
-                  <BiArrowToLeft size={30} />
+                  <BiArrowToLeft size={40} />
                 </div>
               </div>
             ) : (
@@ -40,7 +40,7 @@ export default function Sidebar() {
                 onClick={() => setIsOpen(!isOpen)}
                 className="text-gray-400 hover:text-white transition mx-auto"
               >
-                <BiArrowToRight size={30} />
+                <BiArrowToRight size={40} />
               </div>
             )}
           </div>
@@ -87,16 +87,17 @@ export default function Sidebar() {
             </div>
           )}
     
-          {/* Sign Out */}
+          {isOpen && (
           <div className="absolute bottom-4 w-full px-4">
             <div
               className="flex items-center justify-center bg-red-600 hover:bg-red-500 text-white text-lg font-medium px-4 py-2 rounded-full cursor-pointer transition"
               onClick={() => router.push("/login")}
             >
               <PiSignOut size={24} className="mr-2" />
-              {isOpen && "Sign Out"}
+              {"Sign Out"}
             </div>
           </div>
+          )}
         </div>
       );
     };
