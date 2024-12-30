@@ -228,5 +228,33 @@
     "topic": "Heap Sort",
     "left": null,
     "right": null
+  },
+  {
+    "studentId": "student23",
+    "score": 100,
+    "topic": "Arrays",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "student23",
+    "score": 60,
+    "topic": "Searching",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "hassam1",
+    "score": 60,
+    "topic": "Searching",
+    "left": null,
+    "right": null
+  },
+  {
+    "studentId": "hassam1",
+    "score": 75,
+    "topic": "Arrays",
+    "left": null,
+    "right": null
   }
 ]
