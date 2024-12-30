@@ -36,7 +36,7 @@ export default function Leaderboard() {
                         <tr>
                             <th className="px-6 py-3 border-b border-gray-200 font-medium">Rank</th>
                             <th className="px-6 py-3 border-b border-gray-200 font-medium">Student ID</th>
-                            <th className="px-6 py-3 border-b border-gray-200 font-medium">Score</th>
+                            <th className="px-6 py-3 border-b border-gray-200 font-medium">Percentage</th>
                         </tr>
                     </thead>
                     <tbody>
