@@ -16,9 +16,13 @@ dfs
 kruskal
 
  */
+
+import Queue from "./QueueArray";
+import StackArr from "./StackArray";
+
 class WeightedUndirectedGraph {
     public matrix: number[][];  // adjacency matrix to store the graph
-    public vertexNames: string[];  // list of vertex names for easy reference
+    public vertexNames: string[];  // list of vertex names for easy refrence
     public vertexCount: number;  // track of the number of vertices currently in the graph
     public maxVertices: number;  // Max number of vertices allowed
 
@@ -234,22 +238,22 @@ class WeightedUndirectedGraph {
             visited[i] = false;
         }
     
-        const queue: number[] = []; // Queue for BFS
+        const queue = new Queue<number>(this.maxVertices);// Queue for BFS
         const result: string[] = []; // Stores the traversal order
     
         // Start BFS from the given vertex
-        queue.push(startIndex);
+        queue.enqueue(startIndex);
         visited[startIndex] = true;
     
-        while (queue.length > 0) {
+        while (queue.size > 0) {
             // shift() removes the first element from the array and returns it
-            const currentIndex = queue.shift()!;
+            const currentIndex = queue.dequeue()!;
             result.push(this.vertexNames[currentIndex]);
 
             // Visit all neighbors of the current vertex
             for (let i = 0; i < this.vertexCount; i++) {
                 if (this.matrix[currentIndex][i] !== Infinity && !visited[i]) {
-                    queue.push(i);
+                    queue.enqueue(i);
                     visited[i] = true;
                 }
             }
@@ -274,12 +278,12 @@ dfs(startVertex: string): string[] {
     }
 
     const result: string[] = []; // Stores the traversal order
-    const stack: number[] = []; 
+    const stack = new StackArr<number>(this.maxVertices);
 
     // Start DFS from the given vertex
     stack.push(startIndex);
 
-    while (stack.length > 0) {
+    while (stack.size() > 0) {
         const currentIndex = stack.pop()!;
 
         if (!visited[currentIndex]) {

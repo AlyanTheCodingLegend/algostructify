@@ -14,6 +14,10 @@ displayGraph
 bfs 
 dfs
  */
+
+import Queue from "./QueueArray";
+import StackArr from "./StackArray";
+
 class UndirectedGraph {
     public matrix: number[][];  // adjacency matrix to store the graph
     public vertexNames: string[];  // list of vertex names for easy reference
@@ -207,27 +211,27 @@ class UndirectedGraph {
             return [];
         }
     
-        const visited: boolean[] = []; // Initialize empty visited array
+        const visited: boolean[] = []; // Initialize empty visitd array
         for (let i = 0; i < this.vertexCount; i++) {
             visited[i] = false; // Set each index to false explicitly
         }
     
         const result: string[] = []; // To store traversal order
-        const queue: number[] = []; // BFS queue
+        const queue = new Queue<number>(this.maxVertices);// BFS queue
     
         // Start BFS from the given vertex
         visited[startIndex] = true;
-        queue.push(startIndex);
+        queue.enqueue(startIndex);
     
-        while (queue.length > 0) {
-            const currentIndex = queue.shift()!;
+        while (queue.size > 0) {
+            const currentIndex = queue.dequeue()!;
             result.push(this.vertexNames[currentIndex]);
     
             // Explore neighbors of the current vertex
             for (let i = 0; i < this.vertexCount; i++) {
                 if (this.matrix[currentIndex][i] !== 0 && !visited[i]) {
                     visited[i] = true;
-                    queue.push(i);
+                    queue.enqueue(i);
                 }
             }
         }
@@ -251,12 +255,12 @@ class UndirectedGraph {
         }
         
         const result: string[] = []; // Stores the traversal order
-        const stack: number[] = []; // Stack for DFS
+        const stack = new StackArr<number>(this.maxVertices); // Stack for DFS
     
         // Push the start vertex to the stack
         stack.push(startIndex);
     
-        while (stack.length > 0) {
+        while (stack.size() > 0) {
             const currentIndex = stack.pop()!; // Pop the top of the stack
             if (!visited[currentIndex]) {
                 visited[currentIndex] = true;

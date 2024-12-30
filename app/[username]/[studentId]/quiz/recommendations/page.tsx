@@ -60,7 +60,6 @@ export default function Page() {
                       className="bg-red-50 border-l-4 border-red-500 p-3 rounded shadow-sm"
                     >
                       <span className="font-semibold">Topic:</span> {topic.topic} |{" "}
-                      <span className="font-semibold">Threshold:</span> {topic.threshold}
                     </li>
                   ))}
                 </ul>
@@ -79,7 +78,6 @@ export default function Page() {
                       className="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded shadow-sm"
                     >
                       <span className="font-semibold">Topic:</span> {topic.topic} |{" "}
-                      <span className="font-semibold">Threshold:</span> {topic.threshold}
                     </li>
                   ))}
                 </ul>
@@ -98,7 +96,6 @@ export default function Page() {
                       className="bg-green-50 border-l-4 border-green-500 p-3 rounded shadow-sm"
                     >
                       <span className="font-semibold">Topic:</span> {topic.topic} |{" "}
-                      <span className="font-semibold">Threshold:</span> {topic.threshold}
                     </li>
                   ))}
                 </ul>

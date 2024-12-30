@@ -177,7 +177,7 @@ export default function Page() {
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
                     <input className="text-black" value={insertVal} onChange={(event)=>setInsertVal(Number(event.target.value))} />
-                    <button onClick={() => insertNode(Math.floor((Math.random()+1)*200))}>Insert Node</button>
+                    <button onClick={() => insertNode(insertVal)}>Insert Node</button>
                 </div>
                 <div
                     className="px-4 py-2 bg-red-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
@@ -192,7 +192,7 @@ export default function Page() {
                     <button onClick={() => deleteNodeRight(deleteRightVal)}>Delete Right Node</button>
                 </div>
                 </div>
-                <div className="flex gap-x-3">
+                <div className="flex gap-x-3 mb-4">
                 <button
                     className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md shadow-md"
                     onClick={() => preOrderTraversal()}

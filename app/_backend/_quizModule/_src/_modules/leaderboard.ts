@@ -61,13 +61,14 @@ function saveLeaderboard(data: ScoreNode[]) {
 export function updateLeaderboard(studentId: string, score: number, topic: string) {
   const existingScores = loadLeaderboard();
 
-  // Create new score node and add itt to the leaderboard
+  // Create new score node and add it to the leaderboard
   const newScore: ScoreNode = { studentId, score, topic, left: null, right: null };
   existingScores.push(newScore);
 
   // Save updated leaderboard to file
   saveLeaderboard(existingScores);
 }
+
 
 // Get leaderboard
 export function getLeaderboard(topic: string): ScoreNode[] {
