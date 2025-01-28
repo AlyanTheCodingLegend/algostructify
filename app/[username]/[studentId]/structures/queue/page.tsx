@@ -8,6 +8,7 @@ import { useGlobalStatesContext } from "../../layout";
 export default function Page() {
     const [queue] = useState(new Queue<number>(7));
     const [, setRenderTrigger] = useState(0);
+    const [inputValue, setInputValue] = useState<number>(1);
 
     const triggerRender = () => setRenderTrigger((prev) => prev + 1);
 
@@ -53,12 +54,46 @@ export default function Page() {
     }
 
     return (
-        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col h-full w-full justify-center items-center bg-gray-100">
-            <div className="flex flex-col items-center justify-center space-x-0">
-                {renderQueue()}
-            </div>    
-            <button onClick={()=>enqueue(10)}>Enqueue</button>
-            <button onClick={()=>dequeue()}>Dequeue</button>
+        <div
+      style={{
+        marginLeft: isOpen ? "256px" : "64px",
+        marginTop: "64px",
+        width: `calc(100vw - ${isOpen ? "256px" : "64px"})`,
+      }}
+      className="flex flex-col h-full w-full justify-center items-center bg-gray-100"
+    >
+      {/* Stack Display */}
+      <div className="flex flex-col items-center justify-center space-y-4 mb-8">
+        {renderQueue()}
+      </div>
+
+      {/* Input and Buttons */}
+      <div className="flex flex-col items-center space-y-4">
+        {/* Input Field */}
+        <div className="flex items-center space-x-4">
+          <input
+            type="number"
+            value={inputValue}
+            onChange={(e) => setInputValue(Number(e.target.value))}
+            placeholder="Enter value"
+            className="px-4 py-2 border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            onClick={() => enqueue(inputValue)}
+            className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 transition"
+          >
+            Enqueue
+          </button>
         </div>
+
+        {/* Pop Button */}
+        <button
+          onClick={() => dequeue()}
+          className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
+        >
+          Dequeue
+        </button>
+      </div>
+    </div>
     )
 }
