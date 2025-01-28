@@ -10,8 +10,9 @@ insert(to insert value)
 extractMax(to delete root and return it)
 peek(to return max)
 size
-deleteValue
+deleteValu
 print
+findIndex: return -1 if not found else return index
 */ 
 class MaxHeap {
     public heap: number[];
@@ -127,6 +128,17 @@ class MaxHeap {
     print(): void {
         console.log(this.heap);
     }
+
+    // Method to find the index of a value in the heap using a loop
+    findIndex(value: number): number {
+        for (let i = 0; i < this.heap.length; i++) {
+            if (this.heap[i] === value) {
+                return i; // Return the index if the value is found
+        }
+    }
+        return -1; // Return -1 if the value is not found
+    }
+  
   }
 // Exporting
 export default MaxHeap;

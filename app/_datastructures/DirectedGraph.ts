@@ -20,7 +20,7 @@ import Queue from "./QueueArray";
 import StackArr from "./StackArray";
 
 class DirectedGraph {
-    public matrix: number[][];  // adjacency matrix to store the graph
+    public matrix: number[][];  // adjacency matrix to store the grap
     public vertexNames: string[];  // list of vertex names for easy reference
     public vertexCount: number;  // track of the number of vertices currently in the graph
     public maxVertices: number;  // Max number of vertices allowed

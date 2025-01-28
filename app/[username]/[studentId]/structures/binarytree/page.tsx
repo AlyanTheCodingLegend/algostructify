@@ -168,11 +168,9 @@ export default function Page() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen w-screen">
-            <h1 className="text-4xl font-semibold text-center">
-                Binary Tree
-            </h1>
-            <div className="flex items-center justify-center space-x-4">
+        <div style={{marginLeft: isOpen ? "256px" : "64px", marginTop: "64px", width: `calc(100vw - ${isOpen ? "256px" : "64px"})`}} className="flex flex-col items-center justify-center h-full w-full">
+            <div className="flex flex-col items-center z-10 justify-center space-x-4">
+            <div className="flex gap-x-3 mb-3">
                 <div
                     className="px-4 py-2 bg-green-500 h-20 w-32 text-white rounded-md shadow-md flex flex-col"
                 >
@@ -218,7 +216,7 @@ export default function Page() {
             </div>
             <div className="flex items-center justify-center w-screen h-screen overflow-scroll" id="scrollable-tree">
                 {renderTree()}
-                <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: 10, top: 0, left: 0 }}></svg>
+                <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: "100%", height: "100%", pointerEvents: "none", zIndex: -1, top: 0, left: 0 }}></svg>
             </div>
         </div>
     );

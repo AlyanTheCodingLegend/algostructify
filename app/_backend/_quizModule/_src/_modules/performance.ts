@@ -24,7 +24,7 @@ export function loadPerformanceData(): StudentPerformance {
   return JSON.parse(data) as StudentPerformance;
 }
 
-// Save updated performance data
+// Save updated performance datA
 export function savePerformanceData(data: StudentPerformance): void {
   fs.writeFileSync(PERFORMANCE_FILE, JSON.stringify(data, null, 2), "utf-8");
 }

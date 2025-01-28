@@ -22,7 +22,7 @@ class UndirectedGraph {
     public matrix: number[][];  // adjacency matrix to store the graph
     public vertexNames: string[];  // list of vertex names for easy reference
     public vertexCount: number;  // track of the number of vertices currently in the graph
-    public maxVertices: number;  // Max number of vertices allowed
+    public maxVertices: number;  // Max number of vertices alowed
   
     constructor(maxVertices: number = 4) {
         this.vertexCount = 0;

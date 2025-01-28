@@ -1,8 +1,8 @@
 import { loadPerformanceData } from "./performance";
 import fs from "fs";
 
-const TIPS_FILE = "./_data/tips.json";
-
+// const TIPS_FILE = "./app/_backend_data/tips.json";
+const TIPS_FILE = "app/_backend/_quizModule/_src/_data/tips.json";
 interface TipData {
   [topic: string]: string;
 }
@@ -18,7 +18,9 @@ export function analyzePerformance(studentId: string): {
   moderateTopics: { topic: string; threshold: number }[];
   strongTopics: { topic: string; threshold: number }[];
   tips: string[];
-} {
+} 
+
+{
   const performance = loadPerformanceData();
   const tips = loadTips();
 
@@ -63,7 +65,6 @@ export function analyzePerformance(studentId: string): {
     } else {
       strongTopics.push({ topic, threshold });
     }
-    //testing
   });
 
   return { weakTopics, moderateTopics, strongTopics, tips: improvementTips };

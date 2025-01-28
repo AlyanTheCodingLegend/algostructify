@@ -9,8 +9,8 @@ insertNode
 inOrderTraversal
 preOrderTraversal
 postOrderTraversal 
+findIndex: if index not found return -1.
 */
-
 
 export class TreeNode<T> {
     data: T;
@@ -89,6 +89,7 @@ class BinaryTree<T> {
       return node;
     }
 
+  
     // method to delete any node with a given value if you want to replace with right side of subtree
     deleteNodeRight(data: T, callback: (node: TreeNode<T>) => void): void {
       this.root = this.deleteNodeHelperRight(this.root, data, callback); 
@@ -141,6 +142,31 @@ class BinaryTree<T> {
       }
       return node;
     }
+    // method to search for a node with a given value
+findIndex(data: T): number {
+  return this.searchHelper(this.root, data);
+}
+
+// helper method to search for a node recursively
+private searchHelper(node: TreeNode<T> | null, data: T): number {
+  if (node === null) {
+    return -1; // if node is null, the data is not found
+  }
+
+  if (data < node.data) {
+    return this.searchHelper(node.left, data); // search in the left subtree
+  } else if (data > node.data) {
+    return this.searchHelper(node.right, data); // search in the right subtree
+  } else {
+    if (node.data === data) {
+      return node.index; // node with matching value found, return its index
+    } else {
+      return -1; // if the data doesn't match, return -1
+    }
+  }
+}
+
+
   
     // method to insert a value into the tree
     insert(data: T): void {
