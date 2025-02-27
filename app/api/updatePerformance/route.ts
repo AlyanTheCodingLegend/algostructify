@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
 
   const { studentId, topic, correct, attempted, time } = req;
 
-  updatePerformance(studentId, topic, correct, attempted, time);
+  await updatePerformance(studentId, topic, correct, attempted, time);
   // Return success response
   return NextResponse.json({ success: true, message: "Data updated successfully" });
 }

@@ -6,9 +6,8 @@ export async function GET(request: NextRequest) {
     const studentId = url.searchParams.get("studentId");
   
     if (studentId) {
-      const recommendations = analyzePerformance(studentId);
+      const recommendations = await analyzePerformance(studentId);
       return NextResponse.json({ success: true, recommendations });
     }
     return NextResponse.json({ success: false, message: "Invalid request" });
-
 }

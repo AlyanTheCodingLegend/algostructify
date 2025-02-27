@@ -1,4 +1,4 @@
-import fs from "fs";
+import { connectDB } from "@/app/_backend/lib/mongodb";
 
 // Interface for performance data
 interface TopicPerformance {
@@ -10,42 +10,58 @@ interface TopicPerformance {
 
 
 interface StudentPerformance {
-  [studentId: string]: {
-    topics: { [topic: string]: TopicPerformance };
-  };
+  studentId: string; 
+  topics: { [topic: string]: TopicPerformance };
 }
 
-const PERFORMANCE_FILE = "./app/_backend/_quizModule/_src/_data/performance.json";
+const COLLECTION_NAME = "performance";
 
 // Load performance data
-export function loadPerformanceData(): StudentPerformance {
-  if (!fs.existsSync(PERFORMANCE_FILE)) return {};
-  const data = fs.readFileSync(PERFORMANCE_FILE, "utf-8");
-  return JSON.parse(data) as StudentPerformance;
+export async function loadPerformanceData(studentId: string): Promise<StudentPerformance | null> {
+  const client = await connectDB()
+  const db = client.db()
+  const student = await db.collection<StudentPerformance>(COLLECTION_NAME).findOne({ studentId });
+
+  return student;
 }
 
-// Save updated performance datA
-export function savePerformanceData(data: StudentPerformance): void {
-  fs.writeFileSync(PERFORMANCE_FILE, JSON.stringify(data, null, 2), "utf-8");
+// Save updated performance data
+export async function savePerformanceData(data: StudentPerformance): Promise<void> {
+  const client = await connectDB()
+  const db = client.db()
+  await db.collection<StudentPerformance>(COLLECTION_NAME).updateOne(
+    { studentId: data.studentId },
+    { $set: { topics: data.topics } },
+    { upsert: true }
+  );
 }
 
 // Update performance after a quiz
-export function updatePerformance(
+export async function updatePerformance(
   studentId: string,
   topic: string,
   correct: number,
   attempted: number,
   time: number
-): void {
-  const performance = loadPerformanceData();
-  if (!performance[studentId]) performance[studentId] = { topics: {} };
+): Promise<void> {
+  const client = await connectDB();
+  const db = client.db();
 
-  performance[studentId].topics[topic] = {
-    topic, 
-    correct: (performance[studentId].topics[topic]?.correct || 0) + correct,
-    attempted: (performance[studentId].topics[topic]?.attempted || 0) + attempted,
-    time: (performance[studentId].topics[topic]?.time || 0) + time,
+  // Find student data
+  const student = await db.collection<StudentPerformance>(COLLECTION_NAME).findOne({ studentId });
+
+  // Merge new topic data with existing data
+  const existingTopic = student?.topics?.[topic] || { correct: 0, attempted: 0, time: 0 };
+
+  const updatedTopics = {
+    ...student?.topics,
+    [topic]: {
+      topic,
+      correct: existingTopic.correct + correct,
+      attempted: existingTopic.attempted + attempted,
+      time: existingTopic.time + time,
+    },
   };
 
-  savePerformanceData(performance);
+  await savePerformanceData({ studentId, topics: updatedTopics });
 }
