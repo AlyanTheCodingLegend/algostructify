@@ -53,9 +53,15 @@
     "topics": {
       "Arrays": {
         "topic": "Arrays",
+<<<<<<< HEAD
         "correct": 20,
         "attempted": 25,
         "time": 40
+=======
+        "correct": 23,
+        "attempted": 33,
+        "time": 58
+>>>>>>> 72a9ca9f8182a6195185e7a30d81fb7ff307edde
       },
       "Queues": {
         "topic": "Queues",
