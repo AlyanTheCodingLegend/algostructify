@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const topic = url.searchParams.get("topic");
   
     if (topic) {
-      const leaderboard = getLeaderboard(topic);
+      const leaderboard = await getLeaderboard(topic);
       return NextResponse.json({ success: true, leaderboard });
     }
   

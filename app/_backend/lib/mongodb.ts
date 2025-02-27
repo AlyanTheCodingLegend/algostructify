@@ -1,18 +1,21 @@
 import { MongoClient } from "mongodb";
 
-const MONGODB_URI = "mongodb+srv://abdullahwaqar121105:rMdG1mcDcTfaWorD@algostructify.t96fr.mongodb.net/?retryWrites=true&w=majority&appName=AlgoStructify";
+const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable");
-}
-
-let cachedClient: MongoClient | null = null;
+const cachedClient: MongoClient | null = null;
 
 export async function connectDB() {
-  if (cachedClient) return cachedClient;
+  if (cachedClient) return cachedClient.db("algostructify");
 
-  const client = new MongoClient(MONGODB_URI);
+  if (!MONGODB_URI) {
+    throw new Error("Please define the MONGODB_URI environment variable");
+  }
+
+  const client = new MongoClient(MONGODB_URI, {
+    tls: true,
+    tlsAllowInvalidCertificates: true,
+    retryWrites: true,
+  });
   await client.connect();
-  cachedClient = client;
-  return client;
+  return client.db("algostructify");
 }

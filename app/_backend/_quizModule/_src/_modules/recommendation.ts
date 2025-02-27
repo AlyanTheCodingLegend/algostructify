@@ -1,15 +1,16 @@
 import { loadPerformanceData } from "./performance";
-import fs from "fs";
+import { connectDB } from "@/app/_backend/lib/mongodb";
 
-// const TIPS_FILE = "./app/_backend_data/tips.json";
-const TIPS_FILE = "app/_backend/_quizModule/_src/_data/tips.json";
 interface TipData {
-  [topic: string]: string;
+  topic: string
+  description: string
 }
 
 // Load predefined tips
-function loadTips(): TipData {
-  return JSON.parse(fs.readFileSync(TIPS_FILE, "utf-8"));
+async function loadTips(): Promise<TipData[]> {
+  const db = await connectDB();
+  const tips = await db.collection<TipData>("tips").find({}).toArray();
+  return tips || {};
 }
 
 // Analyze performance and classify topics
@@ -22,7 +23,7 @@ export async function analyzePerformance(studentId: string): Promise<{
 
 {
   const performance = await loadPerformanceData(studentId);
-  const tips = loadTips();
+  const tips = await loadTips();
 
   if (!performance) {
     return { weakTopics: [], moderateTopics: [], strongTopics: [], tips: [] };
@@ -34,13 +35,10 @@ export async function analyzePerformance(studentId: string): Promise<{
   const strongTopics: { topic: string; threshold: number }[] = [];
   const improvementTips: string[] = [];
 
-  Object.keys(topics).forEach((topic) => {
-    const { correct, attempted, time, difficulty } = topics[topic] as unknown as {
-      correct: number;
-      attempted: number;
-      time: number;
-      difficulty: string;
-    };
+  topics.forEach((topicData) => {
+    const topic = Object.keys(topicData)[0];
+    const { correct, attempted, time } = topicData[topic];
+
     const accuracy = correct / attempted;
     const maxTime = 60; // Maximum time allowed per question (in seconds)
     const remTime = (60*attempted - time); // Remaining time for the student
@@ -58,7 +56,16 @@ export async function analyzePerformance(studentId: string): Promise<{
 
     if (threshold < 60) {
       weakTopics.push({ topic, threshold });
-      improvementTips.push(tips[topic.toLowerCase()] || "Practice more questions for this topic.");
+      let tipFound = false;
+      tips.forEach(tip => {
+        if (tip.topic.toLowerCase() === topic.toLowerCase()) {
+          improvementTips.push(tip.description);
+          tipFound = true;
+        }
+      })
+      if (!tipFound) {
+        improvementTips.push("Practice more questions for this topic.");
+      }
     } else if (threshold >= 60 && threshold < 80) {
       moderateTopics.push({ topic, threshold });
     } else {
