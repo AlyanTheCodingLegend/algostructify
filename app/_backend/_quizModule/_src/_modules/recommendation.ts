@@ -13,22 +13,22 @@ function loadTips(): TipData {
 }
 
 // Analyze performance and classify topics
-export function analyzePerformance(studentId: string): {
+export async function analyzePerformance(studentId: string): Promise<{
   weakTopics: { topic: string; threshold: number }[];
   moderateTopics: { topic: string; threshold: number }[];
   strongTopics: { topic: string; threshold: number }[];
   tips: string[];
-} 
+}>
 
 {
-  const performance = loadPerformanceData();
+  const performance = await loadPerformanceData(studentId);
   const tips = loadTips();
 
-  if (!performance[studentId]) {
+  if (!performance) {
     return { weakTopics: [], moderateTopics: [], strongTopics: [], tips: [] };
   }
 
-  const topics = performance[studentId].topics;
+  const topics = performance.topics
   const weakTopics: { topic: string; threshold: number }[] = [];
   const moderateTopics: { topic: string; threshold: number }[] = [];
   const strongTopics: { topic: string; threshold: number }[] = [];
