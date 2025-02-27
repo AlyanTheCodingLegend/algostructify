@@ -1,17 +1,21 @@
 // _modules/utils.ts
-import { Question } from "../_types/questions";
+import { type Question } from "../_types/questions";
 import HashMap from "@/app/_datastructures/HashMap"
-import data from "../_data/questions.json";
+import { connectDB } from "@/app/_backend/lib/mongodb";
 
 // Function to load questions from JSON into a HashMap (keyed by question ID)
-export function loadQuestions(topic: string, difficulty: "Easy" | "Medium" | "Hard"): HashMap<number, Question> {
+export async function loadQuestions(topic: string, difficulty: "Easy" | "Medium" | "Hard"): Promise<HashMap<number, Question>> {
   const questionsMap = new HashMap<number, Question>();
 
-  // Filter the questions based on the topic and difficulty
-  data.forEach((question) => {
-    if (question.topic === topic && question.difficulty === difficulty) {
-      questionsMap.set(question.id, { ...question, difficulty: question.difficulty as "Easy" | "Medium" |"Hard" });
-    }
+  // Load questions from the database
+  const db = await connectDB();
+  const questions = await db.collection<Question>('questions').find({ topic, difficulty }).toArray();
+
+  console.log(db.databaseName);
+
+  // Add questions to the HashMap
+  questions.forEach((question) => {
+    questionsMap.set(question.id, question);
   });
 
   return questionsMap;

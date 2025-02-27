@@ -15,13 +15,9 @@ export async function main(topic: string, difficulty: "Easy" | "Medium" | "Hard"
   console.log("Welcome to the DSA Quiz!");
 
   // Load the questions directly into the 'questionsMap' (HashMap)
-  const questionsMap = loadQuestions(topic, difficulty);
+  const questionsMap = await loadQuestions(topic, difficulty);
 
-<<<<<<< HEAD
-  if (questionsMap.size === 0) {
-=======
   if (questionsMap.size() === 0) {
->>>>>>> 72a9ca9f8182a6195185e7a30d81fb7ff307edde
     console.log("No questions available for the chosen topic and difficulty.");
     rl.close();
     return;

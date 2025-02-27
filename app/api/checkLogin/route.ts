@@ -1,6 +1,7 @@
 // this API route is responsible for checking if the user's login
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
+import bcrypt from 'bcrypt';
+import { connectDB } from '@/app/_backend/lib/mongodb';
 
 type User = {
     username: string;
@@ -8,17 +9,7 @@ type User = {
     password: string;
 };
 
-const USER_FILE = './app/_backend/_quizModule/_src/_data/users.json';
-
-function loadUsers(): User[] {
-    try {
-        const data = fs.readFileSync(USER_FILE, 'utf-8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Error reading users.json:', error);
-        return [];
-    }
-}
+const COLLECTION_NAME = "users";
 
 export async function POST(request: NextRequest) {
     const req = await request.json();
@@ -32,12 +23,11 @@ export async function POST(request: NextRequest) {
         );
     }
 
-    const users = loadUsers();
-
     // Find the user with the given username, studentId, and password
-    const user = users.find(user => user.username === username && user.studentId === studentId && user.password === password);
+    const db = await connectDB();
+    const user = await db.collection<User>(COLLECTION_NAME).findOne({ studentId, username });
 
-    if (user) {
+    if (user && bcrypt.compareSync(password, user.password)) {
         return NextResponse.json({
             success: true,
             message: `Login successful! Welcome, ${user.username}.`,
