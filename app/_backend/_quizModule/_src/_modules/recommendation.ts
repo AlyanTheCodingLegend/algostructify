@@ -34,7 +34,6 @@ export async function analyzePerformance(studentId: string): Promise<{
   const moderateTopics: { topic: string; threshold: number }[] = [];
   const strongTopics: { topic: string; threshold: number }[] = [];
   const improvementTips: string[] = [];
-  const difficulty: string[] = [];
 
   topics.forEach((topicData) => {
     const topic = Object.keys(topicData)[0];
